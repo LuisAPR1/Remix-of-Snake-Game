@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Classe que representa um polígono.
  * @version 1.0 03/04/2024
- * @author Luís Rosa
+ * @author Luís Rosa e Pedro Ferreira
  * @inv O polígono tem de ter pelo m pontos.
  */
 public class Poligono {
