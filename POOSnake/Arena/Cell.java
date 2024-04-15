@@ -1,3 +1,5 @@
+package Arena;
+
 public enum Cell {
     HEAD("H"),
     TAIL("T"),
@@ -5,13 +7,15 @@ public enum Cell {
     OBSTACLE("O"),
     EMPTY("E");
 
-    private final String symbol;
+    private final String state;
 
-    Cell(String symbol) {
-        this.symbol = symbol;
+    Cell(String state) {
+        this.state = state;
     }
 
     public String getSymbol() {
-        return symbol;
+        return state;
     }
+
+    
 }

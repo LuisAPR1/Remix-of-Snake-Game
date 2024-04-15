@@ -1,4 +1,5 @@
 package Arena;
+import Snake.Ponto;
 
 public class Obstacle {
     private Ponto position;

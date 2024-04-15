@@ -1,8 +1,10 @@
 package Arena;
 
-FINAL color = yellow;
+import Snake.Ponto; 
 
-public class Food {
+import java.awt.Color;
+
+public final class Food {
     private Ponto position;
     private Color color;
     private FoodType type;

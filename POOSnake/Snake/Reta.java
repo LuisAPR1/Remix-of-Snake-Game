@@ -1,3 +1,5 @@
+package Snake;
+
 /**
  * Classe que representa uma reta definida por dois pontos.
  * @version 1.0 03/04/2024

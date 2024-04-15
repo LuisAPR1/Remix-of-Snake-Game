@@ -1,3 +1,5 @@
+package Snake;
+
 import java.util.Objects;
 
 /**
