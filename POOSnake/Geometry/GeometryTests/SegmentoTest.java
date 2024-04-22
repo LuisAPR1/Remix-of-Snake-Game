@@ -1,6 +1,10 @@
 
-package Snake;
+package Geometry.GeometryTests;
 import org.junit.jupiter.api.Test;
+
+import Geometry.Ponto;
+import Geometry.Segmento;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SegmentoTest {

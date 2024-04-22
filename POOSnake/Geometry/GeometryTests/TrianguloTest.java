@@ -1,5 +1,9 @@
-package Snake;
+package Geometry.GeometryTests;
 import org.junit.jupiter.api.Test;
+
+import Geometry.Ponto;
+import Geometry.Triangulo;
+
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;

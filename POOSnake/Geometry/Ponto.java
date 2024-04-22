@@ -1,4 +1,4 @@
-package Snake;
+package Geometry;
 
 import java.util.Objects;
 
@@ -56,7 +56,7 @@ public class Ponto {
      * @param p ponto para o qual deseja calcular a distância.
      * @return distância entre os pontos.
      */
-    int dist (Ponto p) {
+    public int dist (Ponto p) {
         double dx = x - p.x;
         double dy = y - p.y;
         return (int) Math.sqrt(dx*dx + dy*dy);

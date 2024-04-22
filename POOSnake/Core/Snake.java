@@ -1,4 +1,5 @@
-package Snake;
+package Core;
+
 public class Snake {
     
 }

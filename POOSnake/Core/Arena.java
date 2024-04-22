@@ -1,4 +1,4 @@
-package Arena;
+package Core;
 
 public class Arena {
 

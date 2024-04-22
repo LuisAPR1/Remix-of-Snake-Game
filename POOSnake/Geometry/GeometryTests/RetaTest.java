@@ -1,5 +1,9 @@
-package Snake;
+package Geometry.GeometryTests;
 import org.junit.jupiter.api.Test;
+
+import Geometry.Ponto;
+import Geometry.Reta;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RetaTest {

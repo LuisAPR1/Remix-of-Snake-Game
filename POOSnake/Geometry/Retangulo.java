@@ -1,4 +1,4 @@
-package Snake;
+package Geometry;
 
 import java.util.ArrayList;
 import java.util.List;

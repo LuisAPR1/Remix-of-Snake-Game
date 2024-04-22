@@ -1,6 +1,7 @@
+package Core;
 import java.util.List;
 
-public class Setup {
+public class Game {
     private int[] arenaDimensions;
     private int[] foodDimensions;
     private FoodType foodType;
@@ -11,7 +12,7 @@ public class Setup {
     private InterfaceMode interfaceMode;
 
     // Constructor
-    public Setup(int arenaDimensionsX, int arenaDimensionsY, int foodDimensionsX, int foodDimensionsY, String foodType, int headDimensions, String rasterization, int score, List<Obstacle> obstacles, String interfaceMode) {
+    public Game(int arenaDimensionsX, int arenaDimensionsY, int foodDimensionsX, int foodDimensionsY, String foodType, int headDimensions, String rasterization, int score, List<Obstacle> obstacles, String interfaceMode) {
         this.arenaDimensions = new int[] { arenaDimensionsX, arenaDimensionsY };
         this.foodDimensions = new int[] { foodDimensionsX, foodDimensionsY };
         this.foodType = FoodType.valueOf(foodType); // Convertendo a String para o enum FoodType
@@ -27,8 +28,7 @@ public class Setup {
     // Enum for Food Type
     public enum FoodType {
         C, // Circles
-        S, // Squares
-        CS // Circles and Squares
+        S // Squares
     }
 
     // Enum for Rasterization Type

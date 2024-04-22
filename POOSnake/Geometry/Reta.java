@@ -1,4 +1,4 @@
-package Snake;
+package Geometry;
 
 /**
  * Classe que representa uma reta definida por dois pontos.

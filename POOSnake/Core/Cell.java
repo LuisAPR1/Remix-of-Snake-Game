@@ -1,4 +1,4 @@
-package Arena;
+package Core;
 
 public enum Cell {
     HEAD("H"),

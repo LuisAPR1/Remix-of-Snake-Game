@@ -1,6 +1,9 @@
-package Snake;
+package Geometry.GeometryTests;
 
 import org.junit.jupiter.api.Test;
+
+import Geometry.Ponto;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PontoTest {

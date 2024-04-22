@@ -1,8 +1,8 @@
-package Arena;
-
-import Snake.Ponto; 
+package Core;
 
 import java.awt.Color;
+
+import Geometry.Ponto;
 
 public final class Food {
     private Ponto position;

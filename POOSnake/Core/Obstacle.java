@@ -1,5 +1,5 @@
-package Arena;
-import Snake.Ponto;
+package Core;
+import Geometry.Ponto;
 
 public class Obstacle {
     private Ponto position;
