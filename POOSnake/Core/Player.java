@@ -30,7 +30,7 @@ public class Player {
     @Override
     public String toString()
     {
-       return ("Name: " + score + " || " + "Score: " + score);
+       return ("Name: " + name + " || " + "Score: " + score);
     }
 
     
