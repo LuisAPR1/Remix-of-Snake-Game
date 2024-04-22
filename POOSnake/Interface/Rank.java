@@ -9,6 +9,10 @@ public class Rank {
         this.Players = p;
     }
 
+    //import players from file sketch 
+
+    // add Player
+
     private void updateRank(Player p, int score) {
 
         //escrever no documento de texto (ha de ser um foreach com os players e um imprimir rank a mandar para o ficheiro)
@@ -16,13 +20,13 @@ public class Rank {
         p.setScore(score);
     }
 
-    private void showRank(Player p) {
-        // sout p.showRank();
-
+    
+    private void printRank() {
+        for (Player player : Players) {
+            System.out.println(player.toString());
+        }
     }
 
-    private void imprimirRank() {
-
-    }
+    
 
 }
