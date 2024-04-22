@@ -11,8 +11,7 @@ public final class Food {
 
     public enum FoodType {
         C,
-        S,
-        CS
+        S
     }
 
     public Food(Ponto position, Color color, FoodType type) {
