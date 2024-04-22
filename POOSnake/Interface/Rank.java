@@ -13,7 +13,7 @@ public class Rank {
 
         //escrever no documento de texto (ha de ser um foreach com os players e um imprimir rank a mandar para o ficheiro)
         //atualizar no objeto jogador
-        p.updateScore(score);
+        p.setScore(score);
     }
 
     private void showRank(Player p) {

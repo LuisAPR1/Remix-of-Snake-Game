@@ -1,6 +1,5 @@
 package Interface;
 
-
 public class Player {
 
     private int score;
@@ -27,6 +26,11 @@ public class Player {
         this.score=score;
     }
 
+    @Override
+    public String toString()
+    {
+       return ("Name: " + score + " || " + "Score: " + score);
+    }
 
     
 }
