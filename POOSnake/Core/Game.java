@@ -6,11 +6,16 @@ import java.util.List;
 
 public class Game {
     private int[] arenaDimensions;
+    @SuppressWarnings("unused")
     private Food food;
     private int headDimensions;
+    @SuppressWarnings("unused")
     private RasterizationType rasterization;
+    @SuppressWarnings("unused")
     private int score;
+    @SuppressWarnings("unused")
     private List<Obstacle> obstacles;
+    @SuppressWarnings("unused")
     private InterfaceMode interfaceMode;
 
     // Constructor
@@ -22,13 +27,14 @@ public class Game {
         this.score = score;
         this.obstacles = obstacles;
         this.interfaceMode = InterfaceMode.valueOf(interfaceMode); // Convertendo a String para o enum InterfaceMode
+        }
 
-        Start();
-    }
-
-    public void Start {
-        O, // Outlined
-        F // Filled
+    public void Start() {
+       Snake s = new Snake(headDimensions);
+       Arena a = new Arena(arenaDimensions[0], arenaDimensions[1]);
+       a.updateArena(s);
+       a.printArena();
+       
     }
     
     // Getter and setters here
