@@ -18,8 +18,10 @@ public class Game {
     @SuppressWarnings("unused")
     private InterfaceMode interfaceMode;
 
+    private Ponto Snakeposition;
+
     // Constructor
-    public Game(int arenaDimensionsX, int arenaDimensionsY, Ponto foodPosition, Color foodColor, Food.FoodType foodType, int headDimensions, String rasterization, int score, List<Obstacle> obstacles, String interfaceMode) {
+    public Game(Ponto Snakeposition, int arenaDimensionsX, int arenaDimensionsY, Ponto foodPosition, Color foodColor, Food.FoodType foodType, int headDimensions, String rasterization, int score, List<Obstacle> obstacles, String interfaceMode) {
         this.arenaDimensions = new int[] { arenaDimensionsX, arenaDimensionsY };
         this.food = new Food(foodPosition, foodColor, foodType);
         this.headDimensions = headDimensions;
@@ -27,10 +29,11 @@ public class Game {
         this.score = score;
         this.obstacles = obstacles;
         this.interfaceMode = InterfaceMode.valueOf(interfaceMode); // Convertendo a String para o enum InterfaceMode
+        this.Snakeposition=Snakeposition;
         }
 
     public void Start() {
-       Snake s = new Snake(headDimensions);
+       Snake s = new Snake(Snakeposition,headDimensions);
        Arena a = new Arena(arenaDimensions[0], arenaDimensions[1]);
        a.updateArena(s);
        a.printArena();
