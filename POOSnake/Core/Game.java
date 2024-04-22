@@ -3,7 +3,7 @@ package Core;
 import Geometry.Ponto;
 import java.awt.Color;
 import java.util.List;
-
+import java.util.Scanner;
 
 public class Game {
     private int[] arenaDimensions;
@@ -36,7 +36,6 @@ public class Game {
         this.Snakeposition = Snakeposition;
     }
 
-    
     public void Start() {
         Arena a = new Arena(arenaDimensions[0], arenaDimensions[1]);
         Snake s = new Snake(Snakeposition, headDimensions);
@@ -63,9 +62,6 @@ public class Game {
 
         }
     }
-
-    
-
 
     // Getter and setters here
 
