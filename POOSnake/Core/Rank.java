@@ -9,24 +9,22 @@ public class Rank {
         this.Players = p;
     }
 
-    //import players from file sketch 
+    // import players from file sketch
 
     // add Player
 
-    private void updateRank(Player p, int score) {
+    void updateRank(Player p, int score) {
 
-        //escrever no documento de texto (ha de ser um foreach com os players e um imprimir rank a mandar para o ficheiro)
-        //atualizar no objeto jogador
+        // escrever no documento de texto (ha de ser um foreach com os players e um
+        // imprimir rank a mandar para o ficheiro)
+        // atualizar no objeto jogador
         p.setScore(score);
     }
 
-    
-    private void printRank() {
+    void printRank() {
         for (Player player : Players) {
             System.out.println(player.toString());
         }
     }
-
-    
 
 }

@@ -1,4 +1,5 @@
 package Geometry.GeometryTests;
+
 import org.junit.jupiter.api.Test;
 
 import Geometry.Ponto;

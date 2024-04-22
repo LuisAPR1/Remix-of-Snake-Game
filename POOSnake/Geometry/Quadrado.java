@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Classe que representa um quadrado, um tipo especial de retângulo.
+ * 
  * @version 1.0 03/04/2024
  * @author Luís Rosa
  */
@@ -11,7 +12,9 @@ public class Quadrado extends Retangulo {
 
     /**
      * Construtor da classe Quadrado a partir de uma string de entrada.
-     * @param input string de entrada contendo as coordenadas dos pontos do quadrado.
+     * 
+     * @param input string de entrada contendo as coordenadas dos pontos do
+     *              quadrado.
      */
     public Quadrado(String input) {
         this(toInt(input));
@@ -19,6 +22,7 @@ public class Quadrado extends Retangulo {
 
     /**
      * Construtor da classe Quadrado a partir de uma lista de pontos.
+     * 
      * @param pontos lista de pontos que definem os vértices do quadrado.
      */
     public Quadrado(List<Ponto> pontos) {
@@ -28,6 +32,7 @@ public class Quadrado extends Retangulo {
 
     /**
      * Verifica se a lista de pontos define um quadrado válido.
+     * 
      * @param pontos lista de pontos que definem os vértices do quadrado.
      */
     private void check(List<Ponto> pontos) {
@@ -47,9 +52,12 @@ public class Quadrado extends Retangulo {
     }
 
     /**
-     * Rotaciona o quadrado em torno de um ponto (centroide) por um determinado ângulo.
+     * Rotaciona o quadrado em torno de um ponto (centroide) por um determinado
+     * ângulo.
+     * 
      * @param anguloGraus ângulo de rotação em graus.
-     * @param centroide ponto central em torno do qual o quadrado será rotacionado.
+     * @param centroide   ponto central em torno do qual o quadrado será
+     *                    rotacionado.
      * @return novo quadrado rotacionado.
      */
     @Override
@@ -61,6 +69,7 @@ public class Quadrado extends Retangulo {
 
     /**
      * Realiza uma translação no quadrado.
+     * 
      * @param x deslocamento horizontal.
      * @param y deslocamento vertical.
      * @return novo quadrado transladado.
@@ -77,8 +86,10 @@ public class Quadrado extends Retangulo {
         Quadrado end = new Quadrado(p.getPontos());
         return end;
     }
+
     /**
      * Retorna a representação textual do quadrado.
+     * 
      * @return string representando o quadrado.
      */
     @Override

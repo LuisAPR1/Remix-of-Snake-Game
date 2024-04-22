@@ -20,18 +20,15 @@ public class Player {
     public void setNome(String name) {
         this.name = name;
     }
-    
 
-    public Player (String name, int score) {
-        this.name=name;
-        this.score=score;
+    public Player(String name, int score) {
+        this.name = name;
+        this.score = score;
     }
 
     @Override
-    public String toString()
-    {
-       return ("Name: " + score + " || " + "Score: " + score);
+    public String toString() {
+        return ("Name: " + score + " || " + "Score: " + score);
     }
 
-    
 }
