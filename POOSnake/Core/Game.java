@@ -4,7 +4,7 @@ import java.util.List;
 public class Game {
     private int[] arenaDimensions;
     private int[] foodDimensions;
-    private FoodType foodType;
+    private Food foodType;
     private int headDimensions;
     private RasterizationType rasterization;
     private int score;
@@ -25,11 +25,6 @@ public class Game {
 
     // Getter and setters here
 
-    // Enum for Food Type
-    public enum FoodType {
-        C, // Circles
-        S // Squares
-    }
 
     // Enum for Rasterization Type
     public enum RasterizationType {
