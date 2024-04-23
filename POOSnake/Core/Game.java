@@ -3,7 +3,6 @@ package Core;
 import Geometry.Ponto;
 import java.awt.Color;
 import java.util.List;
-import java.util.Scanner;
 
 public class Game {
     private int[] arenaDimensions;
@@ -21,49 +20,55 @@ public class Game {
 
     private Ponto Snakeposition;
 
-    // Constructor
-    public Game(Ponto Snakeposition, int arenaDimensionsX, int arenaDimensionsY, Ponto foodPosition, Color foodColor,
-            Food.FoodType foodType, int headDimensions, String rasterization, int score, List<Obstacle> obstacles,
-            String interfaceMode) {
+    public Game(Ponto Snakeposition, int arenaDimensionsX, int arenaDimensionsY, Color foodColor,Food.FoodType foodType, int headDimensions, String rasterization, int score, List<Obstacle> obstacles,String interfaceMode) {
+        
         this.arenaDimensions = new int[] { arenaDimensionsX, arenaDimensionsY };
-        this.food = new Food(foodPosition, foodColor, foodType);
+        this.food = new Food(foodColor, foodType);
         this.headDimensions = headDimensions;
-        this.rasterization = RasterizationType.valueOf(rasterization); // Convertendo a String para o enum
-                                                                       // RasterizationType
+        this.rasterization = RasterizationType.valueOf(rasterization);
         this.score = score;
         this.obstacles = obstacles;
-        this.interfaceMode = InterfaceMode.valueOf(interfaceMode); // Convertendo a String para o enum InterfaceMode
+        this.interfaceMode = InterfaceMode.valueOf(interfaceMode);
         this.Snakeposition = Snakeposition;
+
+        InitializeGame();
     }
 
-    public void Start() {
+    public void InitializeGame() {
         Arena a = new Arena(arenaDimensions[0], arenaDimensions[1]);
         Snake s = new Snake(Snakeposition, headDimensions);
-
-        // Loop infinito para permitir que a cobra se mova continuamente
-        while (true) {
-            // Limpa a tela
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-
-            // Solicita a direção ao usuário
-
-            // Atualiza e imprime a arena
-            a.updateArena(s);
-            a.printArena();
-
-            // Move a cobra na direção especificada pelo usuário
-            s.move(0);
-            try {
-                Thread.sleep(1000); // 1000 milissegundos = 1 segundo
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
+        
+        //colocar frutas e objetos 
     }
 
-    // Getter and setters here
+    public void Start()
+    {
+        // int direction = 0;
+
+        // // Loop infinito para permitir que a cobra se mova continuamente
+        // while (true) {
+
+        //     Clean();
+
+        //     // Atualiza e imprime a arena
+        //     a.updateArena(s);
+        //     a.printArena();
+
+        //     // Move a cobra na direção especificada pelo usuário
+        //     s.move(direction);
+        
+        //     try {
+        //         Thread.sleep(1000);
+        //     } catch (InterruptedException e) {
+        //         e.printStackTrace();
+        //     }
+
+        // }
+    }
+
+    
+
+    
 
     // Enum for Rasterization Type
     public enum RasterizationType {

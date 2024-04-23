@@ -1,8 +1,11 @@
 package Core;
 
+import Geometry.Poligono;
 import Geometry.Ponto;
 
 public class Obstacle {
+
+    private Poligono obstacle;
     private Ponto position;
     private ObstacleType type;
 
@@ -11,9 +14,10 @@ public class Obstacle {
         S // Estático
     }
 
-    public Obstacle(Ponto position, ObstacleType type) {
+    public Obstacle(Ponto position, ObstacleType type, Poligono obstacle) {
         this.position = position;
         this.type = type;
+        this.obstacle = obstacle;
     }
 
     public Ponto getPosition() {
@@ -30,5 +34,11 @@ public class Obstacle {
 
     public void setType(ObstacleType type) {
         this.type = type;
+    }
+
+    public void rotate(int angle) {
+        if (this.type == ObstacleType.D) {
+            obstacle.rotacionar(angle, position);
+        }
     }
 }
