@@ -32,8 +32,8 @@ public class GameClient {
         int foodPositionY = scanner.nextInt();
         Ponto foodPosition = new Ponto(foodPositionX, foodPositionY);
 
-        System.out.println("Digite o código da cor do alimento (ex: 255,0,0 para vermelho):");
-        String colorCode = scanner.next();
+        // System.out.println("Digite o código da cor do alimento (ex: 255,0,0 para vermelho):");
+        // String colorCode = scanner.next();
         String[] colorValues = colorCode.split(",");
         Color foodColor = new Color(Integer.parseInt(colorValues[0]), Integer.parseInt(colorValues[1]),
                 Integer.parseInt(colorValues[2]));
@@ -58,7 +58,7 @@ public class GameClient {
         String interfaceModeString = scanner.next();
         scanner.close();
         // Criação do objeto Game com os valores inseridos
-        Game game = new Game(snakePosition, arenaDimensionsX, arenaDimensionsY, foodPosition, foodColor, foodType,
+        Game game = new Game(snakePosition, arenaDimensionsX, arenaDimensionsY, foodColor, foodType,
                 headDimensions, rasterizationType, score, obstacles, interfaceModeString);
 
         game.Start();
