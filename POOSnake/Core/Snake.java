@@ -55,5 +55,9 @@ public class Snake {
         
         
     }
+
+    public LinkedList<Square> getSnake() {
+        return snake;
+    }
     
 }

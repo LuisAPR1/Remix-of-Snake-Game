@@ -1,39 +1,50 @@
 package Core.CoreTests;
+import Core.Snake;
+import Geometry.Ponto;
+import Geometry.Square;
 import org.junit.jupiter.api.Test;
+import java.util.LinkedList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SnakeTest {
+
     @Test
     public void testMove() {
-        Snake snake = new Snake();
-        // Testando se a snake move corretamente
-        snake.move();
-        // Adicione mais verificações aqui, dependendo da lógica de movimento
-        // por exemplo, você pode verificar se a posição da snake foi atualizada corretamente
-        // ou se ela não saiu dos limites do jogo
-    }
+        // Configurando o ambiente de teste
+        Ponto starter = new Ponto(10, 10);
+        int headDimensions = 20;
+        Snake snake = new Snake(starter, headDimensions);
 
-    @Test
-    public void testGrow() {
-        Snake snake = new Snake();
-        int initialSize = snake.getSize();
-        snake.grow();
-        // Testando se o tamanho da snake aumentou após comer
-        assertEquals(initialSize + 1, snake.getSize());
-    }
+        // Movendo para a direita
+        snake.move(0);
+        LinkedList<Square> snakeSegments = snake.getSnake();
+        assertEquals(new Ponto(11, 10), snakeSegments.getFirst().getPontos().get(0));
+        assertEquals(new Ponto(31, 10), snakeSegments.getFirst().getPontos().get(1));
+        assertEquals(new Ponto(31, 30), snakeSegments.getFirst().getPontos().get(2));
+        assertEquals(new Ponto(11, 30), snakeSegments.getFirst().getPontos().get(3));
 
-    @Test
-    public void testChangeDirection() {
-        Snake snake = new Snake();
-        // Testando se a direção da snake é alterada corretamente
-        snake.changeDirection(Snake.UP);
-        assertEquals(Snake.UP, snake.getDirection());
-        snake.changeDirection(Snake.DOWN);
-        assertEquals(Snake.DOWN, snake.getDirection());
-        snake.changeDirection(Snake.LEFT);
-        assertEquals(Snake.LEFT, snake.getDirection());
-        snake.changeDirection(Snake.RIGHT);
-        assertEquals(Snake.RIGHT, snake.getDirection());
-        // Adicione mais verificações aqui se necessário, dependendo das direções permitidas
+        // Movendo para baixo
+        snake.move(90);
+        snakeSegments = snake.getSnake();
+        assertEquals(new Ponto(11, 11), snakeSegments.getFirst().getPontos().get(0));
+        assertEquals(new Ponto(31, 11), snakeSegments.getFirst().getPontos().get(1));
+        assertEquals(new Ponto(31, 31), snakeSegments.getFirst().getPontos().get(2));
+        assertEquals(new Ponto(11, 31), snakeSegments.getFirst().getPontos().get(3));
+
+        // Movendo para a esquerda
+        snake.move(180);
+        snakeSegments = snake.getSnake();
+        assertEquals(new Ponto(10, 11), snakeSegments.getFirst().getPontos().get(0));
+        assertEquals(new Ponto(30, 11), snakeSegments.getFirst().getPontos().get(1));
+        assertEquals(new Ponto(30, 31), snakeSegments.getFirst().getPontos().get(2));
+        assertEquals(new Ponto(10, 31), snakeSegments.getFirst().getPontos().get(3));
+
+        // Movendo para cima
+        snake.move(270);
+        snakeSegments = snake.getSnake();
+        assertEquals(new Ponto(10, 10), snakeSegments.getFirst().getPontos().get(0));
+        assertEquals(new Ponto(30, 10), snakeSegments.getFirst().getPontos().get(1));
+        assertEquals(new Ponto(30, 30), snakeSegments.getFirst().getPontos().get(2));
+        assertEquals(new Ponto(10, 30), snakeSegments.getFirst().getPontos().get(3));
     }
 }
