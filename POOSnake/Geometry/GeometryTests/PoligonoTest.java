@@ -11,9 +11,7 @@ import org.junit.Test;
 import Geometry.Poligono;
 import Geometry.Ponto;
 
-
 class PoligonoTest {
-
 
     @Test
     public void testConstructorWithValidInput() {
@@ -21,7 +19,6 @@ class PoligonoTest {
         Poligono p = new Poligono(input);
         assertNotNull(p);
     }
-
 
     @Test
     public void testTranslacaoSemPonto() {

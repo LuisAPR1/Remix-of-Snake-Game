@@ -1,4 +1,5 @@
 package Core;
+
 import Geometry.Ponto;
 
 public class Obstacle {
@@ -7,7 +8,7 @@ public class Obstacle {
 
     public enum ObstacleType {
         D, // Dinâmico
-        S  // Estático
+        S // Estático
     }
 
     public Obstacle(Ponto position, ObstacleType type) {
