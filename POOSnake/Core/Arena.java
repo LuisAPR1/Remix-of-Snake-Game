@@ -51,12 +51,29 @@ public class Arena {
         }
     }
     
-    public void printArena() {
+    
+    // public void printArena() {
+    //     for (int i = 0; i < grid.length; i++) {
+    //         for (int j = 0; j < grid[i].length; j++) {
+    //             System.out.print(grid[j][i].getSymbol() + " ");
+    //         }
+    //         System.out.println();
+    //     }
+    // }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                System.out.print(grid[j][i].getSymbol() + " ");
+                sb.append(grid[j][i].getSymbol()).append(" ");
             }
-            System.out.println();
+            sb.append("\n");
         }
+        return sb.toString();
+    }
+    
+
+    public void checkCollision(){
+        //Ver se os alimentos 
     }
 }
