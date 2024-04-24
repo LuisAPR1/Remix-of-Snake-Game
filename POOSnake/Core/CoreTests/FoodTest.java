@@ -24,7 +24,7 @@ public class FoodTest {
         Snake snake = new Snake(starter, headDimensions);        
         
         Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0");
-        Obstacle obstacle = new Obstacle(ObstacleType.S, obstacleShape);
+        Obstacle obstacle = new Obstacle(ObstacleType.S, obstacleShape, null);
 
         // Configurando a comida
         int[] arenaDimensions = {arenaWidth, arenaHeight};

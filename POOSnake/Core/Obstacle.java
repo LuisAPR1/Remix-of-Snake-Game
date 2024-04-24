@@ -8,16 +8,26 @@ public class Obstacle {
     private Poligono obstacle;
     private Ponto position;
     private ObstacleType type;
+    private Ponto rotacao;
 
     public enum ObstacleType {
         D, // Dinâmico
         S // Estático
     }
 
-    public Obstacle(ObstacleType type, Poligono obstacle) {
-        this.position = position;
+    public Obstacle(ObstacleType type, Poligono obstacle, Ponto rotacao) {
         this.type = type;
         this.obstacle = obstacle;
+        this.rotacao = rotacao;
+        spawnObstacle(obstacle, type);
+    }
+
+    public void spawnObstacle(Poligono obstacle, ObstacleType type) {
+        // invariancia nao pode spawnar fora da arena, dentro da cobra nem dentro do
+        // obstaculo e mais pequeno do que a cabeça da cobra
+
+        // TAMANHO DA FRUTA , (int) Math.random() % maxFoodSize
+
     }
 
     public Ponto getPosition() {
@@ -38,7 +48,11 @@ public class Obstacle {
 
     public void rotate(int angle) {
         if (this.type == ObstacleType.D) {
-            obstacle.rotacionar(angle, position);
+            if (rotacao == null) {
+                obstacle.rotacionar(angle, obstacle.calcularCentro());
+            } else {
+                obstacle.rotacionar(angle, position);
+            }
         }
     }
 }
