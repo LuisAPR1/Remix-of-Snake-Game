@@ -4,7 +4,7 @@ import Geometry.Ponto;
 import java.awt.Color;
 import java.util.List;
 
-public class Game {
+public class Setup {
     private int[] arenaDimensions;
     @SuppressWarnings("unused")
     private Food food;
@@ -14,20 +14,17 @@ public class Game {
     @SuppressWarnings("unused")
     private int score;
     @SuppressWarnings("unused")
-    private List<Obstacle> obstacles;
-    @SuppressWarnings("unused")
     private InterfaceMode interfaceMode;
 
     private Ponto Snakeposition;
 
-    public Game(Ponto Snakeposition, int arenaDimensionsX, int arenaDimensionsY, Color foodColor,Food.FoodType foodType, int headDimensions, String rasterization, int score, List<Obstacle> obstacles,String interfaceMode) {
+    public Setup(Ponto Snakeposition, int arenaDimensionsX, int arenaDimensionsY, Color foodColor,Food.FoodType foodType, int headDimensions, String rasterization, int score, String interfaceMode) {
         
         this.arenaDimensions = new int[] { arenaDimensionsX, arenaDimensionsY };
         this.food = new Food(foodColor, foodType);
         this.headDimensions = headDimensions;
         this.rasterization = RasterizationType.valueOf(rasterization);
         this.score = score;
-        this.obstacles = obstacles;
         this.interfaceMode = InterfaceMode.valueOf(interfaceMode);
         this.Snakeposition = Snakeposition;
 
@@ -56,7 +53,7 @@ public class Game {
 
         //     // Move a cobra na direção especificada pelo usuário
         //     s.move(direction);
-        
+
         //     try {
         //         Thread.sleep(1000);
         //     } catch (InterruptedException e) {
@@ -65,10 +62,6 @@ public class Game {
 
         // }
     }
-
-    
-
-    
 
     // Enum for Rasterization Type
     public enum RasterizationType {

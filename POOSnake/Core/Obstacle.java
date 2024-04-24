@@ -14,7 +14,7 @@ public class Obstacle {
         S // Estático
     }
 
-    public Obstacle(Ponto position, ObstacleType type, Poligono obstacle) {
+    public Obstacle(ObstacleType type, Poligono obstacle) {
         this.position = position;
         this.type = type;
         this.obstacle = obstacle;

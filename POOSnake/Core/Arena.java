@@ -9,12 +9,24 @@ public class Arena {
 
     Cell[][] grid;
 
+    public Cell[][] getGrid() {
+        return grid;
+    }
+
     public Arena(int width, int height) {
         this.grid = new Cell[width][height];
         initializeArena();
     }
 
-    private void initializeArena() {
+    public int[] getArenaDimensions()
+    {
+        int[] x = new int[2];
+        x[0]=grid[0].length;
+        x[1]=grid.length;
+        return x;
+    }
+
+    public void initializeArena() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j] = Cell.EMPTY;
