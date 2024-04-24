@@ -21,10 +21,6 @@ public class Rank {
         p.setScore(score);
     }
 
-    void printRank() {
-        for (Player player : Players) {
-            System.out.println(player.toString());
-        }
-    }
+    
 
 }
