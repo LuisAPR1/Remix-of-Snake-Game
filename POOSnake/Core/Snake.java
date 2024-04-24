@@ -8,6 +8,14 @@ import Geometry.Square;
 
 public class Snake {
     private LinkedList<Square> snake = new LinkedList<>();
+    public LinkedList<Square> getSnake() {
+        return snake;
+    }
+
+    public void setSnake(LinkedList<Square> snake) {
+        this.snake = snake;
+    }
+
     int headDimensions;
     int direction;
 
@@ -15,6 +23,10 @@ public class Snake {
 
         HeadInitializer(starter, headDimensions);
         
+    }
+
+    public void setDirection(int direction) {
+        this.direction=direction;
     }
 
     public void HeadInitializer(Ponto starter, int headDimensions) {
@@ -59,7 +71,7 @@ public class Snake {
                 break;
         }
 
-        snake.set(0, snake.get(0).translacaoSemPonto(xMove, yMove));
+        // snake.set(0, snake.get(0).translacaoSemPonto(xMove, yMove));
         //trocar todos os quadrados de sitio com um forech, deste modo, a cabeca mexe de posição, os restantes so avancam para a posicao seguinte
         //O primeiro T vai para o lugar da H e o resto dos T vai para o proximo T
     }
@@ -68,6 +80,15 @@ public class Snake {
         //CORRIGIR
         //Square t = new Square(snake.getLast().getPontos());
         //snake.add(t);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Square square : snake) {
+            sb.append(square.toString()).append("\n");
+        }
+        return sb.toString();
     }
 
 }
