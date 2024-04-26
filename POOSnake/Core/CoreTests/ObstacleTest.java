@@ -65,22 +65,19 @@ public class ObstacleTest {
     @Test
     public void testRotateDynamicObstacleWithRotationPoint() {
         // Configurando o ambiente de teste
-        Ponto rotationPoint = new Ponto(15, 15); // Ponto de rotação
+        Ponto rotationPoint = new Ponto(1, 1); // Ponto de rotação
         Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0"); // Quadrado de lado 20
         Obstacle obstacle = new Obstacle(ObstacleType.D, obstacleShape, rotationPoint);
 
-        // Obtendo as coordenadas do obstáculo antes da rotação
-        Poligono obstacleBeforeRotation = obstacle.getObstacle();
-
         // Rotacionando o obstáculo em 90 graus
-        obstacle.rotate(90);
+        obstacle.rotate(180);
 
-        // Obtendo as coordenadas do obstáculo depois da rotação
         Poligono obstacleAfterRotation = obstacle.getObstacle();
+        Poligono expected = new Poligono("2 2 1 2 1 1 2 1");
 
         // Verificando se as coordenadas do obstáculo depois da rotação coincidem com as coordenadas esperadas
         // Note que, como o ponto de rotação não é o centro do polígono, as coordenadas não devem mudar
-        assertArrayEquals(obstacleBeforeRotation.getPontos().toArray(), obstacleAfterRotation.getPontos().toArray());
+        assertArrayEquals(expected.getPontos().toArray(), obstacleAfterRotation.getPontos().toArray());
     }
     
 }

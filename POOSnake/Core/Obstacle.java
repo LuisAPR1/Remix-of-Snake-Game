@@ -55,4 +55,12 @@ public class Obstacle {
             }
         }
     }
+
+    public String toString(){
+        return obstacle.toString();
+    }
+
+    public Poligono getObstacle() {
+        return obstacle;
+    }
 }
