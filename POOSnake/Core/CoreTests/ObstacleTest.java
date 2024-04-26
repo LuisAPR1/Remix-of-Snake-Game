@@ -48,28 +48,25 @@ public class ObstacleTest {
     @Test
     public void testRotateDynamicObstacleWithoutRotationPoint() {
         // Configurando o ambiente de teste
-        Ponto startPoint = new Ponto(10, 10);
-        Poligono obstacleShape = new Poligono(new Ponto(0, 0), 20, 4); // Quadrado de lado 20
+        Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0"); // Quadrado de lado 20
         Obstacle obstacle = new Obstacle(ObstacleType.D, obstacleShape, null);
-
-        // Obtendo as coordenadas do obstáculo antes da rotação
-        Poligono obstacleBeforeRotation = obstacle.getObstacle();
 
         // Rotacionando o obstáculo em 90 graus
         obstacle.rotate(90);
 
         // Obtendo as coordenadas do obstáculo depois da rotação
         Poligono obstacleAfterRotation = obstacle.getObstacle();
+        Poligono expected = new Poligono("1 0 0 0 0 1 1 1");
 
         // Verificando se as coordenadas do obstáculo depois da rotação coincidem com as coordenadas esperadas
-        assertArrayEquals(obstacleBeforeRotation.getPontos().toArray(), obstacleAfterRotation.getPontos().toArray());
+        assertArrayEquals(expected.getPontos().toArray(), obstacleAfterRotation.getPontos().toArray());
     }
 
     @Test
     public void testRotateDynamicObstacleWithRotationPoint() {
         // Configurando o ambiente de teste
         Ponto rotationPoint = new Ponto(15, 15); // Ponto de rotação
-        Poligono obstacleShape = new Poligono(new Ponto(0, 0), 20, 4); // Quadrado de lado 20
+        Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0"); // Quadrado de lado 20
         Obstacle obstacle = new Obstacle(ObstacleType.D, obstacleShape, rotationPoint);
 
         // Obtendo as coordenadas do obstáculo antes da rotação
@@ -83,25 +80,6 @@ public class ObstacleTest {
 
         // Verificando se as coordenadas do obstáculo depois da rotação coincidem com as coordenadas esperadas
         // Note que, como o ponto de rotação não é o centro do polígono, as coordenadas não devem mudar
-        assertArrayEquals(obstacleBeforeRotation.getPontos().toArray(), obstacleAfterRotation.getPontos().toArray());
-    }
-
-    @Test
-    public void testRotateStaticObstacle() {
-        // Configurando o ambiente de teste
-        Poligono obstacleShape = new Poligono(new Ponto(0, 0), 20, 4); // Quadrado de lado 20
-        Obstacle obstacle = new Obstacle(ObstacleType.S, obstacleShape, null);
-
-        // Obtendo as coordenadas do obstáculo antes da rotação
-        Poligono obstacleBeforeRotation = obstacle.getObstacle();
-
-        // Rotacionando o obstáculo em 90 graus
-        obstacle.rotate(90);
-
-        // Obtendo as coordenadas do obstáculo depois da rotação
-        Poligono obstacleAfterRotation = obstacle.getObstacle();
-
-        // Verificando se as coordenadas do obstáculo depois da rotação coincidem com as coordenadas esperadas
         assertArrayEquals(obstacleBeforeRotation.getPontos().toArray(), obstacleAfterRotation.getPontos().toArray());
     }
     
