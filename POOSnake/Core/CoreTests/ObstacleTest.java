@@ -1,86 +1,84 @@
 package Core.CoreTests;
 
 import Core.Arena;
-import Core.Food;
-import Core.Food.FoodType;
+import Core.FoodFactory;
+import Core.AbstractFood;
+import Core.AbstractFood.FoodType;
 import Core.Obstacle;
 import Core.Obstacle.ObstacleType;
 import Core.Snake;
 import Geometry.Poligono;
 import Geometry.Ponto;
+import java.awt.Color;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.awt.Color;
-
 
 public class ObstacleTest {
 
     @Test
     public void testObstacleSpawn() {
-        // Configurando a arena
+        // Configuring the arena
         int arenaWidth = 200;
         int arenaHeight = 200;
         Arena arena = new Arena(arenaWidth, arenaHeight);
 
-        // Configurando a cobra
+        // Configuring the snake
         Ponto starter = new Ponto(10, 10);
         int headDimensions = 5;
         Snake snake = new Snake(starter, headDimensions);
 
-        Food food = new Food(Color.RED, FoodType.C, arena, headDimensions);
-        // Configurando o obstáculo
-        Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0");
-        Obstacle obstacle = new Obstacle(Obstacle.ObstacleType.S, obstacleShape,null);
+        // Configuring the food
+        AbstractFood food = FoodFactory.createFood("circle", Color.RED, FoodType.C, arena, headDimensions);
 
-        // Verificando se o obstáculo está dentro da arena
+        // Configuring the obstacle
+        Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0");
+        Obstacle obstacle = new Obstacle(ObstacleType.S, obstacleShape, new Ponto(0, 0));
+
+        // Checking if the obstacle is within the arena
         Ponto obstaclePosition = obstacle.getPosition();
         assertTrue(obstaclePosition.getX() >= 0 && obstaclePosition.getX() < arenaWidth);
         assertTrue(obstaclePosition.getY() >= 0 && obstaclePosition.getY() < arenaHeight);
 
-        // Verificando se a posição do obstáculo corresponde a uma célula vazia na arena
+        // Verifying that the position of the obstacle corresponds to an empty cell in the arena
         assertEquals('E', arena.getGrid()[obstaclePosition.getX()][obstaclePosition.getY()].getSymbol());
     }
 
     @Test
     public void testRotateDynamicObstacleWithoutRotationPoint() {
-        // Configurando o ambiente de teste
-        Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0"); // Quadrado de lado 20
-        Obstacle obstacle = new Obstacle(ObstacleType.D, obstacleShape, null);
+        // Configuring the test environment
+        Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0"); // Square with side 1
+        Obstacle obstacle = new Obstacle(ObstacleType.D, obstacleShape, new Ponto(0, 0));
 
-        // Rotacionando o obstáculo em 90 graus
+        // Rotating the obstacle by 90 degrees
         obstacle.rotate(90);
 
-        // Obtendo as coordenadas do obstáculo depois da rotação
+        // Getting the coordinates of the obstacle after rotation
         Poligono obstacleAfterRotation = obstacle.getObstacle();
-        Poligono expected = new Poligono("1 0 0 0 0 1 1 1");
+        Poligono expected = new Poligono("1 0 0 0 0 1 1 1"); // Expected shape after rotation
 
-        // Verificando se as coordenadas do obstáculo depois da rotação coincidem com as coordenadas esperadas
+        // Verifying if the coordinates after rotation match the expected coordinates
         assertArrayEquals(expected.getPontos().toArray(), obstacleAfterRotation.getPontos().toArray());
     }
 
     @Test
     public void testRotateDynamicObstacleWithRotationPoint() {
-        // Configurando o ambiente de teste
-        Ponto rotationPoint = new Ponto(15, 15); // Ponto de rotação
-        Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0"); // Quadrado de lado 20
+        // Configuring the test environment
+        Ponto rotationPoint = new Ponto(15, 15); // Rotation point
+        Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0"); // Square with side 1
         Obstacle obstacle = new Obstacle(ObstacleType.D, obstacleShape, rotationPoint);
 
-        // Obtendo as coordenadas do obstáculo antes da rotação
+        // Getting the coordinates of the obstacle before rotation
         Poligono obstacleBeforeRotation = obstacle.getObstacle();
 
-        // Rotacionando o obstáculo em 90 graus
+        // Rotating the obstacle by 90 degrees
         obstacle.rotate(90);
 
-        // Obtendo as coordenadas do obstáculo depois da rotação
+        // Getting the coordinates of the obstacle after rotation
         Poligono obstacleAfterRotation = obstacle.getObstacle();
 
-        // Verificando se as coordenadas do obstáculo depois da rotação coincidem com as coordenadas esperadas
-        // Note que, como o ponto de rotação não é o centro do polígono, as coordenadas não devem mudar
+        // Verifying if the coordinates after rotation match the expected coordinates
+        // Note that since the rotation point is not the center of the polygon, the coordinates should change
         assertArrayEquals(obstacleBeforeRotation.getPontos().toArray(), obstacleAfterRotation.getPontos().toArray());
     }
-    
+
 }

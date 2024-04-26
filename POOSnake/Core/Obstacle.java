@@ -55,4 +55,8 @@ public class Obstacle {
             }
         }
     }
+
+    public Poligono getObstacle() {
+        return obstacle;
+    }
 }
