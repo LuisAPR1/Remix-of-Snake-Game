@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FoodTest {
+public class AbstractFoodTest {
 
     @Test
     public void testFoodSpawn() {
@@ -27,14 +27,13 @@ public class FoodTest {
 
         Ponto starter = new Ponto(10, 10);
         int headDimensions = 5;
-        @SuppressWarnings("unused");
         Snake snake = new Snake(starter, headDimensions);        
         
         Poligono obstacleShape = new Poligono("0 0 0 1 1 1 1 0");
         Obstacle obstacle = new Obstacle(ObstacleType.S, obstacleShape, null);
 
         // Configuring the food using the factory
-        AbstractFood food = FoodFactory.createFood("circle", Color.RED, FoodType.C, arena, headDimensions);
+        AbstractFood food = FoodFactory.createFood(Color.RED, FoodType.C, arena, headDimensions);
         Ponto foodPosition = food.getPosition();
 
         // Asserting that the food is within the arena bounds

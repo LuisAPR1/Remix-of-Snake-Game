@@ -1,26 +1,35 @@
 package Core;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Rank {
-    private List<Player> Players; // Tipo - Jogador (int scoreAtual, String nome, rank)
+    private List<Player> Players;
 
+    public List<Player> getPlayers() {
+        return Players;
+    }
+    
     public Rank(List<Player> p) {
         this.Players = p;
     }
 
-    // import players from file sketch
-
-    // add Player
-
-    void updateRank(Player p, int score) {
-
-        // escrever no documento de texto (ha de ser um foreach com os players e um
-        // imprimir rank a mandar para o ficheiro)
-        // atualizar no objeto jogador
-        p.setScore(score);
+    public void addPlayer(Player p) {
+        Players.add(p);
     }
 
-    
+    public void updateRank(Player p, int score) {
+        p.setScore(score);
+        writeToFile();
+    }
 
+    private void writeToFile() {
+        // Exemplo de como o arquivo poderia ser escrito (pseudocódigo)
+        // String content = Players.stream()
+        //                         .sorted((p1, p2) -> p2.getScore() - p1.getScore())
+        //                         .map(p -> p.getName() + ", " + p.getScore())
+        //                         .collect(Collectors.joining("\n"));
+        // Simulação de escrita em arquivo
+        // System.out.println("Writing to file: \n" + content);
+    }
 }

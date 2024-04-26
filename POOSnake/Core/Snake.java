@@ -91,4 +91,7 @@ public class Snake {
         return sb.toString();
     }
 
+    public int getDirection() {
+    }
+
 }

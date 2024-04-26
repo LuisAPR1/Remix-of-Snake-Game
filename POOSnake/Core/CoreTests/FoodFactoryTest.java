@@ -15,7 +15,7 @@ public class FoodFactoryTest {
     @Test
     public void testCreateFoodCircle() {
         Arena arena = new Arena(200, 200);
-        AbstractFood food = FoodFactory.createFood("circle", Color.RED, FoodType.C, arena, 5);
+        AbstractFood food = FoodFactory.createFood( Color.RED, FoodType.C, arena, 5);
 
         assertTrue(food instanceof FoodCircle);
         assertEquals(Color.RED, food.getColor());
@@ -25,7 +25,7 @@ public class FoodFactoryTest {
     @Test
     public void testCreateFoodSquare() {
         Arena arena = new Arena(200, 200);
-        AbstractFood food = FoodFactory.createFood("square", Color.YELLOW, FoodType.S, arena, 5);
+        AbstractFood food = FoodFactory.createFood( Color.YELLOW, FoodType.S, arena, 5);
 
         assertTrue(food instanceof FoodSquare);
         assertEquals(Color.YELLOW, food.getColor());

@@ -21,9 +21,13 @@ public class Player {
         this.name = name;
     }
 
-    public Player(String name, int score) {
+    public Player(int score, String name) {
         this.name = name;
         this.score = score;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

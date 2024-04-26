@@ -4,21 +4,19 @@ import Geometry.Ponto;
 import java.awt.Color;
 import java.util.List;
 
+import Core.AbstractFood.FoodType;
+
 public class Setup {
     private int[] arenaDimensions;
-    @SuppressWarnings("unused")
-    private Food food;
+    private FoodType food;
     private int headDimensions;
-    @SuppressWarnings("unused")
     private RasterizationType rasterization;
-    @SuppressWarnings("unused")
     private int score;
-    @SuppressWarnings("unused")
     private InterfaceMode interfaceMode;
 
     private Ponto Snakeposition;
 
-    public Setup(Ponto Snakeposition, int arenaDimensionsX, int arenaDimensionsY, Color foodColor,Food.FoodType foodType, int headDimensions, String rasterization, int score, String interfaceMode) {
+    public Setup(Ponto Snakeposition, int arenaDimensionsX, int arenaDimensionsY, Color foodColor,FoodType foodType, int headDimensions, String rasterization, int score, String interfaceMode) {
         
         this.arenaDimensions = new int[] { arenaDimensionsX, arenaDimensionsY };
         this.food = new Food(foodColor, foodType);
@@ -33,34 +31,13 @@ public class Setup {
 
     public void InitializeGame() {
         Arena a = new Arena(arenaDimensions[0], arenaDimensions[1]);
-        Snake s = new Snake(Snakeposition, headDimensions);
-        
-        //colocar frutas e objetos 
+
+         
     }
 
     public void Start()
     {
-        // int direction = 0;
 
-        // // Loop infinito para permitir que a cobra se mova continuamente
-        // while (true) {
-
-        //     Clean();
-
-        //     // Atualiza e imprime a arena
-        //     a.updateArena(s);
-        //     a.printArena();
-
-        //     // Move a cobra na direção especificada pelo usuário
-        //     s.move(direction);
-
-        //     try {
-        //         Thread.sleep(1000);
-        //     } catch (InterruptedException e) {
-        //         e.printStackTrace();
-        //     }
-
-        // }
     }
 
     // Enum for Rasterization Type
