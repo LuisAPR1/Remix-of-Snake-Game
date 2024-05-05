@@ -15,11 +15,11 @@ public class Obstacle {
         S // Estático
     }
 
-    public Obstacle(ObstacleType type, Poligono obstacle, Ponto rotacao) {
-        this.type = type;
+    public Obstacle(Core.ObstacleType d, Poligono obstacle, Ponto rotacao) {
+        this.type = d;
         this.obstacle = obstacle;
         this.rotacao = rotacao;
-        spawnObstacle(obstacle, type);
+        spawnObstacle(obstacle, d);
     }
 
     public void spawnObstacle(Poligono obstacle, ObstacleType type) {

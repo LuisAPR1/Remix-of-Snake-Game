@@ -14,8 +14,8 @@ public class RankTest {
 
     @BeforeEach
     public void setUp() {
-        player1 = new Player(100, "Alice");
-        player2 = new Player(150, "Bob");
+        player1 = new Player("Alice", 100);
+        player2 = new Player("Bob", 200);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
@@ -24,7 +24,7 @@ public class RankTest {
 
     @Test
     public void testAddPlayer() {
-        Player newPlayer = new Player(120, "Carol");
+        Player newPlayer = new Player("Alice", 100);
         rank.addPlayer(newPlayer);
         assertTrue(rank.getPlayers().contains(newPlayer));
     }

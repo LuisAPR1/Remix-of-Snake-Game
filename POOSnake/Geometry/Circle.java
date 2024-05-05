@@ -25,5 +25,20 @@ public class Circle {
         if(raio <= 0) System.exit(0);
         this.raio = raio;
     }
+
+    public boolean isContainedInPolygon(Poligono poligono) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isContainedInPolygon'");
+    }
+
+    public boolean isContainedInCircle(Circle largerCircle) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isContainedInCircle'");
+    }
+
+    public boolean intersects(Poligono poligono) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'intersects'");
+    }
     
 }

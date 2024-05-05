@@ -6,14 +6,15 @@ import Geometry.Circle;
 public class FoodCircle extends AbstractFood {
     private int size;
 
-    public FoodCircle(Color color, FoodType type, Arena arena, int size) {
-        super(color, type, arena);
+    public FoodCircle(Color color, Core.FoodType c, Arena arena, int size) {
+        super(color, c, arena);
         this.size = size;
         spawnFood();
     }
 
     @Override
     public void spawnFood() {
-        // logic to ensure food does not spawn on obstacles or outside arena boundaries
+
     }
+    
 }

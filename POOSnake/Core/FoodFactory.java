@@ -5,11 +5,11 @@ import java.awt.Color;
 import Core.AbstractFood.FoodType;
 
 public class FoodFactory {
-    public static AbstractFood createFood(Color color, FoodType type, Arena arena, int size) {
-        if (type==FoodType.C) {
-            return new FoodCircle(color, type, arena, size);
-        } else if (type==FoodType.S) {
-            return new FoodSquare(color, type, arena, size);
+    public static AbstractFood createFood(Color color, Core.FoodType c, Arena arena, int size) {
+        if (c==FoodType.C) {
+            return new FoodCircle(color, c, arena, size);
+        } else if (c==FoodType.S) {
+            return new FoodSquare(color, c, arena, size);
         }
         return null;
     }

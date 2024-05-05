@@ -7,8 +7,8 @@ import Geometry.Ponto;
 public class FoodSquare extends AbstractFood {
     private int sideLength;
 
-    public FoodSquare(Color color, FoodType type, Arena arena, int sideLength) {
-        super(color, type, arena);
+    public FoodSquare(Color color, Core.FoodType s, Arena arena, int sideLength) {
+        super(color, s, arena);
         this.sideLength = sideLength;
         spawnFood();
     }

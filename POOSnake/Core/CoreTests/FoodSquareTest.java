@@ -2,7 +2,9 @@ package Core.CoreTests;
 
 import Core.Arena;
 import Core.FoodSquare;
-import Core.AbstractFood.FoodType;
+import Core.FoodType;
+import Core.InterfaceMode;
+import Core.RasterizationType;
 import Geometry.Ponto;
 import java.awt.Color;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,7 +14,11 @@ public class FoodSquareTest {
 
     @Test
     public void testFoodSquareCreation() {
-        Arena arena = new Arena(200, 200);
+        Ponto starter = new Ponto(10, 10);
+        int arenaDimensionsX = 200;
+        int arenaDimensionsY = 200;
+        Arena arena = new Arena(starter, arenaDimensionsX, arenaDimensionsY, Color.RED, FoodType.S, 5, RasterizationType.O, 0, InterfaceMode.T);
+
         FoodSquare foodSquare = new FoodSquare(Color.GREEN, FoodType.S, arena, 10);
 
         assertNotNull(foodSquare);
@@ -23,7 +29,11 @@ public class FoodSquareTest {
 
     @Test
     public void testFoodSquarePositionWithinArena() {
-        Arena arena = new Arena(200, 200);
+        Ponto starter = new Ponto(10, 10);
+        int arenaDimensionsX = 200;
+        int arenaDimensionsY = 200;
+        Arena arena = new Arena(starter, arenaDimensionsX, arenaDimensionsY, Color.RED, FoodType.S, 5, RasterizationType.O, 0, InterfaceMode.T);
+
         FoodSquare foodSquare = new FoodSquare(Color.GREEN, FoodType.S, arena, 10);
         Ponto position = foodSquare.getPosition();
 
