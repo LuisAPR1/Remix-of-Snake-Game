@@ -1,7 +1,6 @@
 package Core;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Rank {
     private List<Player> Players;

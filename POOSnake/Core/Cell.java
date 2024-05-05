@@ -5,7 +5,7 @@ public enum Cell {
     TAIL("T"),
     FOOD("F"),
     OBSTACLE("O"),
-    EMPTY("E");
+    EMPTY(".");
 
     private final String state;
 

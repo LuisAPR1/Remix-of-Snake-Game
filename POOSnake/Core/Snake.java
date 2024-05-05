@@ -1,13 +1,13 @@
 package Core;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import Geometry.Ponto;
 import Geometry.Square;
 
 public class Snake {
     private LinkedList<Square> snake = new LinkedList<>();
+
     public LinkedList<Square> getSnake() {
         return snake;
     }
@@ -19,18 +19,21 @@ public class Snake {
     int headDimensions;
     int direction;
 
-    public Snake(Ponto starter, int headDimensions) {
+    public Snake(Arena a, int headDimensions) {
 
-        HeadInitializer(starter, headDimensions);
-        
+        this.headDimensions=headDimensions;
+        HeadInitializer(a.getArenaDimensions(), headDimensions);
+
     }
 
     public void setDirection(int direction) {
-        this.direction=direction;
+        this.direction = direction;
     }
 
-    public void HeadInitializer(Ponto starter, int headDimensions) {
-        this.headDimensions=headDimensions;
+    public void HeadInitializer(int[] arenaDimensions, int headDimensions) {
+
+        Ponto starter = new Ponto(Math.random() % arenaDimensions[0], Math.random() % arenaDimensions[1]);
+        
         String head = starter.getX() + " " + starter.getY() + " " +
                 (starter.getX() + headDimensions) + " " + starter.getY() + " " +
                 (starter.getX() + headDimensions) + " " + (starter.getY() + headDimensions) + " " +
@@ -40,21 +43,19 @@ public class Snake {
         snake.addFirst(h);
     }
 
-    public List<Ponto> getHeadCoordinates() {
-        return snake.getFirst().getPontos();
+    public Square getHead() {
+        return snake.getFirst();
     }
 
     public LinkedList<Square> getTailCoordinates() {
         return new LinkedList<>(snake.subList(1, snake.size()));
     }
 
-    public void move(int direction) {
-        this.direction = direction;
-
+    public void move() {
         // Calcula os deslocamentos horizontal e vertical com base na direção
         int xMove = 0;
         int yMove = 0;
-        switch (direction) {
+        switch (this.direction) {
             case 0:
                 xMove = 1; // direita
                 break;
@@ -70,16 +71,28 @@ public class Snake {
             default:
                 break;
         }
-
-        // snake.set(0, snake.get(0).translacaoSemPonto(xMove, yMove));
-        //trocar todos os quadrados de sitio com um forech, deste modo, a cabeca mexe de posição, os restantes so avancam para a posicao seguinte
-        //O primeiro T vai para o lugar da H e o resto dos T vai para o proximo T
+    
+        // Move a cabeça da cobra na nova posição
+        Square head = snake.getFirst();
+        snake.set(0, head.translacaoSemPonto(xMove, yMove));
+    
+        // Move o restante da cobra
+        for (int i = 1; i < snake.size(); i++) {
+            // Obtém o quadrado atual da cobra
+            Square current = snake.get(i);
+            // Move o quadrado atual para a posição do quadrado anterior
+            snake.set(i, head);
+            // Atualiza o quadrado anterior para o quadrado atual, para ser usado na próxima iteração
+            head = current;
+        }
     }
+    
+    
 
     public void grow() {
-        //CORRIGIR
-        //Square t = new Square(snake.getLast().getPontos());
-        //snake.add(t);
+        // CORRIGIR
+        // Square t = new Square(snake.getLast().getPontos());
+        // snake.add(t);
     }
 
     @Override
@@ -92,6 +105,7 @@ public class Snake {
     }
 
     public int getDirection() {
+        return direction;
     }
 
 }

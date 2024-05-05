@@ -1,20 +1,29 @@
 package Core;
 
 import java.awt.Color;
+
 import Geometry.Circle;
+import Geometry.Ponto;
 
-public class FoodCircle extends AbstractFood {
-    private int size;
+public class FoodCircle extends AbstractFood<Circle> {
+    private int raio;
+    Circle shape;
 
-    public FoodCircle(Color color, Core.FoodType c, Arena arena, int size) {
-        super(color, c, arena);
-        this.size = size;
+    public FoodCircle(Color color, Core.FoodType type, Arena arena, int raio) {
+        super(color, type, arena);
+        this.raio=raio;
         spawnFood();
     }
 
     @Override
     public void spawnFood() {
-
+        Ponto position = generatePosition(); // Gere uma posição aleatória para o círculo
+        shape = new Circle(position, raio);
     }
-    
+
+    @Override
+    public Circle getShape() {
+        return shape;
+    }
+
 }

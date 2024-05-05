@@ -51,6 +51,8 @@ public class Square extends Retangulo {
         }
     }
 
+     
+
     /**
      * Rotaciona o quadrado em torno de um ponto (centroide) por um determinado
      * ângulo.

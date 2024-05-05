@@ -1,15 +1,12 @@
 package Core;
-
 import java.awt.Color;
 
-import Core.AbstractFood.FoodType;
-
 public class FoodFactory {
-    public static AbstractFood createFood(Color color, Core.FoodType c, Arena arena, int size) {
-        if (c==FoodType.C) {
-            return new FoodCircle(color, c, arena, size);
-        } else if (c==FoodType.S) {
-            return new FoodSquare(color, c, arena, size);
+    public static AbstractFood<?> createFood(Color color, Core.FoodType foodType, Arena arena, int size) {
+        if (foodType == FoodType.C) {
+            return new FoodCircle(color, foodType, arena, size);
+        } else if (foodType == FoodType.S) {
+            return new FoodSquare(color, foodType, arena, size);
         }
         return null;
     }

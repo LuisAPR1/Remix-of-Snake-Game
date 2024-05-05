@@ -3,10 +3,10 @@ package Core;
 import java.awt.Color;
 import Geometry.Ponto;
 
-public abstract class AbstractFood {
+public abstract class AbstractFood<T extends Shape> {
     protected Ponto position;
     protected Color color;
-    protected FoodType type;
+    protected Core.FoodType type;
     protected Arena arena;
 
     public enum FoodType {
@@ -14,7 +14,7 @@ public abstract class AbstractFood {
         S
     }
 
-    public AbstractFood(Color color, FoodType type, Arena arena) {
+    public AbstractFood(Color color, Core.FoodType type, Arena arena) {
         this.color = color;
         this.type = type;
         this.arena = arena;
@@ -39,7 +39,10 @@ public abstract class AbstractFood {
         return color;
     }
 
-    public FoodType getType() {
+    public Core.FoodType getType() {
         return type;
     }
+
+    public abstract T getShape(); // Tipo genérico parametrizado com a interface Shape
+
 }

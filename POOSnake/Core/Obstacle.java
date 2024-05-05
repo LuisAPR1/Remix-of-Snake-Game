@@ -15,7 +15,7 @@ public class Obstacle {
         S // Estático
     }
 
-    public Obstacle(Core.ObstacleType d, Poligono obstacle, Ponto rotacao) {
+    public Obstacle(ObstacleType d, Poligono obstacle, Ponto rotacao) {
         this.type = d;
         this.obstacle = obstacle;
         this.rotacao = rotacao;

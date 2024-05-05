@@ -5,7 +5,7 @@ public class AutomaticMovementStrategy implements MovementStrategy {
     public void move(Snake snake) {
         // Implementação do movimento automático
         // Exemplo: mudar sempre na mesma direção ou mudar aleatoriamente dentro de limites seguros
-        int currentDirection = snake.getDirection(); // Supondo que haja um getter para direction
-        snake.move(currentDirection);
+        // int currentDirection = snake.getDirection(); // Supondo que haja um getter para direction
+        // snake.move(currentDirection);
     }
 }

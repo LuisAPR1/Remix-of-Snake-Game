@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import Core.Shape;
+
 /**
  * Classe que representa um polígono.
  * @version 1.0 03/04/2024
  * @author Luís Rosa e Pedro Ferreira
  * @inv O polígono tem de ter pelo m pontos.
  */
-public class Poligono {
+public class Poligono implements Shape {
     protected final List<Ponto> pontos; // Lista de pontos que definem os vértices do polígono.
     protected final List<Segmento> segmentoDeRetas = new ArrayList<>(); // Lista de segmentos de reta do polígono.
 
@@ -52,6 +54,36 @@ public class Poligono {
             }
         }
         this.pontos = pontos;
+    }
+
+    public List<Ponto> getAllCoordinates() {
+        // Inicializa a lista para armazenar as coordenadas
+        List<Ponto> coordenadas = new ArrayList<>();
+
+        // Obtém os vértices do quadrado
+        List<Ponto> vertices = getPontos();
+
+        // Encontra os limites horizontais e verticais do quadrado
+        int minX = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        for (Ponto ponto : vertices) {
+            minX = Math.min(minX, ponto.getX());
+            maxX = Math.max(maxX, ponto.getX());
+            minY = Math.min(minY, ponto.getY());
+            maxY = Math.max(maxY, ponto.getY());
+        }
+
+        // Itera sobre todas as coordenadas inteiras dentro dos limites do quadrado
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                coordenadas.add(new Ponto(x, y));
+            }
+        }
+
+        // Retorna a lista de coordenadas
+        return coordenadas;
     }
 
     /**
@@ -185,4 +217,6 @@ public class Poligono {
     public String toString() {
         return "Poligono de " + pontos.size() + " vertices: " + getPontos().toString();
     }
+
+   
 }
