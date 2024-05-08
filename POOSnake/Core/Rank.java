@@ -1,6 +1,10 @@
 package Core;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Rank {
     private List<Player> Players;
@@ -23,12 +27,19 @@ public class Rank {
     }
 
     private void writeToFile() {
-        // Exemplo de como o arquivo poderia ser escrito (pseudocódigo)
-        // String content = Players.stream()
-        //                         .sorted((p1, p2) -> p2.getScore() - p1.getScore())
-        //                         .map(p -> p.getName() + ", " + p.getScore())
-        //                         .collect(Collectors.joining("\n"));
-        // Simulação de escrita em arquivo
-        // System.out.println("Writing to file: \n" + content);
+        // Ordenando os jogadores pelo score em ordem decrescente
+        List<Player> sortedPlayers = Players.stream()
+                                            .sorted(Comparator.comparingInt(Player::getScore).reversed())
+                                            .collect(Collectors.toList());
+
+        // Escrevendo os jogadores no arquivo
+        try (FileWriter writer = new FileWriter("rank.txt")) {
+            for (Player player : sortedPlayers) {
+                writer.write(player.getName() + ", " + player.getScore() + "\n");
+            }
+            System.out.println("Rank atualizado e escrito no arquivo 'rank.txt'");
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
     }
 }
