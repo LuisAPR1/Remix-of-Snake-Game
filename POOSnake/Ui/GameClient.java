@@ -1,11 +1,13 @@
-package Ui;
+package UI;
 
 
 import java.util.Scanner;
 
 import Core.Arena;
 import Core.FoodType;
-import Core.Obstacle;
+import Core.Obstacle.ObstacleType;
+import Core.RasterizationType;
+import Geometry.Ponto;
 
 public class GameClient {
     public static void main(String[] args) {
@@ -20,7 +22,8 @@ public class GameClient {
         int headDimensions = scanner.nextInt();
 
         System.out.println("Escolha o tipo de rasterização (O para contorno, F para preenchido):");
-        String rasterizationType = scanner.next();
+        String rasterization = scanner.next();
+        RasterizationType rasterizationtype = RasterizationType.valueOf(rasterization);
 
         System.out.println("Digite a dimensao da commida:");
         int foodDimensions = scanner.nextInt();
@@ -34,14 +37,25 @@ public class GameClient {
 
         System.out.println("Escolha o tipo de obstaculos (D para dinammicos, S para estaticos):");
         String obstacleTypeString = scanner.next();
-        Obstacle.ObstacleType obstacleType = Obstacle.ObstacleType.valueOf(obstacleTypeString);
+        ObstacleType obstacleType = ObstacleType.valueOf(obstacleTypeString);
+
+        Ponto rotacao;
+        if (obstacleType==ObstacleType.S) {
+            rotacao = null;
+        }else{
+            System.out.println("Digite x do ponto de rotacao:");
+            int pontox = scanner.nextInt();
+            System.out.println("Digite y do ponto de rotacao:");
+            int pontoy = scanner.nextInt();
+            rotacao = new Ponto(pontox,pontoy);
+        }
 
         System.out.println("Escolha o modo de interface (G para gráfico, T para textual):");
         char interfaceMode = scanner.next().charAt(0);
        
         // Criação do objeto Game com os valores inseridos
-        Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationType, foodDimensions,
-                foodType, numObstacles, obstacleType, interfaceMode);
+        Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationtype, foodDimensions,
+                foodType, numObstacles, obstacleType, rotacao ,interfaceMode);
 
         game.Start(scanner);
 

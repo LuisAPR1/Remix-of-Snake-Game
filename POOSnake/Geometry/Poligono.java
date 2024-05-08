@@ -1,6 +1,7 @@
 package Geometry;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,6 +9,7 @@ import Core.Shape;
 
 /**
  * Classe que representa um polígono.
+ * 
  * @version 1.0 03/04/2024
  * @author Luís Rosa e Pedro Ferreira
  * @inv O polígono tem de ter pelo m pontos.
@@ -18,6 +20,7 @@ public class Poligono implements Shape {
 
     /**
      * Construtor da classe Poligono que recebe uma string de entrada.
+     * 
      * @param input string de entrada contendo as coordenadas dos pontos.
      */
     public Poligono(String input) {
@@ -26,8 +29,9 @@ public class Poligono implements Shape {
 
     /**
      * Construtor da classe Poligono que recebe uma lista de pontos.
+     * 
      * @param pontos Lista de pontos que definem os vértices do polígono.
-     * Deve conter pelo menos 3 pontos para formar um polígono válido.
+     *               Deve conter pelo menos 3 pontos para formar um polígono válido.
      */
     public Poligono(List<Ponto> pontos) {
         // Verifica se o polígono tem menos de 3 pontos.
@@ -54,6 +58,165 @@ public class Poligono implements Shape {
             }
         }
         this.pontos = pontos;
+    }
+
+    public boolean intersect(Poligono otherPolygon) {
+        // Verifica se há interseção entre as arestas do polígono atual e as do polígono
+        // fornecido
+        for (Segmento segmento : segmentoDeRetas) {
+            for (Segmento otherSegment : otherPolygon.getSegmentoDeRetas()) {
+                if (segmento.arestasCruzam(otherSegment)) {
+                    return true; // Se houver interseção, retorna verdadeiro
+                }
+            }
+        }
+        return false; // Se nenhuma interseção for encontrada, retorna falso
+    }
+
+    public boolean intersect2(Poligono otherPolygon) {
+        // Verifica se os polígonos têm os 4 pontos iguais
+        if (this.equals(otherPolygon)) {
+            return true; // Se tiverem, considera-se como intersectados
+        }
+
+        // Obtém todas as coordenadas do polígono recebido por argumento
+        List<Ponto> coordenadasOutroPoligono = otherPolygon.getAllCoordinates();
+
+        // Itera sobre todos os pontos do polígono atual
+        for (Ponto ponto : pontos) {
+            // Verifica se o ponto do polígono atual está dentro do polígono recebido por
+            // argumento
+            if (otherPolygon.isPointInsidePolygon(ponto, coordenadasOutroPoligono)) {
+                return true; // Se o ponto estiver dentro, retorna verdadeiro
+            }
+        }
+
+        return false; // Se nenhum ponto estiver dentro, retorna falso
+    }
+
+    public boolean intersect(Circle circle) {
+        // Obtém todas as coordenadas do polígono
+        List<Ponto> coordenadasPoligono = getAllCoordinates();
+
+        // Itera sobre todas as coordenadas do polígono
+        for (Ponto ponto : coordenadasPoligono) {
+            // Calcula a distância entre o ponto do polígono e o centro do círculo
+            double distancia = ponto.dist(circle.getCentro());
+
+            // Se a distância for menor ou igual ao raio do círculo, então há interseção
+            if (distancia <= circle.getRaio()) {
+                return true;
+            }
+        }
+
+        // Se nenhum ponto do polígono estiver dentro do círculo, não há interseção
+        return false;
+    }
+
+    public boolean contains(Circle circle) {
+        // Obtém o centro do círculo e o raio
+        Ponto centroCirculo = circle.getCentro();
+        double raioCirculo = circle.getRaio();
+
+        // Calcula os limites do quadrado definido pelos vértices do polígono
+        int minX = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        for (Ponto ponto : pontos) {
+            int x = ponto.getX();
+            int y = ponto.getY();
+            minX = Math.min(minX, x);
+            maxX = Math.max(maxX, x);
+            minY = Math.min(minY, y);
+            maxY = Math.max(maxY, y);
+        }
+
+        // Verifica se o centro do círculo, somado ao raio, fica dentro do quadrado
+        if (centroCirculo.getX() + raioCirculo < minX || centroCirculo.getX() - raioCirculo > maxX ||
+                centroCirculo.getY() + raioCirculo < minY || centroCirculo.getY() - raioCirculo > maxY) {
+            return false; // Se não estiver dentro do quadrado, o círculo não está contido
+        }
+
+        // Verifica se o centro do círculo está dentro do polígono
+        if (!isPointInsidePolygon(centroCirculo, pontos)) {
+            return false; // Se não estiver dentro do polígono, o círculo não está contido
+        }
+
+        // Se passar por ambas as verificações, o círculo está contido
+        return true;
+    }
+
+    public boolean contains(Poligono poligono) {
+        // Obtém todas as coordenadas do polígono original
+        List<Ponto> coordenadasPoligono = getAllCoordinates();
+
+        // Obtém os vértices do polígono a ser verificado
+        List<Ponto> verticesPoligono = poligono.getPontos();
+
+        // Itera sobre todos os vértices do polígono a ser verificado
+        for (Ponto ponto : verticesPoligono) {
+            // Verifica se o ponto do polígono está dentro ou na borda do polígono original
+            if (!isPointInsidePolygon2(ponto, coordenadasPoligono)) {
+                return false;
+            }
+        }
+
+        // Verifica se o polígono fornecido ultrapassa o polígono original
+        for (Segmento segmento : poligono.getSegmentoDeRetas()) {
+            for (Segmento originalSegment : getSegmentoDeRetas()) {
+                if (segmento.arestasCruzam(originalSegment)) {
+                    return false;
+                }
+            }
+        }
+
+        // Se todos os vértices do polígono a ser verificado estiverem dentro ou na
+        // borda do polígono original,
+        // e o polígono a ser verificado não ultrapassar o polígono original, então o
+        // polígono está contido
+        return true;
+    }
+
+    // Método auxiliar para verificar se um ponto está dentro ou na borda de um
+    // polígono
+    private boolean isPointInsidePolygon2(Ponto ponto, List<Ponto> coordenadasPoligono) {
+        int n = coordenadasPoligono.size();
+        boolean inside = false;
+        int j = n - 1;
+        for (int i = 0; i < n; j = i++) {
+            // Verifica se o ponto está na borda do polígono
+            if (coordenadasPoligono.get(i).equals(ponto) || coordenadasPoligono.get(j).equals(ponto)) {
+                return true;
+            }
+            if (((coordenadasPoligono.get(i).getY() > ponto.getY()) != (coordenadasPoligono.get(j).getY() > ponto
+                    .getY())) &&
+                    (ponto.getX() < (coordenadasPoligono.get(j).getX() - coordenadasPoligono.get(i).getX())
+                            * (ponto.getY() - coordenadasPoligono.get(i).getY())
+                            / (coordenadasPoligono.get(j).getY() - coordenadasPoligono.get(i).getY())
+                            + coordenadasPoligono.get(i).getX())) {
+                inside = !inside;
+            }
+        }
+        return inside;
+    }
+
+    // Método auxiliar para verificar se um ponto está dentro de um polígono
+    private boolean isPointInsidePolygon(Ponto ponto, List<Ponto> coordenadasPoligono) {
+        int n = coordenadasPoligono.size();
+        boolean inside = false;
+        int j = n - 1;
+        for (int i = 0; i < n; j = i++) {
+            if (((coordenadasPoligono.get(i).getY() > ponto.getY()) != (coordenadasPoligono.get(j).getY() > ponto
+                    .getY())) &&
+                    (ponto.getX() < (coordenadasPoligono.get(j).getX() - coordenadasPoligono.get(i).getX())
+                            * (ponto.getY() - coordenadasPoligono.get(i).getY())
+                            / (coordenadasPoligono.get(j).getY() - coordenadasPoligono.get(i).getY())
+                            + coordenadasPoligono.get(i).getX())) {
+                inside = !inside;
+            }
+        }
+        return inside;
     }
 
     public List<Ponto> getAllCoordinates() {
@@ -88,6 +251,7 @@ public class Poligono implements Shape {
 
     /**
      * Obtém a lista de pontos do polígono.
+     * 
      * @return Lista de pontos que formam o polígono.
      */
     public List<Ponto> getPontos() {
@@ -96,6 +260,7 @@ public class Poligono implements Shape {
 
     /**
      * Obtém a lista de segmentos de reta do polígono.
+     * 
      * @return Lista de segmentos de reta que formam as arestas do polígono.
      */
     public List<Segmento> getSegmentoDeRetas() {
@@ -104,6 +269,7 @@ public class Poligono implements Shape {
 
     /**
      * Converte uma string de entrada em uma lista de pontos.
+     * 
      * @param input String de entrada contendo as coordenadas dos pontos.
      * @return Lista de pontos que formam o polígono.
      */
@@ -121,24 +287,34 @@ public class Poligono implements Shape {
 
     /**
      * Verifica se dois polígonos são iguais.
+     * 
      * @param object Objeto a ser comparado.
      * @return true se os polígonos forem iguais, false caso contrário.
      */
     @Override
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null) return false;
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
         Poligono poligono = (Poligono) object;
         if (segmentoDeRetas.size() != poligono.getSegmentoDeRetas().size()) {
             return false;
         }
         List<Segmento> segmentoCopy = new ArrayList<>(poligono.getSegmentoDeRetas());
-        for (int i = 0; i < segmentoDeRetas.size(); i++) {
-            for (int j = 0; j < poligono.getSegmentoDeRetas().size(); j++) {
-                if (segmentoDeRetas.get(i).equals(segmentoCopy.get(j))) {
-                    segmentoCopy.remove(j % poligono.getSegmentoDeRetas().size());
+        for (Segmento segmento : segmentoDeRetas) {
+            boolean found = false;
+            Iterator<Segmento> iterator = segmentoCopy.iterator();
+            while (iterator.hasNext()) {
+                Segmento segmentoPoligono = iterator.next();
+                if (segmento.equals(segmentoPoligono)) {
+                    iterator.remove();
+                    found = true;
                     break;
                 }
+            }
+            if (!found) {
+                return false;
             }
         }
         return segmentoCopy.isEmpty();
@@ -146,6 +322,7 @@ public class Poligono implements Shape {
 
     /**
      * Calcula o código de hash para o polígono.
+     * 
      * @return Código de hash do polígono.
      */
     @Override
@@ -155,6 +332,7 @@ public class Poligono implements Shape {
 
     /**
      * Calcula o centro do polígono.
+     * 
      * @return Ponto representando o centro do polígono.
      */
     public Ponto calcularCentro() {
@@ -171,8 +349,10 @@ public class Poligono implements Shape {
 
     /**
      * Rotaciona o polígono em torno de um ponto central por um determinado ângulo.
+     * 
      * @param anguloGraus Ângulo de rotação em graus.
-     * @param centroide Ponto central em torno do qual o polígono será rotacionado.
+     * @param centroide   Ponto central em torno do qual o polígono será
+     *                    rotacionado.
      * @return Novo polígono rotacionado.
      */
     public Poligono rotacionar(int anguloGraus, Ponto centroide) {
@@ -185,6 +365,7 @@ public class Poligono implements Shape {
 
     /**
      * Realiza uma translação no polígono.
+     * 
      * @param x Deslocamento horizontal.
      * @param y Deslocamento vertical.
      * @return Novo polígono transladado.
@@ -211,6 +392,7 @@ public class Poligono implements Shape {
 
     /**
      * Retorna uma representação textual do polígono.
+     * 
      * @return String representando o polígono.
      */
     @Override
@@ -218,5 +400,4 @@ public class Poligono implements Shape {
         return "Poligono de " + pontos.size() + " vertices: " + getPontos().toString();
     }
 
-   
 }

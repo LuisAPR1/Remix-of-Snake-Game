@@ -28,7 +28,7 @@ public class Segmento {
      */
     private void check(Ponto ponto1, Ponto ponto2) {
         if (ponto1.getX() == ponto2.getX() && ponto1.getY() == ponto2.getY()) {
-            System.out.println("Segmento:vi");
+            System.out.println("Segmehhhhnto:vi");
             System.exit(0);
         }
     }
@@ -119,4 +119,44 @@ public class Segmento {
         double cdcb = produtoVetorial(segmentoDeReta.getPonto2(), segmentoDeReta.getPonto1(), ponto2);
         return abac * abad < 0 && cdca * cdcb < 0;
     }
+
+    /**
+ * Verifica se duas arestas se cruzam ou se intersectam.
+ * @param segmentoDeReta outro segmento de reta.
+ * @return true se as arestas se cruzam ou se intersectam, false caso contrário.
+ */
+/**
+ * Verifica se duas arestas se cruzam.
+ * @param segmentoDeReta outro segmento de reta.
+ * @return true se as arestas se cruzam, false caso contrário.
+ */
+public boolean arestasCruzam2(Segmento segmentoDeReta) {
+    // Verifica se os segmentos compartilham um dos pontos.
+    if (ponto1.equals(segmentoDeReta.getPonto1()) || ponto1.equals(segmentoDeReta.getPonto2()) ||
+        ponto2.equals(segmentoDeReta.getPonto1()) || ponto2.equals(segmentoDeReta.getPonto2())) {
+        return true;
+    }
+    
+    // Calcula o produto vetorial para verificar se as arestas se cruzam.
+    double abac = produtoVetorial(ponto2, ponto1, segmentoDeReta.getPonto1());
+    double abad = produtoVetorial(ponto2, ponto1, segmentoDeReta.getPonto2());
+    double cdca = produtoVetorial(segmentoDeReta.getPonto2(), segmentoDeReta.getPonto1(), ponto1);
+    double cdcb = produtoVetorial(segmentoDeReta.getPonto2(), segmentoDeReta.getPonto1(), ponto2);
+    
+    // Verifica se os segmentos são paralelos.
+    if (abac == 0 && abad == 0 && cdca == 0 && cdcb == 0) {
+        // Se os segmentos são paralelos, verifica se há sobreposição.
+        if (Math.max(ponto1.getX(), ponto2.getX()) < Math.min(segmentoDeReta.getPonto1().getX(), segmentoDeReta.getPonto2().getX()) ||
+            Math.min(ponto1.getX(), ponto2.getX()) > Math.max(segmentoDeReta.getPonto1().getX(), segmentoDeReta.getPonto2().getX()) ||
+            Math.max(ponto1.getY(), ponto2.getY()) < Math.min(segmentoDeReta.getPonto1().getY(), segmentoDeReta.getPonto2().getY()) ||
+            Math.min(ponto1.getY(), ponto2.getY()) > Math.max(segmentoDeReta.getPonto1().getY(), segmentoDeReta.getPonto2().getY())) {
+            return false; // Não há sobreposição, os segmentos não se cruzam.
+        }
+    }
+    
+    // Verifica se os segmentos se cruzam.
+    return abac * abad <= 0 && cdca * cdcb <= 0;
+}
+
+
 }

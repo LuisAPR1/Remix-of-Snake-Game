@@ -1,34 +1,35 @@
-package Ui;
+package UI;
 
-public class TextUi {
+import Core.RasterizationStrategy;
 
-    public void Dysplay()
-    {
-        // int direction = 0;
+public class TextUI implements UI {
+    private RasterizationStrategy rasterizationStrategy;
 
-        // // Loop infinito para permitir que a cobra se mova continuamente
-        // while (true) {
-
-        //     Clean();
-
-        //     // Atualiza e imprime a arena
-        //     a.updateArena(s);
-        //     a.printArena();
-
-        //     // Move a cobra na direção especificada pelo usuário
-        //     s.move(direction);
-        //     try {
-        //         Thread.sleep(1000);
-        //     } catch (InterruptedException e) {
-        //         e.printStackTrace();
-        //     }
-
-        // }
+    public TextUI(RasterizationStrategy rasterizationStrategy) {
+        this.rasterizationStrategy = rasterizationStrategy;
     }
 
-    // public void Clean() {
-    //     System.out.print("\033[H\033[2J");
-    //     System.out.flush();
-    // }
-    
+    @Override
+    public void render() {
+        rasterizationStrategy.render();
+        System.out.println(toString());
+        System.out.println();
+        // Implementação adicional para renderização textual
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < rasterizationStrategy.getGrid().length; i++) {
+            for (int j = 0; j < rasterizationStrategy.getGrid()[i].length; j++) {
+                sb.append(rasterizationStrategy.getGrid()[i][j].getSymbol()).append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public void getInput() {
+       
+    }
 }

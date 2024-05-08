@@ -207,7 +207,7 @@ public class Ponto {
         double y = Math.round(fixo.getyDouble() + ((this.x - fixo.getxDouble()) * Math.sin(Math.toRadians(anguloGraus))
                 + (this.y - fixo.getyDouble()) * Math.cos(Math.toRadians(anguloGraus))));
 
-        return new Ponto((int) x, (int) y);
+        return new Ponto( x,  y);
     }
 
     /**

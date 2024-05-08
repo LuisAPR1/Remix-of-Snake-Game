@@ -1,7 +1,12 @@
 package Core;
 
 import java.awt.Color;
+import java.util.List; // Importe List do pacote java.util
+
+import Geometry.Circle;
+import Geometry.Poligono;
 import Geometry.Ponto;
+import Geometry.Square;
 
 public abstract class AbstractFood<T extends Shape> {
     protected Ponto position;
@@ -18,17 +23,43 @@ public abstract class AbstractFood<T extends Shape> {
         this.color = color;
         this.type = type;
         this.arena = arena;
-        this.position = generatePosition();
     }
 
-    public abstract void spawnFood();
+    public abstract void spawnFood(Arena arena);
 
-    protected Ponto generatePosition() {
-        int[] arenaDimensions = arena.getArenaDimensions();
-        int x = (int) (Math.random() * arenaDimensions[0]);
-        int y = (int) (Math.random() * arenaDimensions[1]);
-        return new Ponto(x, y);
+
+    public boolean isContainedIn(Poligono poligono) {
+        T shape = getShape();
+
+        // Verifica se a forma está contida no polígono
+        if (shape instanceof Circle) {
+            System.out.println("CIRCULO DETECTED");
+
+            return poligono.contains((Circle) shape);
+            
+        } else{
+
+            return poligono.contains((Poligono) shape);
+        }
     }
+    public abstract List<Ponto> SquareVertices();
+
+    public boolean intersect(Poligono poligono) {
+        T shape = getShape();
+
+        // Verifica se a forma está contida no polígono
+        if (shape instanceof Circle) {
+            return poligono.intersect((Circle) shape);
+            
+        } else if (shape instanceof Square) {
+            return poligono.intersect((Square) shape);
+        } else {
+            // Caso a forma não seja um círculo ou quadrado, não podemos verificar a contenção
+            return false;
+        }
+    }
+
+    
 
     // Getters and Setters
     public Ponto getPosition() {

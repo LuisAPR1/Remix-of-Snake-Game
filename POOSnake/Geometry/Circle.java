@@ -11,7 +11,7 @@ public class Circle implements Shape {
 
     public Circle(Ponto centro, int raio) {
         setCentro(centro);
-        setRaio(raio);
+        setRaio(raio/2);
     }
 
     public Ponto getCentro() {
@@ -30,15 +30,14 @@ public class Circle implements Shape {
         int centroX = this.centro.getX();
         int centroY = this.centro.getY();
 
-        // Encontra os limites horizontais e verticais do retângulo circunscrito ao
-        // círculo
+        
+        // Encontra os limites do quadrado que circunscreve o círculo
         int minX = centroX - raio;
         int maxX = centroX + raio;
         int minY = centroY - raio;
         int maxY = centroY + raio;
 
-        // Itera sobre todas as coordenadas inteiras dentro dos limites do retângulo
-        // circunscrito
+        // Itera sobre todas as coordenadas inteiras dentro do quadrado circunscrito
         for (int x = minX; x <= maxX; x++) {
             for (int y = minY; y <= maxY; y++) {
                 // Verifica se a coordenada está dentro do círculo usando a equação do círculo
@@ -57,24 +56,11 @@ public class Circle implements Shape {
     }
 
     public void setRaio(int raio) {
-        if (raio <= 0)
+        if (raio <= 0) {
+            System.out.println("raio:vi");
             System.exit(0);
+        }
         this.raio = raio;
-    }
-
-    public boolean isContainedInPolygon(Poligono poligono) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isContainedInPolygon'");
-    }
-
-    public boolean isContainedInCircle(Circle largerCircle) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isContainedInCircle'");
-    }
-
-    public boolean intersects(Poligono poligono) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'intersects'");
     }
 
 }

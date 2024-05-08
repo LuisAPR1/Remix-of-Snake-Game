@@ -1,5 +1,6 @@
 package Core;
 
+
 import Geometry.Poligono;
 import Geometry.Ponto;
 
@@ -7,6 +8,11 @@ public class Obstacle {
 
     private Poligono obstacle;
     private Ponto position;
+    
+    public void setObstacle(Poligono obstacle) {
+        this.obstacle = obstacle;
+    }
+
     private ObstacleType type;
     private Ponto rotacao;
 
@@ -15,20 +21,24 @@ public class Obstacle {
         S // Estático
     }
 
-    public Obstacle(ObstacleType d, Poligono obstacle, Ponto rotacao) {
-        this.type = d;
+    public Obstacle(Obstacle.ObstacleType obstacleType, Poligono obstacle, Ponto rotacao) {
+        this.type = obstacleType;
         this.obstacle = obstacle;
         this.rotacao = rotacao;
-        spawnObstacle(obstacle, d);
+        
+        spawnObstacle(obstacle, obstacleType);
     }
 
-    public void spawnObstacle(Poligono obstacle, ObstacleType type) {
-        // invariancia nao pode spawnar fora da arena, dentro da cobra nem dentro do
-        // obstaculo e mais pequeno do que a cabeça da cobra
-
-        // TAMANHO DA FRUTA , (int) Math.random() % maxFoodSize
-
+    public void spawnObstacle(Poligono obstacle, ObstacleType type) 
+    {
+    
     }
+
+
+
+
+
+   
 
     public Ponto getPosition() {
         return position;
