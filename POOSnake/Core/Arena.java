@@ -50,7 +50,7 @@ public class Arena {
     public Arena(int arenaDimensionsX, int arenaDimensionsY, int headDimensions, RasterizationType rasterizationType,
             int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
             Ponto rotacao,
-            char interfaceMode, String namePlayer, Scanner scanner) {
+            char interfaceMode, String namePlayer, Scanner scanner, Character movement) {
         // this.grid = new Cell[arenaDimensionsX][arenaDimensionsY];
 
         this.rotacao = rotacao;
@@ -78,10 +78,17 @@ public class Arena {
         }
         this.ui = UIFactory.createUI(interfaceMode, rasterization);
 
-
         // Configura a estratégia de movimento manual
-        MovementStrategy movementStrategy = new ManualMovementStrategy(scanner, this);
-        setMovementStrategy(movementStrategy);
+        if (movement == 'M') {
+            movementStrategy = new ManualMovementStrategy(scanner, this);
+            setMovementStrategy(movementStrategy);
+
+        } else {
+            movementStrategy = new AutomaticMovementStrategy(this);
+            setMovementStrategy(movementStrategy);
+        }
+
+        ui.render();
         startGame();
     }
 
@@ -323,43 +330,45 @@ public class Arena {
 
     // public void Start(Scanner scanner) {
 
-    //     while (true) {
-    //         // Atualiza a arena e imprime seu estado atual10
+    // while (true) {
+    // // Atualiza a arena e imprime seu estado atual10
 
-    //         // Solicita ao jogador que escolha uma direção
-    //         System.out.println("Dir H: " + s.getDirection() + "  " + " Score: " + points);
-    //         System.out.println("Digite uma direção (w, a, s ou d):");
-    //         String input = scanner.nextLine().toLowerCase(); // Converte a entrada para minúsculas para facilitar a
-    //                                                          // comparação
+    // // Solicita ao jogador que escolha uma direção
+    // System.out.println("Dir H: " + s.getDirection() + " " + " Score: " + points);
+    // System.out.println("Digite uma direção (w, a, s ou d):");
+    // String input = scanner.nextLine().toLowerCase(); // Converte a entrada para
+    // minúsculas para facilitar a
+    // // comparação
 
-    //         // Verifica qual tecla foi pressionada e atualiza a direção da cobra
-    //         switch (input) {
-    //             case "w":
-    //                 s.setDirection(180);
+    // // Verifica qual tecla foi pressionada e atualiza a direção da cobra
+    // switch (input) {
+    // case "w":
+    // s.setDirection(180);
 
-    //                 break;
-    //             case "a":
-    //                 s.setDirection(270);
+    // break;
+    // case "a":
+    // s.setDirection(270);
 
-    //                 break;
-    //             case "s":
-    //                 s.setDirection(0);
+    // break;
+    // case "s":
+    // s.setDirection(0);
 
-    //                 break;
-    //             case "d":
-    //                 s.setDirection(90);
+    // break;
+    // case "d":
+    // s.setDirection(90);
 
-    //                 break;
-    //             default:
-    //                 // Se a entrada não for uma direção válida, exibe uma mensagem de erro
-    //                 System.out.println("Entrada inválida. Por favor, digite w, a, s ou d para mover a cobra.");
+    // break;
+    // default:
+    // // Se a entrada não for uma direção válida, exibe uma mensagem de erro
+    // System.out.println("Entrada inválida. Por favor, digite w, a, s ou d para
+    // mover a cobra.");
 
-    //                 continue; // Retorna ao início do loop para solicitar outra entrada válida
-    //         }
+    // continue; // Retorna ao início do loop para solicitar outra entrada válida
+    // }
 
-    //         Frame();
+    // Frame();
 
-    //     }
+    // }
 
     // }
 
