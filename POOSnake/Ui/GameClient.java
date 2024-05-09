@@ -40,9 +40,6 @@ public class GameClient {
         char obstacleTypeString = scanner.next().charAt(0);
         ObstacleType obstacleType = ObstacleType.valueOf(Character.toString(obstacleTypeString));
 
-        System.out.println("Digite o nome do Jogador:");
-        String namePlayer = scanner.next();
-
         Ponto rotation;
         if (obstacleType == ObstacleType.S) {
             rotation = null;
@@ -53,6 +50,10 @@ public class GameClient {
             int pointY = scanner.nextInt();
             rotation = new Ponto(pointX, pointY);
         }
+        System.out.println("Digite o nome do Jogador:");
+        String namePlayer = scanner.next();
+
+        
 
         System.out.println("Escolha o modo de interface (G para gráfico, T para textual):");
         char interfaceMode = scanner.next().charAt(0);
