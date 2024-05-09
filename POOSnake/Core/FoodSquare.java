@@ -42,9 +42,17 @@ public class FoodSquare extends AbstractFood<Poligono> {
         int minY = 1; // Menor valor possível para a coordenada Y
         int maxY = arenaDimensions[1] - sideLength - 1; // Maior valor possível para a coordenada Y, considerando o tamanho da comida
     
-        // Gera aleatoriamente uma posição dentro desses limites
-        int x = (int) (Math.random() * (maxX - minX + 1)) + minX; // Gera um valor aleatório para X dentro dos limites
-        int y = (int) (Math.random() * (maxY - minY + 1)) + minY; // Gera um valor aleatório para Y dentro dos limites
+        // Determina o número de vezes que a coordenada X ou Y deve ser múltiplo do tamanho da cabeça da snake
+        int multipleX = (maxX - minX) / headSize;
+        int multipleY = (maxY - minY) / headSize;
+    
+        // Gera aleatoriamente um número dentro do intervalo de múltiplos do tamanho da cabeça
+        int randMultipleX = (int) (Math.random() * multipleX);
+        int randMultipleY = (int) (Math.random() * multipleY);
+    
+        // Calcula a posição baseada no múltiplo e no tamanho da cabeça
+        int x = randMultipleX * headSize;
+        int y = randMultipleY * headSize;
     
         return new Ponto(x, y);
     }
