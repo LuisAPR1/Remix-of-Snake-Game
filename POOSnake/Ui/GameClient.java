@@ -13,6 +13,9 @@ public class GameClient {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+
+        System.out.println("Digite o modo de jogo (A para Automatico, M para Manual):");
+        String Movement = scanner.next();
         System.out.println("Digite a largura da arena:");
         int arenaDimensionsX = scanner.nextInt();
         System.out.println("Digite a altura da arena:");
@@ -60,7 +63,7 @@ public class GameClient {
         // Criação do objeto Game com os valores inseridos
         @SuppressWarnings("unused")
         Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationtype, foodDimensions,
-                foodType, numObstacles, obstacleType, rotacao ,interfaceMode, namePlayer, scanner);
+                foodType, numObstacles, obstacleType, rotacao ,interfaceMode, namePlayer, scanner, Movement);
 
 
         // Agora você tem um objeto Game pronto para uso!
