@@ -324,6 +324,7 @@ public class Arena {
                     System.out.println("snake saiu da arena");
                     updateRank();
                     ui.render();
+                    Rank.printLeaderboard();
                     System.exit(0);
                 }
             }
@@ -346,6 +347,7 @@ public class Arena {
                     updateRank();
                     // Retorna verdadeiro indicando que houve colisão
                     ui.render();
+                    Rank.printLeaderboard();
                     System.exit(0);
                     return true;
                 }

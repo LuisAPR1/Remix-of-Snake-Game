@@ -32,7 +32,7 @@ public class Rank {
     printLeaderboard();
 }
 
-private void printLeaderboard() {
+public static void printLeaderboard() {
     // Lê o conteúdo do arquivo "rank.txt" e imprime a leaderboard dos jogadores
     System.out.println("-----LEADERBOARD-----");
 
@@ -44,7 +44,7 @@ private void printLeaderboard() {
     }
 }
 
-private List<Player> readRankFromFile() {
+private static List<Player> readRankFromFile() {
     List<Player> leaderboard = new ArrayList<>();
 
     try (BufferedReader reader = new BufferedReader(new FileReader("rank.txt"))) {
@@ -74,6 +74,12 @@ public void writeToFile() {
                                         .sorted(Comparator.comparingInt(Player::getScore).reversed())
                                         .collect(Collectors.toList());
 
+    // Log para verificar os jogadores ordenados
+    System.out.println("Jogadores ordenados:");
+    for (Player player : sortedPlayers) {
+        System.out.println(player.getName() + ", " + player.getScore());
+    }
+
     // Escrevendo os jogadores no arquivo
     try (FileWriter writer = new FileWriter("rank.txt")) {
         for (Player player : sortedPlayers) {
@@ -84,5 +90,6 @@ public void writeToFile() {
         System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
     }
 }
+
 
 }
