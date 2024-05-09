@@ -229,7 +229,7 @@ public class Arena {
             // Verifica se algum quadrado intersecta os polígonos dos obstáculos
             for (Obstacle obstacle : obstacles) {
 
-                if (square.intersect(obstacle.getObstacle()) || square.contains(obstacle.getObstacle())) {
+                if (square.intersect(obstacle.getObstacle()) || square.contains(obstacle.getObstacle()) || square.distance(obstacle.getObstacle())) {
                     // Se houver interseção, a cobra colidiu com um obstáculo
                     System.out.println("Colisao snake com objeto");
                     updateRank();
