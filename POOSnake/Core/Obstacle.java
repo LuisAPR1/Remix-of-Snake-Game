@@ -29,9 +29,10 @@ public class Obstacle {
         spawnObstacle(obstacle, obstacleType);
     }
 
+
     public void spawnObstacle(Poligono obstacle, ObstacleType type) 
     {
-    
+        
     }
 
 

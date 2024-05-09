@@ -67,7 +67,11 @@ public class Ponto {
         double dy = y - p.y;
         return (int) Math.sqrt(dx * dx + dy * dy);
     }
-
+    public double distDouble(Ponto p) {
+        double dx = xDouble - p.x;
+        double dy = yDouble - p.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
     /**
      * Obtém a coordenada x do ponto.
      * 

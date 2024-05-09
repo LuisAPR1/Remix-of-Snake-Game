@@ -51,8 +51,6 @@ public class Square extends Retangulo {
         }
     }
 
-     
-
     /**
      * Rotaciona o quadrado em torno de um ponto (centroide) por um determinado
      * ângulo.
@@ -67,6 +65,29 @@ public class Square extends Retangulo {
         Poligono p = super.rotacionar(anguloGraus, centroide);
         Square end = new Square(p.getPontos());
         return end;
+    }
+
+    public boolean distance(Poligono poligono) {
+        // Obtém o centro do polígono fornecido
+        Ponto centroPoligono = poligono.calcularCentro();
+
+        // Obtém o centro do quadrado
+        Ponto centroQuadrado = calcularCentro();
+
+        // Calcula a distância entre os centros dos dois polígonos
+        double distancia = centroQuadrado.distDouble(centroPoligono);
+
+        // Verifica se a distância é menor que o tamanho do lado do quadrado
+        return distancia < tamanhoLado();
+    }
+
+    public double tamanhoLado() {
+        // Obtém dois vértices opostos do quadrado
+        Ponto ponto1 = getPontos().get(0);
+        Ponto ponto2 = getPontos().get(1);
+    
+        // Calcula a distância entre esses dois pontos, que é o tamanho do lado do quadrado
+        return ponto1.dist(ponto2);
     }
 
     /**
