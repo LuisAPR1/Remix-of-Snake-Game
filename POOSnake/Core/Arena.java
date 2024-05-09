@@ -240,6 +240,7 @@ public class Arena {
                     // Se algum ponto estiver fora dos limites, a cobra saiu da arena
                     System.out.println("snake saiu da arena");
                     updateRank();
+                    ui.render();
                     System.exit(0);
                 }
             }
@@ -261,6 +262,7 @@ public class Arena {
                     System.out.println("Colisao snake com objeto");
                     updateRank();
                     // Retorna verdadeiro indicando que houve colisão
+                    ui.render();
                     System.exit(0);
                     return true;
                 }
