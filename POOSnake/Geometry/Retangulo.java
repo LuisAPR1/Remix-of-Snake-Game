@@ -66,7 +66,7 @@ public class Retangulo extends Poligono {
             System.exit(0);
         List<Ponto> pontos = new ArrayList<>();
         for (int i = 0; i < parts.length; i += 2)
-            pontos.add(new Ponto(Integer.parseInt(parts[i]), Integer.parseInt(parts[i + 1])));
+            pontos.add(new Ponto(Double.parseDouble(parts[i]), Double.parseDouble(parts[i + 1])));
         return pontos;
     }
 

@@ -177,9 +177,9 @@ public class Ponto {
      */
     public Ponto rotacionar(int anguloGraus, Ponto fixo) {
 
-        double x = Math.round((fixo.getX() + (this.x - fixo.getX()) * Math.cos(Math.toRadians(anguloGraus))
-                - (this.y - fixo.getY()) * Math.sin(Math.toRadians(anguloGraus))));
-        double y = Math.round(fixo.getY() + ((this.x - fixo.getX()) * Math.sin(Math.toRadians(anguloGraus))
+        double x = (fixo.getX() + (this.x - fixo.getX()) * Math.cos(Math.toRadians(anguloGraus))
+                - (this.y - fixo.getY()) * Math.sin(Math.toRadians(anguloGraus)));
+        double y = (fixo.getY() + ((this.x - fixo.getX()) * Math.sin(Math.toRadians(anguloGraus))
                 + (this.y - fixo.getY()) * Math.cos(Math.toRadians(anguloGraus))));
         return new Ponto( x,  y);
     }

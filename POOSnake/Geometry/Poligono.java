@@ -291,7 +291,7 @@ public class Poligono implements Shape {
 
         List<Ponto> pontos = new ArrayList<>();
         for (int i = 1, count = 0; count < Integer.parseInt(parts[0]); i += 2, count++) {
-            pontos.add(new Ponto(Integer.parseInt(parts[i]), Integer.parseInt(parts[i + 1])));
+            pontos.add(new Ponto(Double.parseDouble(parts[i]), Double.parseDouble(parts[i + 1])));
         }
         return pontos;
     }

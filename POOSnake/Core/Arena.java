@@ -453,7 +453,7 @@ public class Arena {
             Poligono obstacleShape = obstacle.getObstacle();
 
             // Rotaciona o polígono em torno do ponto de rotação (0, 0)
-            Poligono rotatedObstacle = obstacleShape.rotacionar(90, rotacao);
+            Poligono rotatedObstacle = obstacleShape.rotacionar(10, rotacao);
 
             // Atualiza o polígono do obstáculo com a nova posição após a rotação
             obstacle.setObstacle(rotatedObstacle);
