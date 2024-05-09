@@ -135,6 +135,7 @@ public class Arena {
                 // Se houver interseção, significa que a cabeça da cobra bateu em alguma parte
                 updateRank();
                 // do seu corpo
+                System.exit(0);
                 return true;
             }
         }
@@ -152,6 +153,7 @@ public class Arena {
             if (food.intersect(square)) {
                 System.out.println("snake colidiu food");
                 updateRank();
+                System.exit(0);
                 return true;
             }
         }
@@ -231,7 +233,7 @@ public class Arena {
                     // Se algum ponto estiver fora dos limites, a cobra saiu da arena
                     System.out.println("snake saiu da arena");
                     updateRank();
-
+                    System.exit(0);
                 }
             }
         }
@@ -252,6 +254,7 @@ public class Arena {
                     System.out.println("Colisao snake com objeto");
                     updateRank();
                     // Retorna verdadeiro indicando que houve colisão
+                    System.exit(0);
                     return true;
                 }
             }
