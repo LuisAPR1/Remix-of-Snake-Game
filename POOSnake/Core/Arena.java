@@ -230,6 +230,8 @@ public class Arena {
             if (head.intersect2(squares.get(i))) {
                 // Se houver interseção, significa que a cabeça da cobra bateu em alguma parte
                 updateRank();
+                ui.render();
+                Rank.printLeaderboard();
                 System.exit(0);
                 return true;
             }
