@@ -79,10 +79,10 @@ public class Retangulo extends Poligono {
      * @return valor do produto escalar.
      */
     public double produtoEscalar(Ponto a, Ponto b, Ponto c) {
-        int vetor1x = b.getX() - a.getX();
-        int vetor1y = b.getY() - a.getY();
-        int vetor2x = c.getX() - b.getX();
-        int vetor2y = c.getY() - b.getY();
+        double vetor1x = b.getX() - a.getX();
+        double vetor1y = b.getY() - a.getY();
+        double vetor2x = c.getX() - b.getX();
+        double vetor2y = c.getY() - b.getY();
 
         double norma1 = Math.sqrt(Math.pow(vetor1x, 2) + Math.pow(vetor1y, 2));
         double norma2 = Math.sqrt(Math.pow(vetor2x, 2) + Math.pow(vetor2y, 2));

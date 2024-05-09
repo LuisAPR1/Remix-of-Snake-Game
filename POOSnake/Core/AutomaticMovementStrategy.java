@@ -1,11 +1,14 @@
 package Core;
 
 public class AutomaticMovementStrategy implements MovementStrategy {
+    @SuppressWarnings("unused")
+    private Arena arena;
+
+    public AutomaticMovementStrategy(Arena arena) {
+        this.arena = arena;
+    }
+
     @Override
-    public void move(Snake snake) {
-        // Implementação do movimento automático
-        // Exemplo: mudar sempre na mesma direção ou mudar aleatoriamente dentro de limites seguros
-        // int currentDirection = snake.getDirection(); // Supondo que haja um getter para direction
-        // snake.move(currentDirection);
+    public void input() {
     }
 }

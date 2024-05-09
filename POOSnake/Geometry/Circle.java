@@ -27,15 +27,15 @@ public class Circle implements Shape {
         List<Ponto> coordenadas = new ArrayList<>();
 
         // Obtém as coordenadas do centro do círculo
-        int centroX = this.centro.getX();
-        int centroY = this.centro.getY();
+        double centroX = this.centro.getX();
+        double centroY = this.centro.getY();
 
         
         // Encontra os limites do quadrado que circunscreve o círculo
-        int minX = centroX - raio;
-        int maxX = centroX + raio;
-        int minY = centroY - raio;
-        int maxY = centroY + raio;
+        int minX = (int)centroX - raio;
+        int maxX = (int)centroX + raio;
+        int minY = (int)centroY - raio;
+        int maxY = (int)centroY + raio;
 
         // Itera sobre todas as coordenadas inteiras dentro do quadrado circunscrito
         for (int x = minX; x <= maxX; x++) {
