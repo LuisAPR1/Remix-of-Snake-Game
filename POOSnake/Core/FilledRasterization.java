@@ -54,22 +54,25 @@ class FilledRasterization implements RasterizationStrategy {
             int maxX = Integer.MIN_VALUE;
             int maxY = Integer.MIN_VALUE;
             for (Ponto p : vertices) {
-                minX = (int)Math.min(minX, p.getX());
-                minY = (int)Math.min(minY, p.getY());
-                maxX = (int)Math.max(maxX, p.getX());
-                maxY = (int)Math.max(maxY, p.getY());
+                minX = (int) Math.min(minX, p.getX());
+                minY = (int) Math.min(minY, p.getY());
+                maxX = (int) Math.max(maxX, p.getX());
+                maxY = (int) Math.max(maxY, p.getY());
             }
-        
+    
             // Preenche as células dentro do polígono definido pelos vértices
-            for (int x = minX; x <= maxX; x++) {
-                for (int y = minY; y <= maxY; y++) {
-                    if (isInsidePolygon(x, y, vertices)) {
-                        grid[x - 1][y - 1] = Cell.valueOf(String.valueOf(cellType)); // Ajusta as coordenadas para o índice da matriz
+            for (int x = minX; x < maxX; x++) {
+                for (int y = minY; y < maxY; y++) {
+                    if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length &&
+                        isInsidePolygon(x, y, vertices)) {
+                        // Ajusta as coordenadas para o índice da matriz
+                        grid[x][y] = Cell.valueOf(cellType);
                     }
                 }
             }
         }
     }
+    
     
     private boolean checkIfWithinBounds(List<Ponto> vertices) {
         for (Ponto p : vertices) {

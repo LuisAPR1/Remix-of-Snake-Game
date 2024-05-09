@@ -93,6 +93,7 @@ public class Arena {
         while (true) {
             // Captura a entrada do usuário e executa o movimento
             movementStrategy.input();
+            ui.render();
             // Atualiza o frame do jogo
         }
     }
@@ -253,6 +254,8 @@ public class Arena {
                     // Se houver interseção, a cobra colidiu com um obstáculo
                     System.out.println("Colisao snake com objeto");
                     updateRank();
+                    ui.render();
+                    
                     // Retorna verdadeiro indicando que houve colisão
                     System.exit(0);
                     return true;
