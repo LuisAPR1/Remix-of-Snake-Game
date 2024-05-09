@@ -107,20 +107,22 @@ public class Arena {
     public int calculateBestDirection(int currentDirection) {
         // Obtém a posição da cabeça da cobra
         Ponto headPosition = s.getSnake().get(0).calcularCentro();
-    
+
         // Obtém a posição da comida
         Ponto foodPosition = fruit.getPosition();
-    
+
         // Calcula a distância entre a cabeça da cobra e a comida
         double distanceX = Math.abs(headPosition.getX() - foodPosition.getX());
         double distanceY = Math.abs(headPosition.getY() - foodPosition.getY());
-    
-        // Inicializa a melhor direção como a direção oposta à direção atual (para garantir que seja alterada)
+
+        // Inicializa a melhor direção como a direção oposta à direção atual (para
+        // garantir que seja alterada)
         int bestDirection = currentDirection;
-    
+
         // Verifica se a comida está mais próxima no eixo X ou no eixo Y
         if (distanceX < distanceY) {
-            // Se a comida estiver mais próxima no eixo X, mova-se horizontalmente (esquerda ou direita)
+            // Se a comida estiver mais próxima no eixo X, mova-se horizontalmente (esquerda
+            // ou direita)
             if (headPosition.getX() < foodPosition.getX()) {
                 // Comida está à direita da cabeça da cobra
                 if (currentDirection != 90) {
@@ -153,7 +155,8 @@ public class Arena {
                 }
             }
         } else {
-            // Se a comida estiver mais próxima no eixo Y, mova-se verticalmente (cima ou baixo)
+            // Se a comida estiver mais próxima no eixo Y, mova-se verticalmente (cima ou
+            // baixo)
             if (headPosition.getY() < foodPosition.getY()) {
                 // Comida está abaixo da cabeça da cobra
                 if (currentDirection != 0) {
@@ -186,11 +189,9 @@ public class Arena {
                 }
             }
         }
-    
+
         return bestDirection;
     }
-    
-    
 
     private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
         boolean foodIntersects = true;
@@ -219,17 +220,29 @@ public class Arena {
 
     public boolean checkSnakeSelfCollision() {
         // Obtém os quadrados da cobra
+        List<Square> squares = s.getSnake();
 
         // Obtém a cabeça da cobra (primeiro quadrado)
-        Square head = s.getSnake().get(0);
+        Square head = squares.get(0);
 
         // Verifica se a cabeça da cobra intersecta com algum outro quadrado do corpo
-
-        for (int i = 1; i < s.getSnake().size(); i++) {
-            if (head.intersect2(s.getSnake().get(i))) {
+        for (int i = 1; i < squares.size(); i++) {
+            if (head.intersect2(squares.get(i))) {
                 // Se houver interseção, significa que a cabeça da cobra bateu em alguma parte
                 updateRank();
-                // do seu corpo
+                System.exit(0);
+                return true;
+            }
+
+            // Verifica se os 4 pontos da cabeça são iguais aos 4 pontos de qualquer outra
+            // parte do corpo
+            Square bodyPart = squares.get(i);
+            List<Ponto> headPoints = head.getPontos();
+            List<Ponto> bodyPartPoints = bodyPart.getPontos();
+
+            if (headPoints.containsAll(bodyPartPoints) && bodyPartPoints.containsAll(headPoints)) {
+                // Se todos os pontos são iguais, houve colisão
+                updateRank();
                 System.exit(0);
                 return true;
             }
@@ -319,7 +332,7 @@ public class Arena {
             for (Ponto point : squareCoordinates) {
                 // Verifica se o ponto está fora dos limites da arena
                 if (point.getX() < 0 || point.getX() > arenaWidth || point.getY() < 0
-                        || point.getY() > arenaHeight ) {
+                        || point.getY() > arenaHeight) {
                     // Se algum ponto estiver fora dos limites, a cobra saiu da arena
                     System.out.println("snake saiu da arena");
                     updateRank();
@@ -415,14 +428,13 @@ public class Arena {
         return new Poligono(combinedPoints);
     }
 
-
     public void Frame() {
         ui.render();
         s.move();
         CheckFoodEaten();
         checkSnakeObstacleColision();
         checkSnakeInsideArena();
-        System.out.println(calculateBestDirection(s.getDirection()));
+        checkSnakeSelfCollision();
         // if (this.obstacletype == Obstacle.ObstacleType.D) {
         // obstaclesmove();
         // System.out.println("YESS");
