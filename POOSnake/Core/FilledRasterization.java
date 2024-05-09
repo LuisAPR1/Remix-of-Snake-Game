@@ -44,35 +44,35 @@ class FilledRasterization implements RasterizationStrategy {
     }
 
     private void drawObject(Poligono object, String cellType) {
-        List<Ponto> vertices = object.getPontos();
-    
-        // Verifica se todos os pontos do objeto estão dentro dos limites do grid
-        if (checkIfWithinBounds(vertices)) {
-            // Encontra os limites do objeto
-            int minX = Integer.MAX_VALUE;
-            int minY = Integer.MAX_VALUE;
-            int maxX = Integer.MIN_VALUE;
-            int maxY = Integer.MIN_VALUE;
-            for (Ponto p : vertices) {
-                minX = (int) Math.min(minX, p.getX());
-                minY = (int) Math.min(minY, p.getY());
-                maxX = (int) Math.max(maxX, p.getX());
-                maxY = (int) Math.max(maxY, p.getY());
-            }
-    
-            // Preenche as células dentro do polígono definido pelos vértices
-            for (int x = minX; x < maxX; x++) {
-                for (int y = minY; y < maxY; y++) {
-                    if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length &&
-                        isInsidePolygon(x, y, vertices)) {
-                        // Ajusta as coordenadas para o índice da matriz
-                        grid[x][y] = Cell.valueOf(cellType);
-                    }
+    List<Ponto> vertices = object.getPontos();
+
+    // Verifica se todos os pontos do objeto estão dentro dos limites do grid
+    if (checkIfWithinBounds(vertices)) {
+        // Encontra os limites do objeto
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        for (Ponto p : vertices) {
+            minX = (int) Math.min(minX, p.getX());
+            minY = (int) Math.min(minY, p.getY());
+            maxX = (int) Math.max(maxX, p.getX());
+            maxY = (int) Math.max(maxY, p.getY());
+        }
+
+        // Preenche as células dentro do polígono definido pelos vértices
+        for (int x = minX; x < maxX; x++) {
+            for (int y = minY; y < maxY; y++) {
+                if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length &&
+                    isInsidePolygon(x, y, vertices)) {
+                    // Ajusta as coordenadas para o índice da matriz
+                    grid[x][y] = Cell.valueOf(cellType);
                 }
             }
         }
     }
-    
+}
+
     
     private boolean checkIfWithinBounds(List<Ponto> vertices) {
         for (Ponto p : vertices) {
