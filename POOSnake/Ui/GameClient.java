@@ -39,6 +39,10 @@ public class GameClient {
         String obstacleTypeString = scanner.next();
         ObstacleType obstacleType = ObstacleType.valueOf(obstacleTypeString);
 
+        System.out.println("Digite o nome do Jogador:");
+        String namePlayer = scanner.next();
+
+
         Ponto rotacao;
         if (obstacleType==ObstacleType.S) {
             rotacao = null;
@@ -55,7 +59,7 @@ public class GameClient {
        
         // Criação do objeto Game com os valores inseridos
         Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationtype, foodDimensions,
-                foodType, numObstacles, obstacleType, rotacao ,interfaceMode);
+                foodType, numObstacles, obstacleType, rotacao ,interfaceMode, namePlayer);
 
         game.Start(scanner);
 

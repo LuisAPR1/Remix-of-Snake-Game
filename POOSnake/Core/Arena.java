@@ -1,6 +1,10 @@
 package Core;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,6 +34,9 @@ public class Arena {
     Core.Obstacle.ObstacleType obstacletype;
     Ponto rotacao;
     int points;
+    List<Player> players;
+    String namePlayer;
+    Rank rank;
 
     public int getHeadDimensions() {
         return headDimensions;
@@ -40,19 +47,20 @@ public class Arena {
     UI ui;
 
     public Arena(int arenaDimensionsX, int arenaDimensionsY, int headDimensions, RasterizationType rasterizationType,
-            int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
-            Ponto rotacao,
-            char interfaceMode) {
+            int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,Ponto rotacao,
+            char interfaceMode, String namePlayer) {
         // this.grid = new Cell[arenaDimensionsX][arenaDimensionsY];
 
-        this.rotacao = rotacao;
-        this.obstacletype = obstacleType;
+        this.rotacao=rotacao;
+        this.obstacletype= obstacleType;
         this.arenaDimensions[0] = arenaDimensionsX;
         this.arenaDimensions[1] = arenaDimensionsY;
         this.foodDimensions = foodDimensions;
         this.headDimensions = headDimensions;
         this.rasterization = rasterizationType;
         this.foodtype = foodType;
+        this.namePlayer = namePlayer;
+        
 
         createObstacles(numObstacles, obstacleType, arenaDimensions, this.headDimensions);
 
@@ -108,6 +116,7 @@ public class Arena {
         for (int i = 1; i < s.getSnake().size(); i++) {
             if (head.intersect2(s.getSnake().get(i))) {
                 // Se houver interseção, significa que a cabeça da cobra bateu em alguma parte
+                updateRank();
                 // do seu corpo
                 return true;
             }
@@ -125,6 +134,7 @@ public class Arena {
         for (Square square : squares) {
             if (food.intersect(square)) {
                 System.out.println("snake colidiu food");
+                updateRank();
                 return true;
             }
         }
@@ -156,7 +166,7 @@ public class Arena {
             pontos.add(new Ponto(posX + headDimensions, posY + headDimensions));
             pontos.add(new Ponto(posX, posY + headDimensions));
             Poligono obstacleShape = new Poligono(pontos);
-            Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, rotacao);
+            Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
             obstacles.add(obstacle);
         }
     }
@@ -203,6 +213,7 @@ public class Arena {
                         || point.getY() > arenaHeight + 1) {
                     // Se algum ponto estiver fora dos limites, a cobra saiu da arena
                     System.out.println("snake saiu da arena");
+                    updateRank();
 
                 }
             }
@@ -221,6 +232,7 @@ public class Arena {
                 if (square.intersect(obstacle.getObstacle()) || square.contains(obstacle.getObstacle())) {
                     // Se houver interseção, a cobra colidiu com um obstáculo
                     System.out.println("Colisao snake com objeto");
+                    updateRank();
                     // Retorna verdadeiro indicando que houve colisão
                     return true;
                 }
@@ -232,6 +244,8 @@ public class Arena {
     }
 
     public void CheckFoodEaten() {
+
+       
 
         Poligono square;
         if (s.getSnake().size() >= 2) {
@@ -320,7 +334,7 @@ public class Arena {
                 default:
                     // Se a entrada não for uma direção válida, exibe uma mensagem de erro
                     System.out.println("Entrada inválida. Por favor, digite w, a, s ou d para mover a cobra.");
-
+                    
                     continue; // Retorna ao início do loop para solicitar outra entrada válida
             }
 
@@ -336,29 +350,79 @@ public class Arena {
         CheckFoodEaten();
         checkSnakeObstacleColision();
         checkSnakeInsideArena();
-
-        // obstaclesmove();
+        // if (this.obstacletype == Obstacle.ObstacleType.D) {
+        //     obstaclesmove();   
+        //     System.out.println("YESS"); 
+        // }
+        
 
         ui.render();
 
+
+
     }
 
-    
     @SuppressWarnings("unused")
     private void obstaclesmove() {
         // Itera sobre todos os obstáculos na lista
         for (Obstacle obstacle : obstacles) {
             // Obtém o polígono do obstáculo
-
-            // Poligono obstacleShape = obstacle.getObstacle();
-
-            // // Rotaciona o polígono em torno do ponto de rotação (0, 0)
-            // Poligono rotatedObstacle = obstacleShape.rotacionar(10, null);
-
+            Poligono obstacleShape = obstacle.getObstacle();
+    
+            // Rotaciona o polígono em torno do ponto de rotação (0, 0)
+            Poligono rotatedObstacle = obstacleShape.rotacionar(10, rotacao);
+    
             // Atualiza o polígono do obstáculo com a nova posição após a rotação
-            System.out.println("obstaculo posicao " + obstacle.getObstacle().toString());
-            obstacle.setObstacle(obstacle.rotate(90));
+            obstacle.setObstacle(rotatedObstacle);
         }
     }
+    
+    
+    public void updateRank() {
+        // Leitura do conteúdo do arquivo para obter os jogadores existentes
+        List<Player> existingPlayers = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("rank.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(", ");
+                String playerName = parts[0];
+                int playerScore = Integer.parseInt(parts[1]);
+                existingPlayers.add(new Player(playerName, playerScore));
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        }
 
+        // Verificação se o jogador atual já está na lista
+        boolean playerExists = false;
+        for (Player player : existingPlayers) {
+            if (player.getName().equals(namePlayer)) {
+                playerExists = true;
+                // Se o jogador existir, atualizamos seu resultado se for maior
+                if (points > player.getScore()) {
+                    player.setScore(points);
+                    System.out.println("Pontuação atualizada para o jogador " + namePlayer + ": " + points);
+                    break; // Não é necessário continuar a busca
+                }
+            }
+        }
+
+        // Se o jogador não existir na lista, adicionamos ele
+        if (!playerExists) {
+            existingPlayers.add(new Player(namePlayer, points));
+            System.out.println("Novo jogador adicionado: " + namePlayer + ", Pontuação: " + points);
+        }
+
+        // Escrevendo a lista atualizada no arquivo
+        try (FileWriter writer = new FileWriter("rank.txt")) {
+            for (Player player : existingPlayers) {
+                writer.write(player.getName() + ", " + player.getScore() + "\n");
+            }
+            System.out.println("Rank atualizado e escrito no arquivo 'rank.txt'");
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
+    }
+    
 }
+

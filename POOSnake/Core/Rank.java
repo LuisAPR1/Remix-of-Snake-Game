@@ -26,7 +26,7 @@ public class Rank {
         writeToFile();
     }
 
-    private void writeToFile() {
+    public void writeToFile() {
         // Ordenando os jogadores pelo score em ordem decrescente
         List<Player> sortedPlayers = Players.stream()
                                             .sorted(Comparator.comparingInt(Player::getScore).reversed())
