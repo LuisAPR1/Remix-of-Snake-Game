@@ -50,7 +50,7 @@ public class Arena {
     public Arena(int arenaDimensionsX, int arenaDimensionsY, int headDimensions, RasterizationType rasterizationType,
             int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
             Ponto rotacao,
-            char interfaceMode, String namePlayer, Scanner scanner, String movement) {
+            char interfaceMode, String namePlayer, Scanner scanner, Character movement) {
         // this.grid = new Cell[arenaDimensionsX][arenaDimensionsY];
 
         this.rotacao = rotacao;
@@ -79,12 +79,12 @@ public class Arena {
         this.ui = UIFactory.createUI(interfaceMode, rasterization);
 
         // Configura a estratégia de movimento manual
-        if (movement == "M") {
+        if (movement == 'M') {
             movementStrategy = new ManualMovementStrategy(scanner, this);
             setMovementStrategy(movementStrategy);
 
         } else {
-            movementStrategy = new ManualMovementStrategy(scanner, this);
+            movementStrategy = new AutomaticMovementStrategy(this);
             setMovementStrategy(movementStrategy);
         }
 

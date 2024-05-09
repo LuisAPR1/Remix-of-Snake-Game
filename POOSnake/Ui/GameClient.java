@@ -1,6 +1,5 @@
 package UI;
 
-
 import java.util.Scanner;
 
 import Core.Arena;
@@ -13,59 +12,56 @@ public class GameClient {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-
-        System.out.println("Digite o modo de jogo (A para Automatico, M para Manual):");
-        String Movement = scanner.next();
+        System.out.println("Digite o modo de jogo (A para Automático, M para Manual):");
+        char movement = scanner.next().charAt(0);
         System.out.println("Digite a largura da arena:");
         int arenaDimensionsX = scanner.nextInt();
         System.out.println("Digite a altura da arena:");
         int arenaDimensionsY = scanner.nextInt();
 
-        System.out.println("Digite as dimensoes da cabeça:");
+        System.out.println("Digite as dimensões da cabeça:");
         int headDimensions = scanner.nextInt();
 
         System.out.println("Escolha o tipo de rasterização (O para contorno, F para preenchido):");
-        String rasterization = scanner.next();
-        RasterizationType rasterizationtype = RasterizationType.valueOf(rasterization);
+        char rasterization = scanner.next().charAt(0);
+        RasterizationType rasterizationType = RasterizationType.valueOf(Character.toString(rasterization));
 
-        System.out.println("Digite a dimensao da commida:");
+        System.out.println("Digite a dimensão da comida:");
         int foodDimensions = scanner.nextInt();
 
-        System.out.println("Escolha o tipo de comida (C para circulo, S para quadrado):");
-        String foodTypeString = scanner.next();
-        FoodType foodType = FoodType.valueOf(foodTypeString);
+        System.out.println("Escolha o tipo de comida (C para círculo, S para quadrado):");
+        char foodTypeString = scanner.next().charAt(0);
+        FoodType foodType = FoodType.valueOf(Character.toString(foodTypeString));
 
         System.out.println("Digite quantos obstáculos devem existir:");
         int numObstacles = scanner.nextInt();
 
-        System.out.println("Escolha o tipo de obstaculos (D para dinammicos, S para estaticos):");
-        String obstacleTypeString = scanner.next();
-        ObstacleType obstacleType = ObstacleType.valueOf(obstacleTypeString);
+        System.out.println("Escolha o tipo de obstáculos (D para dinâmicos, S para estáticos):");
+        char obstacleTypeString = scanner.next().charAt(0);
+        ObstacleType obstacleType = ObstacleType.valueOf(Character.toString(obstacleTypeString));
 
         System.out.println("Digite o nome do Jogador:");
         String namePlayer = scanner.next();
 
-
-        Ponto rotacao;
-        if (obstacleType==ObstacleType.S) {
-            rotacao = null;
-        }else{
-            System.out.println("Digite x do ponto de rotacao:");
-            int pontox = scanner.nextInt();
-            System.out.println("Digite y do ponto de rotacao:");
-            int pontoy = scanner.nextInt();
-            rotacao = new Ponto(pontox,pontoy);
+        Ponto rotation;
+        if (obstacleType == ObstacleType.S) {
+            rotation = null;
+        } else {
+            System.out.println("Digite x do ponto de rotação:");
+            int pointX = scanner.nextInt();
+            System.out.println("Digite y do ponto de rotação:");
+            int pointY = scanner.nextInt();
+            rotation = new Ponto(pointX, pointY);
         }
 
         System.out.println("Escolha o modo de interface (G para gráfico, T para textual):");
         char interfaceMode = scanner.next().charAt(0);
-       
-        // Criação do objeto Game com os valores inseridos
+
+        // Criação do objeto Arena com os valores inseridos
         @SuppressWarnings("unused")
-        Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationtype, foodDimensions,
-                foodType, numObstacles, obstacleType, rotacao ,interfaceMode, namePlayer, scanner, Movement);
+        Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationType, foodDimensions,
+                foodType, numObstacles, obstacleType, rotation, interfaceMode, namePlayer, scanner, movement);
 
-
-        // Agora você tem um objeto Game pronto para uso!
+        // Agora você tem um objeto Arena pronto para uso!
     }
 }
