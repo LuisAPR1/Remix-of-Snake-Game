@@ -52,16 +52,16 @@ class OutlineRasterization implements RasterizationStrategy {
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
         for (Ponto p : vertices) {
-            minX = Math.min(minX, p.getX());
-            minY = Math.min(minY, p.getY());
-            maxX = Math.max(maxX, p.getX());
-            maxY = Math.max(maxY, p.getY());
+            minX = (int)Math.min(minX, p.getX());
+            minY = (int)Math.min(minY, p.getY());
+            maxX = (int)Math.max(maxX, p.getX());
+            maxY = (int)Math.max(maxY, p.getY());
         }
     
         // Preenche as células na borda do polígono
         for (Ponto p : vertices) {
-            int x = p.getX();
-            int y = p.getY();
+            int x = (int)p.getX();
+            int y = (int)p.getY();
             if (x == minX || x == maxX || y == minY || y == maxY) {
                 grid[x - 1][y - 1] = Cell.valueOf(String.valueOf(cellType)); // Ajusta as coordenadas para o índice da matriz
             }

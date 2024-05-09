@@ -73,9 +73,8 @@ public class Square extends Retangulo {
 
         // Obtém o centro do quadrado
         Ponto centroQuadrado = calcularCentro();
-
         // Calcula a distância entre os centros dos dois polígonos
-        double distancia = centroQuadrado.distDouble(centroPoligono);
+        double distancia = centroQuadrado.dist(centroPoligono);
 
         // Verifica se a distância é menor que o tamanho do lado do quadrado
         return distancia < tamanhoLado();
@@ -85,8 +84,10 @@ public class Square extends Retangulo {
         // Obtém dois vértices opostos do quadrado
         Ponto ponto1 = getPontos().get(0);
         Ponto ponto2 = getPontos().get(1);
-    
-        // Calcula a distância entre esses dois pontos, que é o tamanho do lado do quadrado
+
+        // Calcula a distância entre esses dois pontos, que é o tamanho do lado do
+        // quadrado
+
         return ponto1.dist(ponto2);
     }
 

@@ -124,12 +124,12 @@ public class Poligono implements Shape {
         int minY = Integer.MAX_VALUE;
         int maxY = Integer.MIN_VALUE;
         for (Ponto ponto : pontos) {
-            int x = ponto.getX();
-            int y = ponto.getY();
-            minX = Math.min(minX, x);
-            maxX = Math.max(maxX, x);
-            minY = Math.min(minY, y);
-            maxY = Math.max(maxY, y);
+            double x = ponto.getX();
+            double y = ponto.getY();
+            minX = (int)Math.min(minX, x);
+            maxX = (int)Math.max(maxX, x);
+            minY = (int)Math.min(minY, y);
+            maxY = (int)Math.max(maxY, y);
         }
 
         // Verifica se o centro do círculo, somado ao raio, fica dentro do quadrado
@@ -353,8 +353,8 @@ public class Poligono implements Shape {
             centroX += ponto.getX();
             centroY += ponto.getY();
             if (centroX == 0 && centroY == 0) {
-                centroX += ponto.getxDouble();
-                centroY += ponto.getyDouble();
+                centroX += ponto.getX();
+                centroY += ponto.getX();
             }
         }
 
@@ -390,8 +390,8 @@ public class Poligono implements Shape {
      */
     public Poligono translacao(int x, int y) {
         Ponto centro = calcularCentro();
-        int deltaX = (int) (x - centro.getxDouble());
-        int deltaY = (int) (y - centro.getyDouble());
+        int deltaX = (int) (x - centro.getX());
+        int deltaY = (int) (y - centro.getY());
         List<Ponto> pontosPol = new ArrayList<>();
         for (Ponto ponto : pontos) {
             pontosPol.add(ponto.translacionar(deltaX, deltaY));

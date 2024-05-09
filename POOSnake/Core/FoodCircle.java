@@ -57,10 +57,10 @@ public class FoodCircle extends AbstractFood<Circle> {
         List<Ponto> squareVertices = new ArrayList<>();
 
         // Calcula os limites do quadrado que envolve o círculo
-        int minX = position.getX() - (diametro/2);
-        int maxX = position.getX() + (diametro/2);
-        int minY = position.getY() - (diametro/2);
-        int maxY = position.getY() + (diametro/2);
+        int minX = (int)position.getX() - (diametro/2);
+        int maxX = (int)position.getX() + (diametro/2);
+        int minY = (int)position.getY() - (diametro/2);
+        int maxY = (int)position.getY() + (diametro/2);
 
 
 

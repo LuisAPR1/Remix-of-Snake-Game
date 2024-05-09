@@ -287,10 +287,10 @@ public class Arena {
         List<Ponto> points2 = polygon2.getPontos();
 
         // Encontra os pontos mais distantes em cada eixo (x e y) de ambos os polígonos
-        int minX = Math.min(points1.get(0).getX(), points2.get(0).getX());
-        int minY = Math.min(points1.get(0).getY(), points2.get(0).getY());
-        int maxX = Math.max(points1.get(2).getX(), points2.get(2).getX());
-        int maxY = Math.max(points1.get(2).getY(), points2.get(2).getY());
+        int minX = (int) Math.min(points1.get(0).getX(), points2.get(0).getX());
+        int minY = (int) Math.min(points1.get(0).getY(), points2.get(0).getY());
+        int maxX = (int) Math.max(points1.get(2).getX(), points2.get(2).getX());
+        int maxY = (int) Math.max(points1.get(2).getY(), points2.get(2).getY());
 
         // Cria um novo polígono com os pontos mais distantes
         List<Ponto> combinedPoints = new ArrayList<>();

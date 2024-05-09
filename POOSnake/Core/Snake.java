@@ -118,8 +118,8 @@ public class Snake {
 
     public void grow() {
         // Calcula as coordenadas do novo quadrado com base na posição da última cauda
-        int xNewSquare = lastTailPosition.getX(); // Mantém a mesma coordenada X da última cauda
-        int yNewSquare = lastTailPosition.getY(); // Mantém a mesma coordenada Y da última cauda
+        int xNewSquare = (int)lastTailPosition.getX(); // Mantém a mesma coordenada X da última cauda
+        int yNewSquare = (int)lastTailPosition.getY(); // Mantém a mesma coordenada Y da última cauda
 
         // Cria um novo quadrado com as coordenadas calculadas e o mesmo tamanho da
         // cabeça

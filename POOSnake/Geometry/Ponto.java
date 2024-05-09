@@ -9,8 +9,7 @@ import java.util.Objects;
  * @author Luís Rosa
  */
 public class Ponto {
-    private int x, y; // Coordenadas inteiras do ponto.
-    private double xDouble, yDouble; // Coordenadas em ponto flutuante do ponto.
+    private double x, y; // Coordenadas inteiras do ponto.
 
     /**
      * Construtor padrão que inicializa um ponto na origem.
@@ -26,7 +25,7 @@ public class Ponto {
      * @param x coordenada x do ponto.
      * @param y coordenada y do ponto.
      */
-    public Ponto(int x, int y) {
+    public Ponto(double x, double y) {
         // check(x, y);
         setX(x);
         setY(y);
@@ -38,11 +37,7 @@ public class Ponto {
      * @param xDouble coordenada x do ponto.
      * @param yDouble coordenada y do ponto.
      */
-    public Ponto(double xDouble, double yDouble) {
-        // check(xDouble, yDouble);
-        setX(xDouble);
-        setY(yDouble);
-    }
+   
 
     /**
      * Verifica se as coordenadas em ponto flutuante são próximas o suficiente para
@@ -62,22 +57,18 @@ public class Ponto {
      * @param p ponto para o qual deseja calcular a distância.
      * @return distância entre os pontos.
      */
-    public int dist(Ponto p) {
+    public double dist(Ponto p) {
         double dx = x - p.x;
         double dy = y - p.y;
-        return (int) Math.sqrt(dx * dx + dy * dy);
-    }
-    public double distDouble(Ponto p) {
-        double dx = xDouble - p.x;
-        double dy = yDouble - p.y;
         return Math.sqrt(dx * dx + dy * dy);
     }
+  
     /**
      * Obtém a coordenada x do ponto.
      * 
      * @return coordenada x.
      */
-    public int getX() {
+    public double getX() {
         
         return x;
     }
@@ -87,7 +78,7 @@ public class Ponto {
      * 
      * @return coordenada y.
      */
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -96,7 +87,7 @@ public class Ponto {
      * 
      * @param x coordenada x.
      */
-    public void setX(int x) {
+    public void setX(double x) {
         
         
         this.x = x;
@@ -107,18 +98,14 @@ public class Ponto {
      * 
      * @param xDouble coordenada x em ponto flutuante.
      */
-    public void setX(double xDouble) {
-        
-        
-        this.xDouble = xDouble;
-    }
+   
 
     /**
      * Define a coordenada y do ponto.
      * 
      * @param y coordenada y.
      */
-    public void setY(int y) {
+    public void setY(double y) {
        
         this.y = y;
     }
@@ -128,11 +115,7 @@ public class Ponto {
      * 
      * @param yDouble coordenada y em ponto flutuante.
      */
-    public void setY(double yDouble) {
-        
-        
-        this.yDouble = yDouble;
-    }
+    
 
     /**
      * Verifica se este ponto é igual a outro objeto.
@@ -176,18 +159,14 @@ public class Ponto {
      * 
      * @return coordenada x em ponto flutuante.
      */
-    public double getxDouble() {
-        return xDouble;
-    }
+ 
 
     /**
      * Obtém a coordenada y em ponto flutuante do ponto.
      * 
      * @return coordenada y em ponto flutuante.
      */
-    public double getyDouble() {
-        return yDouble;
-    }
+    
 
     /**
      * Rotaciona o ponto em torno de um ponto fixo por um determinado ângulo.
@@ -198,10 +177,10 @@ public class Ponto {
      */
     public Ponto rotacionar(int anguloGraus, Ponto fixo) {
 
-        double x = Math.round((fixo.getxDouble() + (this.x - fixo.getxDouble()) * Math.cos(Math.toRadians(anguloGraus))
-                - (this.y - fixo.getyDouble()) * Math.sin(Math.toRadians(anguloGraus))));
-        double y = Math.round(fixo.getyDouble() + ((this.x - fixo.getxDouble()) * Math.sin(Math.toRadians(anguloGraus))
-                + (this.y - fixo.getyDouble()) * Math.cos(Math.toRadians(anguloGraus))));
+        double x = Math.round((fixo.getX() + (this.x - fixo.getX()) * Math.cos(Math.toRadians(anguloGraus))
+                - (this.y - fixo.getY()) * Math.sin(Math.toRadians(anguloGraus))));
+        double y = Math.round(fixo.getY() + ((this.x - fixo.getX()) * Math.sin(Math.toRadians(anguloGraus))
+                + (this.y - fixo.getY()) * Math.cos(Math.toRadians(anguloGraus))));
         return new Ponto( x,  y);
     }
 
