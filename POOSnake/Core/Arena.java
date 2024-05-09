@@ -44,15 +44,17 @@ public class Arena {
 
     @SuppressWarnings("unused")
     private InterfaceMode interfaceMode;
+    private MovementStrategy movementStrategy;
     UI ui;
 
     public Arena(int arenaDimensionsX, int arenaDimensionsY, int headDimensions, RasterizationType rasterizationType,
-            int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,Ponto rotacao,
-            char interfaceMode, String namePlayer) {
+            int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
+            Ponto rotacao,
+            char interfaceMode, String namePlayer, Scanner scanner) {
         // this.grid = new Cell[arenaDimensionsX][arenaDimensionsY];
 
-        this.rotacao=rotacao;
-        this.obstacletype= obstacleType;
+        this.rotacao = rotacao;
+        this.obstacletype = obstacleType;
         this.arenaDimensions[0] = arenaDimensionsX;
         this.arenaDimensions[1] = arenaDimensionsY;
         this.foodDimensions = foodDimensions;
@@ -60,24 +62,39 @@ public class Arena {
         this.rasterization = rasterizationType;
         this.foodtype = foodType;
         this.namePlayer = namePlayer;
-        
 
-        createObstacles(numObstacles, obstacleType, arenaDimensions, this.headDimensions);
-
-        generateSnake(arenaDimensions, this.headDimensions);
-
+        // Cria os obstáculos
+        createObstacles(numObstacles, obstacleType, arenaDimensions, headDimensions);
+        // Gera a cobra
+        generateSnake(arenaDimensions, headDimensions);
+        // Gera a comida
         generateFood(Color.YELLOW, foodType, this, foodDimensions);
-
-        RasterizationStrategy Rasterization;
-
+        // Inicializa a UI
+        RasterizationStrategy rasterization;
         if (rasterizationType == RasterizationType.O) {
-            Rasterization = new OutlineRasterization(this);
+            rasterization = new OutlineRasterization(this);
         } else {
-            Rasterization = new FilledRasterization(this);
+            rasterization = new FilledRasterization(this);
         }
+        this.ui = UIFactory.createUI(interfaceMode, rasterization);
 
-        this.ui = UIFactory.createUI(interfaceMode, Rasterization);
-        ui.render();
+
+        // Configura a estratégia de movimento manual
+        MovementStrategy movementStrategy = new ManualMovementStrategy(scanner, this);
+        setMovementStrategy(movementStrategy);
+        startGame();
+    }
+
+    public void setMovementStrategy(MovementStrategy strategy) {
+        this.movementStrategy = strategy;
+    }
+
+    public void startGame() {
+        while (true) {
+            // Captura a entrada do usuário e executa o movimento
+            movementStrategy.input();
+            // Atualiza o frame do jogo
+        }
     }
 
     private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
@@ -229,7 +246,8 @@ public class Arena {
             // Verifica se algum quadrado intersecta os polígonos dos obstáculos
             for (Obstacle obstacle : obstacles) {
 
-                if (square.intersect(obstacle.getObstacle()) || square.contains(obstacle.getObstacle()) || square.distance(obstacle.getObstacle())) {
+                if (square.intersect(obstacle.getObstacle()) || square.contains(obstacle.getObstacle())
+                        || square.distance(obstacle.getObstacle())) {
                     // Se houver interseção, a cobra colidiu com um obstáculo
                     System.out.println("Colisao snake com objeto");
                     updateRank();
@@ -244,8 +262,6 @@ public class Arena {
     }
 
     public void CheckFoodEaten() {
-
-       
 
         Poligono square;
         if (s.getSnake().size() >= 2) {
@@ -302,47 +318,47 @@ public class Arena {
         return new Poligono(combinedPoints);
     }
 
-    public void Start(Scanner scanner) {
+    // public void Start(Scanner scanner) {
 
-        while (true) {
-            // Atualiza a arena e imprime seu estado atual10
+    //     while (true) {
+    //         // Atualiza a arena e imprime seu estado atual10
 
-            // Solicita ao jogador que escolha uma direção
-            System.out.println("Dir H: " + s.getDirection() + "  " + " Score: " + points);
-            System.out.println("Digite uma direção (w, a, s ou d):");
-            String input = scanner.nextLine().toLowerCase(); // Converte a entrada para minúsculas para facilitar a
-                                                             // comparação
+    //         // Solicita ao jogador que escolha uma direção
+    //         System.out.println("Dir H: " + s.getDirection() + "  " + " Score: " + points);
+    //         System.out.println("Digite uma direção (w, a, s ou d):");
+    //         String input = scanner.nextLine().toLowerCase(); // Converte a entrada para minúsculas para facilitar a
+    //                                                          // comparação
 
-            // Verifica qual tecla foi pressionada e atualiza a direção da cobra
-            switch (input) {
-                case "w":
-                    s.setDirection(180);
+    //         // Verifica qual tecla foi pressionada e atualiza a direção da cobra
+    //         switch (input) {
+    //             case "w":
+    //                 s.setDirection(180);
 
-                    break;
-                case "a":
-                    s.setDirection(270);
+    //                 break;
+    //             case "a":
+    //                 s.setDirection(270);
 
-                    break;
-                case "s":
-                    s.setDirection(0);
+    //                 break;
+    //             case "s":
+    //                 s.setDirection(0);
 
-                    break;
-                case "d":
-                    s.setDirection(90);
+    //                 break;
+    //             case "d":
+    //                 s.setDirection(90);
 
-                    break;
-                default:
-                    // Se a entrada não for uma direção válida, exibe uma mensagem de erro
-                    System.out.println("Entrada inválida. Por favor, digite w, a, s ou d para mover a cobra.");
-                    
-                    continue; // Retorna ao início do loop para solicitar outra entrada válida
-            }
+    //                 break;
+    //             default:
+    //                 // Se a entrada não for uma direção válida, exibe uma mensagem de erro
+    //                 System.out.println("Entrada inválida. Por favor, digite w, a, s ou d para mover a cobra.");
 
-            Frame();
+    //                 continue; // Retorna ao início do loop para solicitar outra entrada válida
+    //         }
 
-        }
+    //         Frame();
 
-    }
+    //     }
+
+    // }
 
     public void Frame() {
         ui.render();
@@ -351,14 +367,11 @@ public class Arena {
         checkSnakeObstacleColision();
         checkSnakeInsideArena();
         // if (this.obstacletype == Obstacle.ObstacleType.D) {
-        //     obstaclesmove();   
-        //     System.out.println("YESS"); 
+        // obstaclesmove();
+        // System.out.println("YESS");
         // }
-        
 
         ui.render();
-
-
 
     }
 
@@ -368,16 +381,15 @@ public class Arena {
         for (Obstacle obstacle : obstacles) {
             // Obtém o polígono do obstáculo
             Poligono obstacleShape = obstacle.getObstacle();
-    
+
             // Rotaciona o polígono em torno do ponto de rotação (0, 0)
             Poligono rotatedObstacle = obstacleShape.rotacionar(10, rotacao);
-    
+
             // Atualiza o polígono do obstáculo com a nova posição após a rotação
             obstacle.setObstacle(rotatedObstacle);
         }
     }
-    
-    
+
     public void updateRank() {
         // Leitura do conteúdo do arquivo para obter os jogadores existentes
         List<Player> existingPlayers = new ArrayList<>();
@@ -423,6 +435,5 @@ public class Arena {
             System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
         }
     }
-    
-}
 
+}

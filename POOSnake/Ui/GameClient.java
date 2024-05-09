@@ -58,10 +58,10 @@ public class GameClient {
         char interfaceMode = scanner.next().charAt(0);
        
         // Criação do objeto Game com os valores inseridos
+        @SuppressWarnings("unused")
         Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationtype, foodDimensions,
-                foodType, numObstacles, obstacleType, rotacao ,interfaceMode, namePlayer);
+                foodType, numObstacles, obstacleType, rotacao ,interfaceMode, namePlayer, scanner);
 
-        game.Start(scanner);
 
         // Agora você tem um objeto Game pronto para uso!
     }
