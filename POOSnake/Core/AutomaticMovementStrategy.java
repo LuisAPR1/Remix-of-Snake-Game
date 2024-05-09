@@ -6,7 +6,6 @@ import java.util.TimerTask;
 public class AutomaticMovementStrategy implements MovementStrategy {
     private Arena arena;
     private Timer timer;
-    int counter;
 
     public AutomaticMovementStrategy(Arena arena) {
         this.arena = arena;
@@ -18,17 +17,15 @@ public class AutomaticMovementStrategy implements MovementStrategy {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                arena.getS().direction=arena.calculateBestDirection(arena.getS().getDirection());
+
                 arena.Frame();
-                arena.calculateBestDirection();
-                System.out.println("AAAAAAAA" + counter++);
             }
         }, 0, 1000); // Executa a cada 1 segundo (1000 milissegundos)
     }
 
     @Override
     public void input() {
-       
+        // Nada a ser feito aqui, pois o timer já está em execução
     }
 }
-                
-

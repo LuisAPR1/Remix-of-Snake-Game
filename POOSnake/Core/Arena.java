@@ -104,6 +104,94 @@ public class Arena {
         }
     }
 
+    public int calculateBestDirection(int currentDirection) {
+        // Obtém a posição da cabeça da cobra
+        Ponto headPosition = s.getSnake().get(0).calcularCentro();
+    
+        // Obtém a posição da comida
+        Ponto foodPosition = fruit.getPosition();
+    
+        // Calcula a distância entre a cabeça da cobra e a comida
+        double distanceX = Math.abs(headPosition.getX() - foodPosition.getX());
+        double distanceY = Math.abs(headPosition.getY() - foodPosition.getY());
+    
+        // Inicializa a melhor direção como a direção oposta à direção atual (para garantir que seja alterada)
+        int bestDirection = currentDirection;
+    
+        // Verifica se a comida está mais próxima no eixo X ou no eixo Y
+        if (distanceX < distanceY) {
+            // Se a comida estiver mais próxima no eixo X, mova-se horizontalmente (esquerda ou direita)
+            if (headPosition.getX() < foodPosition.getX()) {
+                // Comida está à direita da cabeça da cobra
+                if (currentDirection != 90) {
+                    // Se a direção atual não for esquerda, mova-se para a direita
+                    bestDirection = 270; // Direita
+                } else {
+                    // Se não for possível mover para a direita, mova-se verticalmente
+                    if (headPosition.getY() < foodPosition.getY()) {
+                        // Comida está abaixo da cabeça da cobra
+                        bestDirection = 180; // Baixo
+                    } else {
+                        // Comida está acima da cabeça da cobra
+                        bestDirection = 0; // Cima
+                    }
+                }
+            } else {
+                // Comida está à esquerda da cabeça da cobra
+                if (currentDirection != 270) {
+                    // Se a direção atual não for direita, mova-se para a esquerda
+                    bestDirection = 90; // Esquerda
+                } else {
+                    // Se não for possível mover para a esquerda, mova-se verticalmente
+                    if (headPosition.getY() < foodPosition.getY()) {
+                        // Comida está abaixo da cabeça da cobra
+                        bestDirection = 180; // Baixo
+                    } else {
+                        // Comida está acima da cabeça da cobra
+                        bestDirection = 0; // Cima
+                    }
+                }
+            }
+        } else {
+            // Se a comida estiver mais próxima no eixo Y, mova-se verticalmente (cima ou baixo)
+            if (headPosition.getY() < foodPosition.getY()) {
+                // Comida está abaixo da cabeça da cobra
+                if (currentDirection != 0) {
+                    // Se a direção atual não for para cima, mova-se para baixo
+                    bestDirection = 180; // Baixo
+                } else {
+                    // Se não for possível mover para baixo, mova-se horizontalmente
+                    if (headPosition.getX() < foodPosition.getX()) {
+                        // Comida está à direita da cabeça da cobra
+                        bestDirection = 270; // Direita
+                    } else {
+                        // Comida está à esquerda da cabeça da cobra
+                        bestDirection = 90; // Esquerda
+                    }
+                }
+            } else {
+                // Comida está acima da cabeça da cobra
+                if (currentDirection != 180) {
+                    // Se a direção atual não for para baixo, mova-se para cima
+                    bestDirection = 0; // Cima
+                } else {
+                    // Se não for possível mover para cima, mova-se horizontalmente
+                    if (headPosition.getX() < foodPosition.getX()) {
+                        // Comida está à direita da cabeça da cobra
+                        bestDirection = 270; // Direita
+                    } else {
+                        // Comida está à esquerda da cabeça da cobra
+                        bestDirection = 90; // Esquerda
+                    }
+                }
+            }
+        }
+    
+        return bestDirection;
+    }
+    
+    
+
     private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
         boolean foodIntersects = true;
 
@@ -197,11 +285,6 @@ public class Arena {
         }
     }
 
-    // private int generateRandomWithinRange(int min, int max) {
-    // Random rand = new Random();
-    // return rand.nextInt((max - min) + 1) + min;
-    // }
-
     private void generateSnake(int[] arenaDimensions, int headDimensions) {
         boolean snakeCollidedWithObstacle = true;
 
@@ -235,8 +318,8 @@ public class Arena {
             // Verifica cada ponto do quadrado
             for (Ponto point : squareCoordinates) {
                 // Verifica se o ponto está fora dos limites da arena
-                if (point.getX() < 0 || point.getX() > arenaWidth + 1 || point.getY() < 0
-                        || point.getY() > arenaHeight + 1) {
+                if (point.getX() < 0 || point.getX() > arenaWidth || point.getY() < 0
+                        || point.getY() > arenaHeight ) {
                     // Se algum ponto estiver fora dos limites, a cobra saiu da arena
                     System.out.println("snake saiu da arena");
                     updateRank();
@@ -328,49 +411,6 @@ public class Arena {
         return new Poligono(combinedPoints);
     }
 
-    // public void Start(Scanner scanner) {
-
-    // while (true) {
-    // // Atualiza a arena e imprime seu estado atual10
-
-    // // Solicita ao jogador que escolha uma direção
-    // System.out.println("Dir H: " + s.getDirection() + " " + " Score: " + points);
-    // System.out.println("Digite uma direção (w, a, s ou d):");
-    // String input = scanner.nextLine().toLowerCase(); // Converte a entrada para
-    // minúsculas para facilitar a
-    // // comparação
-
-    // // Verifica qual tecla foi pressionada e atualiza a direção da cobra
-    // switch (input) {
-    // case "w":
-    // s.setDirection(180);
-
-    // break;
-    // case "a":
-    // s.setDirection(270);
-
-    // break;
-    // case "s":
-    // s.setDirection(0);
-
-    // break;
-    // case "d":
-    // s.setDirection(90);
-
-    // break;
-    // default:
-    // // Se a entrada não for uma direção válida, exibe uma mensagem de erro
-    // System.out.println("Entrada inválida. Por favor, digite w, a, s ou d para
-    // mover a cobra.");
-
-    // continue; // Retorna ao início do loop para solicitar outra entrada válida
-    // }
-
-    // Frame();
-
-    // }
-
-    // }
 
     public void Frame() {
         ui.render();
@@ -378,6 +418,7 @@ public class Arena {
         CheckFoodEaten();
         checkSnakeObstacleColision();
         checkSnakeInsideArena();
+        System.out.println(calculateBestDirection(s.getDirection()));
         // if (this.obstacletype == Obstacle.ObstacleType.D) {
         // obstaclesmove();
         // System.out.println("YESS");
