@@ -10,7 +10,6 @@ import Geometry.Ponto;
 public class FoodSquare extends AbstractFood<Poligono> {
     private int sideLength;
     private Poligono p;
-    private Ponto position;
 
     public FoodSquare(Color color, Core.FoodType type, Arena arena, int sideLength) {
         super(color, type, arena);
