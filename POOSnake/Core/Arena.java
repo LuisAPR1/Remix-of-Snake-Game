@@ -77,20 +77,15 @@ public class Arena {
             rasterization = new FilledRasterization(this);
         }
         this.ui = UIFactory.createUI(interfaceMode, rasterization);
-        ui.render();
 
         // Configura a estratégia de movimento manual
         if (movement == 'M') {
             movementStrategy = new ManualMovementStrategy(scanner, this);
             setMovementStrategy(movementStrategy);
-            startGame();
-
-            
 
         } else {
             movementStrategy = new AutomaticMovementStrategy(this);
             setMovementStrategy(movementStrategy);
-            
         }
 
         ui.render();
@@ -100,38 +95,6 @@ public class Arena {
     public void setMovementStrategy(MovementStrategy strategy) {
         this.movementStrategy = strategy;
     }
-
-    public char calculateBestDirection() {
-        // Obtém a posição da cabeça da cobra
-        Ponto headPosition = s.getSnake().get(0).calcularCentro();
-    
-        // Obtém a posição da comida
-        Ponto foodPosition = fruit.getPosition();
-    
-        // Calcula a distância entre a cabeça da cobra e a comida
-        double distanceX = Math.abs(headPosition.getX() - foodPosition.getX());
-        double distanceY = Math.abs(headPosition.getY() - foodPosition.getY());
-    
-        // Se a comida estiver mais próxima no eixo X do que no eixo Y, escolhe a direção horizontal (esquerda ou direita)
-        if (distanceX < distanceY) {
-            if (headPosition.getX() < foodPosition.getX()) {
-                // Comida está à direita da cabeça da cobra
-                return 'd'; // Direita
-            } else {
-                // Comida está à esquerda da cabeça da cobra
-                return 'a'; // Esquerda
-            }
-        } else { // Caso contrário, escolhe a direção vertical (cima ou baixo)
-            if (headPosition.getY() < foodPosition.getY()) {
-                // Comida está abaixo da cabeça da cobra
-                return 's'; // Baixo
-            } else {
-                // Comida está acima da cabeça da cobra
-                return 'w'; // Cima
-            }
-        }
-    }
-    
 
     public void startGame() {
         while (true) {
