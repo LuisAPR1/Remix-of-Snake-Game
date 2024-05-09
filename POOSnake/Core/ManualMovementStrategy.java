@@ -34,7 +34,6 @@ public class ManualMovementStrategy implements MovementStrategy {
                 arena.Frame();
                 break;
             default:
-                System.out.println("Entrada inválida. Por favor, digite w, a, s ou d para mover a cobra.");
                 break;
         }
     }
