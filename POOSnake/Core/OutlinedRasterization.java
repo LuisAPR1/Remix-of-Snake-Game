@@ -46,27 +46,56 @@ class OutlineRasterization implements RasterizationStrategy {
     private void drawObject(Poligono object, String cellType) {
         List<Ponto> vertices = object.getPontos();
     
-        // Encontra os limites do objeto
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
-        int maxX = Integer.MIN_VALUE;
-        int maxY = Integer.MIN_VALUE;
-        for (Ponto p : vertices) {
-            minX = Math.min(minX, p.getX());
-            minY = Math.min(minY, p.getY());
-            maxX = Math.max(maxX, p.getX());
-            maxY = Math.max(maxY, p.getY());
+        // Desenha uma linha entre cada par de vértices adjacentes
+        for (int i = 0; i < vertices.size(); i++) {
+            Ponto currentVertex = vertices.get(i);
+            Ponto nextVertex = vertices.get((i + 1) % vertices.size()); // O próximo vértice é o primeiro se estivermos no último vértice
+            drawLine(currentVertex, nextVertex, cellType);
         }
+    }
     
-        // Preenche as células na borda do polígono
-        for (Ponto p : vertices) {
-            int x = p.getX();
-            int y = p.getY();
-            if (x == minX || x == maxX || y == minY || y == maxY) {
-                grid[x - 1][y - 1] = Cell.valueOf(String.valueOf(cellType)); // Ajusta as coordenadas para o índice da matriz
+    private void drawLine(Ponto start, Ponto end, String cellType) {
+        int x0 = start.getX();
+        int y0 = start.getY();
+        int x1 = end.getX();
+        int y1 = end.getY();
+    
+        // Calcula as diferenças entre as coordenadas
+        int dx = Math.abs(x1 - x0);
+        int dy = Math.abs(y1 - y0);
+    
+        // Determina a direção do incremento para x e y
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
+    
+        // Inicializa os pontos de decisão para a primeira coordenada
+        int err = dx - dy;
+        int x = x0;
+        int y = y0;
+    
+        // Percorre a linha
+        while (true) {
+            // Desenha a célula correspondente
+            grid[x - 1][y - 1] = Cell.valueOf(cellType);
+    
+            // Verifica se chegamos ao fim da linha
+            if (x == x1 && y == y1) {
+                break;
+            }
+    
+            // Calcula os pontos de decisão para a próxima coordenada
+            int e2 = 2 * err;
+            if (e2 > -dy) {
+                err -= dy;
+                x += sx;
+            }
+            if (e2 < dx) {
+                err += dx;
+                y += sy;
             }
         }
     }
+    
     
 
     private void initializeArena() {
