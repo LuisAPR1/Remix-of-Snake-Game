@@ -13,7 +13,6 @@ public class TextUI implements UI {
     public void render() {
         rasterizationStrategy.render();
         System.out.println(toString());
-        System.out.println();
         // Implementação adicional para renderização textual
     }
 

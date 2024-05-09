@@ -40,19 +40,19 @@ public class Arena {
     UI ui;
 
     public Arena(int arenaDimensionsX, int arenaDimensionsY, int headDimensions, RasterizationType rasterizationType,
-            int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,Ponto rotacao,
+            int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
+            Ponto rotacao,
             char interfaceMode) {
         // this.grid = new Cell[arenaDimensionsX][arenaDimensionsY];
 
-        this.rotacao=rotacao;
-        this.obstacletype= obstacleType;
+        this.rotacao = rotacao;
+        this.obstacletype = obstacleType;
         this.arenaDimensions[0] = arenaDimensionsX;
         this.arenaDimensions[1] = arenaDimensionsY;
         this.foodDimensions = foodDimensions;
         this.headDimensions = headDimensions;
         this.rasterization = rasterizationType;
         this.foodtype = foodType;
-        
 
         createObstacles(numObstacles, obstacleType, arenaDimensions, this.headDimensions);
 
@@ -156,7 +156,7 @@ public class Arena {
             pontos.add(new Ponto(posX + headDimensions, posY + headDimensions));
             pontos.add(new Ponto(posX, posY + headDimensions));
             Poligono obstacleShape = new Poligono(pontos);
-            Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
+            Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, rotacao);
             obstacles.add(obstacle);
         }
     }
@@ -232,8 +232,6 @@ public class Arena {
     }
 
     public void CheckFoodEaten() {
-
-       
 
         Poligono square;
         if (s.getSnake().size() >= 2) {
@@ -322,7 +320,7 @@ public class Arena {
                 default:
                     // Se a entrada não for uma direção válida, exibe uma mensagem de erro
                     System.out.println("Entrada inválida. Por favor, digite w, a, s ou d para mover a cobra.");
-                    
+
                     continue; // Retorna ao início do loop para solicitar outra entrada válida
             }
 
@@ -338,33 +336,29 @@ public class Arena {
         CheckFoodEaten();
         checkSnakeObstacleColision();
         checkSnakeInsideArena();
-        // if (this.obstacletype == Obstacle.ObstacleType.D) {
-        //     obstaclesmove();   
-        //     System.out.println("YESS"); 
-        // }
-        
+
+        // obstaclesmove();
 
         ui.render();
 
-
-
     }
 
+    
     @SuppressWarnings("unused")
     private void obstaclesmove() {
         // Itera sobre todos os obstáculos na lista
         for (Obstacle obstacle : obstacles) {
             // Obtém o polígono do obstáculo
-            Poligono obstacleShape = obstacle.getObstacle();
-    
-            // Rotaciona o polígono em torno do ponto de rotação (0, 0)
-            Poligono rotatedObstacle = obstacleShape.rotacionar(10, rotacao);
-    
+
+            // Poligono obstacleShape = obstacle.getObstacle();
+
+            // // Rotaciona o polígono em torno do ponto de rotação (0, 0)
+            // Poligono rotatedObstacle = obstacleShape.rotacionar(10, null);
+
             // Atualiza o polígono do obstáculo com a nova posição após a rotação
-            obstacle.setObstacle(rotatedObstacle);
+            System.out.println("obstaculo posicao " + obstacle.getObstacle().toString());
+            obstacle.setObstacle(obstacle.rotate(90));
         }
     }
-    
-    
 
 }

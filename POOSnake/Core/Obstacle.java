@@ -56,14 +56,19 @@ public class Obstacle {
         this.type = type;
     }
 
-    public void rotate(int angle) {
+    public Poligono rotate(int angle) {
         if (this.type == ObstacleType.D) {
+
+            Poligono a;
             if (rotacao == null) {
-                obstacle.rotacionar(angle, obstacle.calcularCentro());
+                a= obstacle.rotacionar(angle, obstacle.calcularCentro());
             } else {
-                obstacle.rotacionar(angle, position);
+                a= obstacle.rotacionar(angle, rotacao);
             }
+            return a;
         }
+        return null;
+        
     }
 
     public Poligono getObstacle() {

@@ -27,7 +27,7 @@ public class Ponto {
      * @param y coordenada y do ponto.
      */
     public Ponto(int x, int y) {
-        check(x, y);
+        // check(x, y);
         setX(x);
         setY(y);
     }
@@ -39,7 +39,7 @@ public class Ponto {
      * @param yDouble coordenada y do ponto.
      */
     public Ponto(double xDouble, double yDouble) {
-        check(xDouble, yDouble);
+        // check(xDouble, yDouble);
         setX(xDouble);
         setY(yDouble);
     }
@@ -51,10 +51,10 @@ public class Ponto {
      * @param x coordenada x.
      * @param y coordenada y.
      */
-    private void check(double x, double y) {
-        if (Math.abs(x - y) < Math.pow(10, -9))
-            x = y;
-    }
+    // private void check(double x, double y) {
+    //     if (Math.abs(x - y) < Math.pow(10, -9))
+    //         x = y;
+    // }
 
     /**
      * Calcula a distância entre este ponto e outro ponto.
@@ -74,6 +74,7 @@ public class Ponto {
      * @return coordenada x.
      */
     public int getX() {
+        
         return x;
     }
 
@@ -92,10 +93,8 @@ public class Ponto {
      * @param x coordenada x.
      */
     public void setX(int x) {
-        if (x < 0) {
-            System.out.println("Ponto:vi");
-            System.exit(0);
-        }
+        
+        
         this.x = x;
     }
 
@@ -105,10 +104,8 @@ public class Ponto {
      * @param xDouble coordenada x em ponto flutuante.
      */
     public void setX(double xDouble) {
-        if (xDouble < 0.0) {
-            System.out.println("Ponto:vi");
-            System.exit(0);
-        }
+        
+        
         this.xDouble = xDouble;
     }
 
@@ -118,10 +115,7 @@ public class Ponto {
      * @param y coordenada y.
      */
     public void setY(int y) {
-        if (y < 0) {
-            System.out.println("Ponto:vi");
-            System.exit(0);
-        }
+       
         this.y = y;
     }
 
@@ -131,10 +125,8 @@ public class Ponto {
      * @param yDouble coordenada y em ponto flutuante.
      */
     public void setY(double yDouble) {
-        if (yDouble < 0.0) {
-            System.out.println("Ponto:vi");
-            System.exit(0);
-        }
+        
+        
         this.yDouble = yDouble;
     }
 
@@ -206,7 +198,6 @@ public class Ponto {
                 - (this.y - fixo.getyDouble()) * Math.sin(Math.toRadians(anguloGraus))));
         double y = Math.round(fixo.getyDouble() + ((this.x - fixo.getxDouble()) * Math.sin(Math.toRadians(anguloGraus))
                 + (this.y - fixo.getyDouble()) * Math.cos(Math.toRadians(anguloGraus))));
-
         return new Ponto( x,  y);
     }
 

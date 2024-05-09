@@ -16,7 +16,6 @@ public class Segmento {
      * @param ponto2 segundo ponto do segmento.
      */
     public Segmento(Ponto ponto1, Ponto ponto2) {
-        check(ponto1, ponto2);
         this.ponto1 = ponto1;
         this.ponto2 = ponto2;
     }
@@ -26,12 +25,15 @@ public class Segmento {
      * @param ponto1 primeiro ponto.
      * @param ponto2 segundo ponto.
      */
-    private void check(Ponto ponto1, Ponto ponto2) {
-        if (ponto1.getX() == ponto2.getX() && ponto1.getY() == ponto2.getY()) {
-            System.out.println("Segmehhhhnto:vi");
-            System.exit(0);
-        }
-    }
+    // private void check(Ponto ponto1, Ponto ponto2) {
+
+        
+
+    //     if (ponto1.getX() == ponto2.getX() && ponto1.getY() == ponto2.getY() && ponto1.getxDouble() == ponto2.getxDouble() && ponto1.getyDouble() == ponto2.getyDouble()) {
+    //         System.out.println("Segmehhhhnto:vi");
+    //         System.exit(0);
+    //     }
+    // }
 
     /**
      * Obtém o primeiro ponto do segmento.

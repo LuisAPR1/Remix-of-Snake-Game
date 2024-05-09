@@ -33,7 +33,6 @@ public abstract class AbstractFood<T extends Shape> {
 
         // Verifica se a forma está contida no polígono
         if (shape instanceof Circle) {
-            System.out.println("CIRCULO DETECTED");
 
             return poligono.contains((Circle) shape);
             

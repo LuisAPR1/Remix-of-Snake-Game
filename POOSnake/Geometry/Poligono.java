@@ -227,21 +227,32 @@ public class Poligono implements Shape {
         List<Ponto> vertices = getPontos();
 
         // Encontra os limites horizontais e verticais do quadrado
-        int minX = Integer.MAX_VALUE;
-        int maxX = Integer.MIN_VALUE;
-        int minY = Integer.MAX_VALUE;
-        int maxY = Integer.MIN_VALUE;
+        double minX = Double.MAX_VALUE;
+        double maxX = Double.MIN_VALUE;
+        double minY = Double.MAX_VALUE;
+        double maxY = Double.MIN_VALUE;
+        boolean inte = true;
         for (Ponto ponto : vertices) {
+
             minX = Math.min(minX, ponto.getX());
             maxX = Math.max(maxX, ponto.getX());
             minY = Math.min(minY, ponto.getY());
             maxY = Math.max(maxY, ponto.getY());
+
         }
 
         // Itera sobre todas as coordenadas inteiras dentro dos limites do quadrado
-        for (int x = minX; x <= maxX; x++) {
-            for (int y = minY; y <= maxY; y++) {
-                coordenadas.add(new Ponto(x, y));
+        if (inte == true) {
+            for (int x = (int) minX; x <= maxX; x++) {
+                for (int y = (int) minY; y <= maxY; y++) {
+                    coordenadas.add(new Ponto(x, y));
+                }
+            }
+        } else {
+            for (double x = minX; x <= maxX; x++) {
+                for (double y = minY; y <= maxY; y++) {
+                    coordenadas.add(new Ponto(x, y));
+                }
             }
         }
 
@@ -341,7 +352,12 @@ public class Poligono implements Shape {
         for (Ponto ponto : pontos) {
             centroX += ponto.getX();
             centroY += ponto.getY();
+            if (centroX == 0 && centroY == 0) {
+                centroX += ponto.getxDouble();
+                centroY += ponto.getyDouble();
+            }
         }
+
         centroX /= pontos.size();
         centroY /= pontos.size();
         return new Ponto(centroX, centroY);
@@ -358,8 +374,10 @@ public class Poligono implements Shape {
     public Poligono rotacionar(int anguloGraus, Ponto centroide) {
         List<Ponto> pontosPol = new ArrayList<>();
         for (Ponto ponto : pontos) {
+
             pontosPol.add(ponto.rotacionar(anguloGraus, centroide));
         }
+
         return new Poligono(pontosPol);
     }
 

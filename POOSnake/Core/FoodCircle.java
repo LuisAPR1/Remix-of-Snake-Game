@@ -70,8 +70,6 @@ public class FoodCircle extends AbstractFood<Circle> {
         squareVertices.add(new Ponto(maxX, maxY)); // Vértice superior esquerdo
         squareVertices.add(new Ponto(minX, maxY)); // Vértice superior direito
 
-        System.out.println(squareVertices.toString());
-
         return squareVertices;
     }
 
