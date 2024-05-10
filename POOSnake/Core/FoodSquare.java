@@ -20,7 +20,7 @@ public class FoodSquare extends AbstractFood<Poligono> {
 
     @Override
     public void spawnFood(Arena arena) {
-        int maxTries = 100;
+        int maxTries = 10000;
         int tries = 0;
         int movementIncrement = arena.getHeadDimensions();
         while (tries < maxTries) {
@@ -48,6 +48,8 @@ public class FoodSquare extends AbstractFood<Poligono> {
             }
             tries++;
         }
+
+        System.out.println("FOI DAS 100000 VEZES");
         // Se não encontrar uma posição válida, gerar uma posição aleatória fora dos obstáculos
         int x = (int) (Math.random() * (arena.getArenaDimensions()[0] - sideLength));
         int y = (int) (Math.random() * (arena.getArenaDimensions()[1] - sideLength));

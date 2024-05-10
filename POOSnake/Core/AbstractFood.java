@@ -5,6 +5,7 @@ import java.util.List;
 import Geometry.Circle;
 import Geometry.Poligono;
 import Geometry.Ponto;
+import Geometry.Segmento;
 import Geometry.Square;
 
 public abstract class AbstractFood<T extends Shape> {
@@ -45,6 +46,22 @@ public abstract class AbstractFood<T extends Shape> {
             
         } else if (shape instanceof Square) {
             return poligono.intersect((Square) shape);
+        } else {
+            // Caso a forma não seja um círculo ou quadrado, não podemos verificar a contenção
+            return false;
+        }
+    }
+    
+
+    public boolean intersect4(Poligono poligono) {
+        T shape = getShape();
+
+        // Verifica se a forma está contida no polígono
+        if (shape instanceof Circle) {
+            return poligono.intersect4((Circle) shape);
+            
+        } else if (shape instanceof Square) {
+            return poligono.intersect4((Square) shape);
         } else {
             // Caso a forma não seja um círculo ou quadrado, não podemos verificar a contenção
             return false;

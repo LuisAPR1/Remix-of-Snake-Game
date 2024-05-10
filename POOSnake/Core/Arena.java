@@ -124,9 +124,7 @@ public class Arena {
 
         // Verifica se a comida intersecta com algum polígono da cobra
         for (Square square : squares) {
-            System.out.println("snakeCOlision  " + " " +food.intersect(square) +" " + food.contains(square) + " " +food.distance(square) +" " + food.isContainedIn(square));
-            System.out.println("FOOD - " + food.getShape().toString());
-            System.out.println("SNAKE " + square.getPontos().toString());
+            
             if (food.intersect(square) || food.contains(square) || food.distance(square) || food.isContainedIn(square)) {
                 return true;
             }
@@ -137,10 +135,8 @@ public class Arena {
     private boolean checkFoodObstacleCollision(AbstractFood<?> food) {
         // Verifica se a comida intersecta com algum obstáculo
         for (Obstacle obstacle : obstacles) {
-            System.out.println("obstaculo Colision " + food.intersect(obstacle.getObstacle()) + " " +food.contains(obstacle.getObstacle())+" " +food.distance(obstacle.getObstacle())+" " +food.isContainedIn(obstacle.getObstacle()));
-System.out.println("OBSTACULO: "+ obstacle.getObstacle().getPontos().toString());
-System.out.println("FOOD "+ food.getShape().toString());
-            if (food.intersect(obstacle.getObstacle()) || food.contains(obstacle.getObstacle()) || food.distance(obstacle.getObstacle())|| food.isContainedIn(obstacle.getObstacle())) {
+
+            if (food.intersect(obstacle.getObstacle()) || food.contains(obstacle.getObstacle()) || food.distance(obstacle.getObstacle())|| food.isContainedIn(obstacle.getObstacle())|| food.intersect4(obstacle.getObstacle())) {
                 return true;
             }
         }
