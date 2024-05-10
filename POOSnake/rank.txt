@@ -1,3 +1,13 @@
 Peter, 2
 Luis, 6
 Ola, 4
+Adeus, 2
+Hello, 2
+Hi, 2
+Last, 2
+Fix, 0
+Mano, 0
+Olll, 7
+lll, 1
+ccc, 8
+Fixef, 0
