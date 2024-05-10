@@ -7,4 +7,6 @@ import Geometry.Ponto;
 
 public interface Shape {
     List<Ponto> getAllCoordinates();
+
+    Ponto getPosition();
 }

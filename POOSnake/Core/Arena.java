@@ -109,7 +109,7 @@ public class Arena {
         Ponto headPosition = s.getSnake().get(0).calcularCentro();
 
         // Obtém a posição da comida
-        Ponto foodPosition = fruit.getPosition();
+        Ponto foodPosition = fruit.getShape().getPosition();
 
         // Calcula a distância entre a cabeça da cobra e a comida
         double distanceX = Math.abs(headPosition.getX() - foodPosition.getX());

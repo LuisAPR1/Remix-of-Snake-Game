@@ -442,4 +442,9 @@ public class Poligono implements Shape {
         return "Poligono de " + pontos.size() + " vertices: " + getPontos().toString();
     }
 
+    @Override
+    public Ponto getPosition() {
+        return calcularCentro();
+    }
+
 }
