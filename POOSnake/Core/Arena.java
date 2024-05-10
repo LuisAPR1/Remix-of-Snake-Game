@@ -283,46 +283,39 @@ public class Arena {
         return arenaDimensions;
     }
 
-    public void CheckFoodEaten() {
-        Poligono square;
-        if (s.getSnake().size() >= 2) {
-            // Se a cobra tem pelo menos dois quadrados, combina os quadrados 0 e 1
-            Poligono square0 = s.getSnake().get(0);
-            Poligono square1 = s.getSnake().get(1);
-            square = square0.combine(square1);
-        } else {
-            // Se a cobra tem apenas um quadrado, usa apenas esse quadrado
-            square = s.getSnake().get(0);
-        }
-    
-        // Verifica se a comida está contida no quadrado
-        boolean isContained = fruit.isContainedIn(square);
-    
-        // Faça algo com o resultado, como imprimir ou processar
-        if (isContained) {
-            points++;
-            s.grow();
-            generateFood(Color.YELLOW, foodtype, this, foodDimensions);
-        }
-    }
-    
-    public Snake getS() {
-        return s;
-    }
-
-    public AbstractFood<?> getFruit() {
-        return fruit;
-    }
-
+   
     public ArrayList<Obstacle> getObstacles() {
         return obstacles;
+    }
+
+    private void obstaclesmove() {
+        // Itera sobre todos os obstáculos na lista
+        for (Obstacle obstacle : obstacles) {
+            // Obtém o polígono do obstáculo
+            Poligono obstacleShape = obstacle.getObstacle();
+
+            // Rotaciona o polígono em torno do ponto de rotação (0, 0)
+            Poligono rotatedObstacle = obstacleShape.rotacionar(10, rotacao);
+
+            // Atualiza o polígono do obstáculo com a nova posição após a rotação
+            obstacle.setObstacle(rotatedObstacle);
+        }
     }
 
     
     public void Frame() {
         ui.render();
         s.move();
-        CheckFoodEaten();
+
+        if (s.CheckFoodEaten(fruit) == true) {
+            points++;
+            s.grow();
+            generateFood(Color.YELLOW, foodtype, this, foodDimensions);
+
+        }
+
+       
+
         if (s.checkSnakeObstacleColision(s,obstacles) == true) {
             updateRank();
             ui.render();
@@ -353,18 +346,12 @@ public class Arena {
 
     }
 
-    private void obstaclesmove() {
-        // Itera sobre todos os obstáculos na lista
-        for (Obstacle obstacle : obstacles) {
-            // Obtém o polígono do obstáculo
-            Poligono obstacleShape = obstacle.getObstacle();
+    public Snake getS() {
+        return s;
+    }
 
-            // Rotaciona o polígono em torno do ponto de rotação (0, 0)
-            Poligono rotatedObstacle = obstacleShape.rotacionar(10, rotacao);
-
-            // Atualiza o polígono do obstáculo com a nova posição após a rotação
-            obstacle.setObstacle(rotatedObstacle);
-        }
+    public AbstractFood<?> getFruit() {
+        return fruit;
     }
 
     public void updateRank() {

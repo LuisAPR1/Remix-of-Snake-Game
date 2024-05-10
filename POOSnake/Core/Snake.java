@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import Geometry.Poligono;
 import Geometry.Ponto;
 import Geometry.Square;
 
@@ -55,6 +56,28 @@ public class Snake {
 
         // Define a direção da cobra como a direção aleatória gerada
         this.direction = randomDirection;
+    }
+
+     public boolean CheckFoodEaten(AbstractFood<?> fruit) {
+        Poligono square;
+        if (snake.size() >= 2) {
+            // Se a cobra tem pelo menos dois quadrados, combina os quadrados 0 e 1
+            Poligono square0 = snake.get(0);
+            Poligono square1 = snake.get(1);
+            square = square0.combine(square1);
+        } else {
+            // Se a cobra tem apenas um quadrado, usa apenas esse quadrado
+            square = snake.get(0);
+        }
+    
+        // Verifica se a comida está contida no quadrado
+        boolean isContained = fruit.isContainedIn(square);
+    
+        // Faça algo com o resultado, como imprimir ou processar
+        if (isContained) {
+            return true;
+        }
+        return false;
     }
 
     public boolean checkSnakeSelfCollision() {
