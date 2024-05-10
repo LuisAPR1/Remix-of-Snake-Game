@@ -16,26 +16,40 @@ public class ManualMovementStrategy implements MovementStrategy {
         System.out.println("Digite uma direção (w, a, s ou d):");
         String input = scanner.nextLine().toLowerCase();
 
+        // Obtém a direção atual da cobra
+        int currentDirection = arena.getS().getDirection();
+
         switch (input) {
             case "w":
-                arena.getS().setDirection(180);
-                arena.Frame();
+                // Se a direção atual não for para baixo, permita a mudança para cima
+                if (currentDirection != 0) {
+                    arena.getS().setDirection(180);
+                    arena.Frame();
+                }
                 break;
             case "a":
-                arena.getS().setDirection(270);
-                arena.Frame();
+                // Se a direção atual não for para a direita, permita a mudança para a esquerda
+                if (currentDirection != 90) {
+                    arena.getS().setDirection(270);
+                    arena.Frame();
+                }
                 break;
             case "s":
-                arena.getS().setDirection(0);
-                arena.Frame();
+                // Se a direção atual não for para cima, permita a mudança para baixo
+                if (currentDirection != 180) {
+                    arena.getS().setDirection(0);
+                    arena.Frame();
+                }
                 break;
             case "d":
-                arena.getS().setDirection(90);
-                arena.Frame();
+                // Se a direção atual não for para a esquerda, permita a mudança para a direita
+                if (currentDirection != 270) {
+                    arena.getS().setDirection(90);
+                    arena.Frame();
+                }
                 break;
             default:
                 break;
         }
     }
-
 }
