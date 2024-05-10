@@ -136,7 +136,7 @@ public class Arena {
         // Verifica se a comida intersecta com algum obstáculo
         for (Obstacle obstacle : obstacles) {
 
-            if (food.intersect(obstacle.getObstacle()) || food.contains(obstacle.getObstacle()) || food.distance(obstacle.getObstacle())|| food.isContainedIn(obstacle.getObstacle())|| food.intersect4(obstacle.getObstacle())) {
+            if (food.intersect(obstacle.getObstacle()) || food.contains(obstacle.getObstacle()) || food.distance(obstacle.getObstacle())|| food.isContainedIn(obstacle.getObstacle())) {
                 return true;
             }
         }

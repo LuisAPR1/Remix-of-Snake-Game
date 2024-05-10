@@ -61,17 +61,7 @@ public class Poligono implements Shape {
     }
 
     
-    public boolean intersect4(Circle otherPolygon) {
-        // Verifica se há interseção entre as arestas dos polígonos
-        for (Segmento segmento : this.getSegmentoDeRetas()) {
-            for (Segmento otherSegment : otherPolygon.getSegmentoDeRetas()) {
-                if (segmento.arestasCruzam2(otherSegment)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    
 
     public boolean intersect2(Poligono otherPolygon) {
         // Verifica se os polígonos têm os 4 pontos iguais
