@@ -201,6 +201,9 @@ public class Arena {
 
         if (s.checkSnakeObstacleColision(s,obstacles) == true) {
             rank.updateRank(namePlayer, points);
+            System.out.println("COORDENADAS OBSTACULO " + obstacles.get(0).getObstacle().toString());
+            System.out.println("COORDENADAS SNAKE " + s.getSnake().get(0).getPontos().toString());
+
             ui.render();
             Rank.printLeaderboard();
             System.exit(0);

@@ -60,33 +60,7 @@ public class Poligono implements Shape {
         this.pontos = pontos;
     }
 
-    public boolean intersect(Poligono otherPolygon) {
-        // Verifica se os polígonos têm os mesmos pontos
-        if (this.equals(otherPolygon)) {
-            return true; // Se tiverem, considera-se como intersectados
-        }
     
-        // Obtém todas as coordenadas do polígono recebido por argumento
-        List<Ponto> coordenadasOutroPoligono = otherPolygon.getAllCoordinates();
-    
-        // Itera sobre todos os pontos do polígono atual
-        for (Ponto ponto : pontos) {
-            // Verifica se o ponto do polígono atual está dentro do polígono recebido por argumento
-            if (otherPolygon.isPointInsidePolygon(ponto, coordenadasOutroPoligono)) {
-                return true; // Se o ponto estiver dentro, retorna verdadeiro
-            }
-        }
-    
-        // Itera sobre todos os pontos do polígono recebido por argumento
-        for (Ponto ponto : otherPolygon.getPontos()) {
-            // Verifica se o ponto do polígono recebido por argumento está dentro do polígono atual
-            if (isPointInsidePolygon(ponto, getAllCoordinates())) {
-                return true; // Se o ponto estiver dentro, retorna verdadeiro
-            }
-        }
-    
-        return false; // Se nenhum ponto estiver dentro, retorna falso
-    }
     
 
     public boolean intersect2(Poligono otherPolygon) {
@@ -110,6 +84,37 @@ public class Poligono implements Shape {
         return false; // Se nenhum ponto estiver dentro, retorna falso
     }
 
+
+    public boolean intersect(Poligono otherPolygon) {
+        // Verifica se os polígonos têm os mesmos pontos
+        if (this.equals(otherPolygon)) {
+            return true; // Se tiverem, considera-se como intersectados
+        }
+    
+        // Obtém todas as coordenadas do polígono recebido por argumento
+        List<Ponto> coordenadasOutroPoligono = otherPolygon.getAllCoordinates();
+    
+        // Itera sobre todos os pontos do polígono atual
+        for (Ponto ponto : pontos) {
+            // Verifica se o ponto do polígono atual está dentro do polígono recebido por argumento
+            if (otherPolygon.isPointInsidePolygon(ponto, coordenadasOutroPoligono)) {
+
+                return true; // Se o ponto estiver dentro, retorna verdadeiro
+            }
+        }
+    
+        // Itera sobre todos os pontos do polígono recebido por argumento
+        for (Ponto ponto : otherPolygon.getPontos()) {
+            // Verifica se o ponto do polígono recebido por argumento está dentro do polígono atual
+            if (isPointInsidePolygon(ponto, getAllCoordinates())) {
+
+                return true; // Se o ponto estiver dentro, retorna verdadeiro
+            }
+        }
+    
+        return false; // Se nenhum ponto estiver dentro, retorna falso
+    }
+    
     public boolean intersect(Circle circle) {
         // Obtém todas as coordenadas do polígono
         List<Ponto> coordenadasPoligono = getAllCoordinates();
