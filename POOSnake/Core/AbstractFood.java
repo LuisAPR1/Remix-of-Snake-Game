@@ -9,7 +9,6 @@ import Geometry.Ponto;
 import Geometry.Square;
 
 public abstract class AbstractFood<T extends Shape> {
-    protected Ponto position;
     protected Color color;
     protected Core.FoodType type;
     protected Arena arena;
@@ -61,9 +60,7 @@ public abstract class AbstractFood<T extends Shape> {
     
 
     // Getters and Setters
-    public Ponto getPosition() {
-        return position;
-    }
+    
 
     public Color getColor() {
         return color;

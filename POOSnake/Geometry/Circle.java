@@ -63,4 +63,9 @@ public class Circle implements Shape {
         this.raio = raio;
     }
 
+    @Override
+    public Ponto getPosition() {
+       return centro;
+    }
+
 }

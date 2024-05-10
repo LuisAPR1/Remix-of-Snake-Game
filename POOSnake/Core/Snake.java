@@ -1,11 +1,11 @@
 package Core;
 
 import java.util.LinkedList;
-
 import Geometry.Ponto;
 import Geometry.Square;
 
 public class Snake {
+
     private LinkedList<Square> snake = new LinkedList<>();
     int headDimensions;
     int direction;
@@ -27,33 +27,32 @@ public class Snake {
     public void setDirection(int direction) {
         this.direction = direction;
     }
-
     public void HeadInitializer(int[] arenaDimensions, int headDimensions) {
-        // Gera coordenadas aleatórias para a cabeça dentro da arena
-        int randomX = 1 + (int) (Math.random() * (arenaDimensions[0] - headDimensions - 1));
-        int randomY = 1 + (int) (Math.random() * (arenaDimensions[1] - headDimensions - 1));
-
-        // Define a direção aleatória da cobra (0, 90, 180, 270 graus)
-        int randomDirection = 2;
-
-        // Calcula as coordenadas da cabeça com base na direção
-        int headX = randomX;
-        int headY = randomY;
-       
+        // Determina um fator de deslocamento aleatório relativo ao tamanho da cabeça
+        int offsetFactorX = (int) (Math.random() * (arenaDimensions[0] / headDimensions - 2)) + 1;
+        int offsetFactorY = (int) (Math.random() * (arenaDimensions[1] / headDimensions - 2)) + 1;
+    
+        // Calcula as coordenadas da cabeça da cobra baseadas no fator de deslocamento
+        int headX = offsetFactorX * headDimensions;
+        int headY = offsetFactorY * headDimensions;
+    
         // Monta a representação da cabeça como uma string
         String headRepresentation = headX + " " + headY + " " +
                 (headX + headDimensions) + " " + headY + " " +
                 (headX + headDimensions) + " " + (headY + headDimensions) + " " +
                 headX + " " + (headY + headDimensions);
-
-        // Cria o objeto Square representando a cabeça e adiciona à lista de quadrados
-        // da cobra
+    
+        // Cria o objeto Square representando a cabeça e adiciona à lista de quadrados da cobra
         Square h = new Square(headRepresentation);
         snake.addFirst(h);
-
-        // Define a direção da cobra como a direção aleatória gerada
-        this.direction = randomDirection;
+    
+        // Define uma direção inicial aleatória para a cobra (em graus)
+        this.direction = (int) (Math.random() * 360);
     }
+    
+    
+    
+
 
     public Square getHead() {
         return snake.getFirst();

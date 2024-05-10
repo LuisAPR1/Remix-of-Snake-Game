@@ -109,7 +109,7 @@ public class Arena {
         Ponto headPosition = s.getSnake().get(0).calcularCentro();
 
         // Obtém a posição da comida
-        Ponto foodPosition = fruit.getPosition();
+        Ponto foodPosition = fruit.getShape().getPosition();
 
         // Calcula a distância entre a cabeça da cobra e a comida
         double distanceX = Math.abs(headPosition.getX() - foodPosition.getX());
@@ -254,7 +254,7 @@ public class Arena {
         return false;
     }
 
-    private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
+    boolean checkFoodSnakeCollision(AbstractFood<?> food) {
         // Obtém os quadrados da cobra
         List<Square> squares = s.getSnake();
 
@@ -270,7 +270,7 @@ public class Arena {
         return false;
     }
 
-    private boolean checkFoodObstacleCollision(AbstractFood<?> food) {
+    boolean checkFoodObstacleCollision(AbstractFood<?> food) {
         // Verifica se a comida intersecta com algum obstáculo
         for (Obstacle obstacle : obstacles) {
             if (food.intersect(obstacle.getObstacle())) {

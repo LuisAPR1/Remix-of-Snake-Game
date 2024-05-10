@@ -10,6 +10,7 @@ import Geometry.Ponto;
 public class FoodCircle extends AbstractFood<Circle> {
     private int diametro;
     Circle shape;
+    public Ponto position;
 
     public FoodCircle(Color color, Core.FoodType type, Arena arena, int diametro) {
         super(color, type, arena);
