@@ -1,6 +1,7 @@
 package Core;
 
 
+
 import Geometry.Poligono;
 import Geometry.Ponto;
 
@@ -20,6 +21,8 @@ public class Obstacle {
         D, // Dinâmico
         S // Estático
     }
+    
+    
 
     public Obstacle(Obstacle.ObstacleType obstacleType, Poligono obstacle, Ponto rotacao) {
         this.type = obstacleType;

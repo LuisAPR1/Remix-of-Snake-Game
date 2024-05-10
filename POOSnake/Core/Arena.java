@@ -32,10 +32,6 @@ public class Arena {
     String namePlayer;
     Rank rank;
 
-    public int getHeadDimensions() {
-        return headDimensions;
-    }
-
     @SuppressWarnings("unused")
     private InterfaceMode interfaceMode;
     private MovementStrategy movementStrategy;
@@ -86,15 +82,12 @@ public class Arena {
         startGame();
     }
 
-    public void setMovementStrategy(MovementStrategy strategy) {
-        this.movementStrategy = strategy;
-    }
-
     public void startGame() {
         while (true) 
             movementStrategy.input();
     }
 
+<<<<<<< HEAD
     public int calculateBestDirection(int currentDirection) {
         // Obtém a posição da cabeça da cobra
         Ponto headPosition = s.getSnake().get(0).calcularCentro();
@@ -193,6 +186,18 @@ private void generateFood(Color color, FoodType foodType, Arena arena, int foodD
         foodIntersects = checkFoodObstacleCollision(fruit);
         if (!foodIntersects) {
             // Verificar se a comida está dentro da cobra
+=======
+    
+    private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
+        boolean foodIntersects = true;
+
+        // Repete até que a comida não intersecte com a cobra ou obstáculos
+        while (foodIntersects) {
+            // Cria a comida com uma posição aleatória
+            fruit = FoodFactory.createFood(color, foodType, arena, foodDimensions);
+
+            // Verifica se a comida intersecta com a cobra
+>>>>>>> e64d8d426a79fe2ae4fe303e1ede02cf81691f7c
             foodIntersects = checkFoodSnakeCollision(fruit);
         }
         // Se ainda houver interseção, gerar uma nova posição
@@ -202,11 +207,26 @@ private void generateFood(Color color, FoodType foodType, Arena arena, int foodD
     }
 }
 
+<<<<<<< HEAD
 // Dentro do método checkFoodObstacleCollision na classe Arena
 private boolean checkFoodObstacleCollision(AbstractFood<?> food) {
     for (Obstacle obstacle : obstacles) {
         if (food.intersect(obstacle.getObstacle())) {
             return true;
+=======
+    private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
+        // Obtém os quadrados da cobra
+        List<Square> squares = s.getSnake();
+
+        // Verifica se a comida intersecta com algum polígono da cobra
+        for (Square square : squares) {
+            if (food.intersect(square)) {
+                System.out.println("snake colidiu food");
+                updateRank();
+                System.exit(0);
+                return true;
+            }
+>>>>>>> e64d8d426a79fe2ae4fe303e1ede02cf81691f7c
         }
     }
     return false;
@@ -257,16 +277,7 @@ private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
         }
     }
 
-    public int[] getArenaDimensions() {
-        return arenaDimensions;
-    }
-
-   
-    public ArrayList<Obstacle> getObstacles() {
-        return obstacles;
-    }
-
-    private void obstaclesmove() {
+    public void obstaclesmove () {
         // Itera sobre todos os obstáculos na lista
         for (Obstacle obstacle : obstacles) {
             // Obtém o polígono do obstáculo
@@ -280,7 +291,6 @@ private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
         }
     }
 
-    
     public void Frame() {
         ui.render();
         s.move();
@@ -291,8 +301,6 @@ private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
             generateFood(Color.YELLOW, foodtype, this, foodDimensions);
 
         }
-
-       
 
         if (s.checkSnakeObstacleColision(s,obstacles) == true) {
             rank.updateRank(namePlayer, points);
@@ -323,7 +331,8 @@ private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
         ui.render();
 
     }
-
+    
+    //GETTERS NAD SETTERS
     public Snake getS() {
         return s;
     }
@@ -333,5 +342,21 @@ private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
     }
 
     
+
+    public int[] getArenaDimensions() {
+        return arenaDimensions;
+    }
+
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
+    public int getHeadDimensions() {
+        return headDimensions;
+    }
+    
+    public void setMovementStrategy(MovementStrategy strategy) {
+        this.movementStrategy = strategy;
+    }
 
 }
