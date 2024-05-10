@@ -218,43 +218,9 @@ public class Arena {
         }
     }
 
-    public boolean checkSnakeSelfCollision() {
-        // Obtém os quadrados da cobra
-        List<Square> squares = s.getSnake();
+    
 
-        // Obtém a cabeça da cobra (primeiro quadrado)
-        Square head = squares.get(0);
-
-        // Verifica se a cabeça da cobra intersecta com algum outro quadrado do corpo
-        for (int i = 1; i < squares.size(); i++) {
-            if (head.intersect2(squares.get(i))) {
-                // Se houver interseção, significa que a cabeça da cobra bateu em alguma parte
-                updateRank();
-                ui.render();
-                Rank.printLeaderboard();
-                System.exit(0);
-                return true;
-            }
-
-            // Verifica se os 4 pontos da cabeça são iguais aos 4 pontos de qualquer outra
-            // parte do corpo
-            Square bodyPart = squares.get(i);
-            List<Ponto> headPoints = head.getPontos();
-            List<Ponto> bodyPartPoints = bodyPart.getPontos();
-
-            if (headPoints.containsAll(bodyPartPoints) && bodyPartPoints.containsAll(headPoints)) {
-                // Se todos os pontos são iguais, houve colisão
-                updateRank();
-                System.exit(0);
-                return true;
-            }
-        }
-
-        // Se não houve interseção, significa que não houve colisão com o próprio corpo
-        return false;
-    }
-
-    boolean checkFoodSnakeCollision(AbstractFood<?> food) {
+    private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
         // Obtém os quadrados da cobra
         List<Square> squares = s.getSnake();
 
@@ -270,7 +236,7 @@ public class Arena {
         return false;
     }
 
-    boolean checkFoodObstacleCollision(AbstractFood<?> food) {
+    private boolean checkFoodObstacleCollision(AbstractFood<?> food) {
         // Verifica se a comida intersecta com algum obstáculo
         for (Obstacle obstacle : obstacles) {
             if (food.intersect(obstacle.getObstacle())) {
@@ -309,7 +275,7 @@ public class Arena {
             this.s = new Snake(arenaDimensions, headDimensions);
 
             // Verifica se a cobra colidiu com algum obstáculo
-            snakeCollidedWithObstacle = checkSnakeObstacleColision();
+            snakeCollidedWithObstacle = s.checkSnakeObstacleColision(s,obstacles);
         }
     }
 
@@ -317,78 +283,21 @@ public class Arena {
         return arenaDimensions;
     }
 
-    public void checkSnakeInsideArena() {
-        // Obtém os quadrados da cobra
-        List<Square> squares = s.getSnake();
-
-        // Obtém as dimensões da arena
-        int arenaWidth = arenaDimensions[0];
-        int arenaHeight = arenaDimensions[1];
-
-        // Itera sobre os quadrados da cobra
-        for (Square square : squares) {
-            // Obtém os pontos do quadrado
-            List<Ponto> squareCoordinates = square.getAllCoordinates();
-
-            // Verifica cada ponto do quadrado
-            for (Ponto point : squareCoordinates) {
-                // Verifica se o ponto está fora dos limites da arena
-                if (point.getX() < 0 || point.getX() > arenaWidth || point.getY() < 0
-                        || point.getY() > arenaHeight) {
-                    // Se algum ponto estiver fora dos limites, a cobra saiu da arena
-                    System.out.println("snake saiu da arena");
-                    updateRank();
-                    ui.render();
-                    Rank.printLeaderboard();
-                    System.exit(0);
-                }
-            }
-        }
-    }
-
-    public boolean checkSnakeObstacleColision() {
-        // Obtém os quadrados da cobra
-        List<Square> squares = s.getSnake();
-
-        // Itera sobre os quadrados da cobra
-        for (Square square : squares) {
-            // Verifica se algum quadrado intersecta os polígonos dos obstáculos
-            for (Obstacle obstacle : obstacles) {
-
-                if (square.intersect(obstacle.getObstacle()) || square.contains(obstacle.getObstacle())
-                        || square.distance(obstacle.getObstacle())) {
-                    // Se houver interseção, a cobra colidiu com um obstáculo
-                    System.out.println("Colisao snake com objeto");
-                    updateRank();
-                    // Retorna verdadeiro indicando que houve colisão
-                    ui.render();
-                    Rank.printLeaderboard();
-                    System.exit(0);
-                    return true;
-                }
-            }
-        }
-
-        // Se não houve colisão, retorna falso
-        return false;
-    }
-
     public void CheckFoodEaten() {
-
         Poligono square;
         if (s.getSnake().size() >= 2) {
             // Se a cobra tem pelo menos dois quadrados, combina os quadrados 0 e 1
             Poligono square0 = s.getSnake().get(0);
             Poligono square1 = s.getSnake().get(1);
-            square = combinePolygons(square0, square1);
+            square = square0.combine(square1);
         } else {
             // Se a cobra tem apenas um quadrado, usa apenas esse quadrado
             square = s.getSnake().get(0);
         }
-
+    
         // Verifica se a comida está contida no quadrado
         boolean isContained = fruit.isContainedIn(square);
-
+    
         // Faça algo com o resultado, como imprimir ou processar
         if (isContained) {
             points++;
@@ -396,7 +305,7 @@ public class Arena {
             generateFood(Color.YELLOW, foodtype, this, foodDimensions);
         }
     }
-
+    
     public Snake getS() {
         return s;
     }
@@ -409,37 +318,35 @@ public class Arena {
         return obstacles;
     }
 
-    private Poligono combinePolygons(Poligono polygon1, Poligono polygon2) {
-        // Obtém os pontos dos polígonos
-        List<Ponto> points1 = polygon1.getPontos();
-        List<Ponto> points2 = polygon2.getPontos();
-
-        // Encontra os pontos mais distantes em cada eixo (x e y) de ambos os polígonos
-        int minX = (int) Math.min(points1.get(0).getX(), points2.get(0).getX());
-        int minY = (int) Math.min(points1.get(0).getY(), points2.get(0).getY());
-        int maxX = (int) Math.max(points1.get(2).getX(), points2.get(2).getX());
-        int maxY = (int) Math.max(points1.get(2).getY(), points2.get(2).getY());
-
-        // Cria um novo polígono com os pontos mais distantes
-        List<Ponto> combinedPoints = new ArrayList<>();
-        combinedPoints.add(new Ponto(minX, minY));
-        combinedPoints.add(new Ponto(maxX, minY));
-        combinedPoints.add(new Ponto(maxX, maxY));
-        combinedPoints.add(new Ponto(minX, maxY));
-
-        return new Poligono(combinedPoints);
-    }
-
+    
     public void Frame() {
         ui.render();
         s.move();
         CheckFoodEaten();
-        checkSnakeObstacleColision();
-        checkSnakeInsideArena();
-        checkSnakeSelfCollision();
+        if (s.checkSnakeObstacleColision(s,obstacles) == true) {
+            updateRank();
+            ui.render();
+            Rank.printLeaderboard();
+            System.exit(0);
+        }
+
+        if (s.checkSnakeInsideArena(arenaDimensions)==true) {
+            System.out.println("snake saiu da arena");
+                    updateRank();
+                    ui.render();
+                    Rank.printLeaderboard();
+                    System.exit(0);
+        }
         
+        if ( s.checkSnakeSelfCollision()==true) {
+            updateRank();
+                ui.render();
+                Rank.printLeaderboard();
+                System.exit(0);
+        } 
+
         if (this.obstacletype == Obstacle.ObstacleType.D) {
-        obstaclesmove();
+            obstaclesmove();
         }
 
         ui.render();
