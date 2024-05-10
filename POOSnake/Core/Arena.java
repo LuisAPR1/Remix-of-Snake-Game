@@ -125,9 +125,6 @@ public class Arena {
         // Verifica se a comida intersecta com algum polígono da cobra
         for (Square square : squares) {
             if (food.intersect(square)) {
-                System.out.println("snake colidiu food");
-                rank.updateRank(namePlayer, points);
-                System.exit(0);
                 return true;
             }
         }

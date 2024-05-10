@@ -14,4 +14,4 @@ Fixef, 0
 Psdas, 6
 Conaaaaa, 2
 Conaaaaa3, 2
-Conaaaaa6a, 1
+Conaaaaa6a, 6

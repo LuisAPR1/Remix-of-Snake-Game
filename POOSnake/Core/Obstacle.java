@@ -23,6 +23,7 @@ public class Obstacle {
     }
     
     
+    
 
     public Obstacle(Obstacle.ObstacleType obstacleType, Poligono obstacle, Ponto rotacao) {
         this.type = obstacleType;
@@ -36,13 +37,7 @@ public class Obstacle {
     public void spawnObstacle(Poligono obstacle, ObstacleType type) 
     {
         
-    }
-
-
-
-
-
-   
+    }   
 
     public Ponto getPosition() {
         return position;

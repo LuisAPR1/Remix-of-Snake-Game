@@ -158,6 +158,8 @@ public class Snake {
         return false;
     }
 
+    
+
     public Square getHead() {
         return snake.getFirst();
     }

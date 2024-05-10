@@ -61,17 +61,33 @@ public class Poligono implements Shape {
     }
 
     public boolean intersect(Poligono otherPolygon) {
-        // Verifica se há interseção entre as arestas do polígono atual e as do polígono
-        // fornecido
-        for (Segmento segmento : segmentoDeRetas) {
-            for (Segmento otherSegment : otherPolygon.getSegmentoDeRetas()) {
-                if (segmento.arestasCruzam(otherSegment)) {
-                    return true; // Se houver interseção, retorna verdadeiro
-                }
+        // Verifica se os polígonos têm os mesmos pontos
+        if (this.equals(otherPolygon)) {
+            return true; // Se tiverem, considera-se como intersectados
+        }
+    
+        // Obtém todas as coordenadas do polígono recebido por argumento
+        List<Ponto> coordenadasOutroPoligono = otherPolygon.getAllCoordinates();
+    
+        // Itera sobre todos os pontos do polígono atual
+        for (Ponto ponto : pontos) {
+            // Verifica se o ponto do polígono atual está dentro do polígono recebido por argumento
+            if (otherPolygon.isPointInsidePolygon(ponto, coordenadasOutroPoligono)) {
+                return true; // Se o ponto estiver dentro, retorna verdadeiro
             }
         }
-        return false; // Se nenhuma interseção for encontrada, retorna falso
+    
+        // Itera sobre todos os pontos do polígono recebido por argumento
+        for (Ponto ponto : otherPolygon.getPontos()) {
+            // Verifica se o ponto do polígono recebido por argumento está dentro do polígono atual
+            if (isPointInsidePolygon(ponto, getAllCoordinates())) {
+                return true; // Se o ponto estiver dentro, retorna verdadeiro
+            }
+        }
+    
+        return false; // Se nenhum ponto estiver dentro, retorna falso
     }
+    
 
     public boolean intersect2(Poligono otherPolygon) {
         // Verifica se os polígonos têm os 4 pontos iguais
