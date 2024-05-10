@@ -381,6 +381,30 @@ public class Poligono implements Shape {
         return new Poligono(pontosPol);
     }
 
+   
+        public Poligono combine(Poligono outroPoligono) {
+            // Obtém os pontos dos polígonos
+            List<Ponto> pontos1 = this.getPontos();
+            List<Ponto> pontos2 = outroPoligono.getPontos();
+    
+            // Encontra os pontos mais distantes em cada eixo (x e y) de ambos os polígonos
+            double minX = Math.min(pontos1.get(0).getX(), pontos2.get(0).getX());
+            double minY = Math.min(pontos1.get(0).getY(), pontos2.get(0).getY());
+            double maxX = Math.max(pontos1.get(2).getX(), pontos2.get(2).getX());
+            double maxY = Math.max(pontos1.get(2).getY(), pontos2.get(2).getY());
+    
+            // Cria um novo polígono com os pontos mais distantes
+            List<Ponto> combinedPoints = new ArrayList<>();
+            combinedPoints.add(new Ponto(minX, minY));
+            combinedPoints.add(new Ponto(maxX, minY));
+            combinedPoints.add(new Ponto(maxX, maxY));
+            combinedPoints.add(new Ponto(minX, maxY));
+    
+            return new Poligono(combinedPoints);
+        }
+    
+    
+
     /**
      * Realiza uma translação no polígono.
      * 

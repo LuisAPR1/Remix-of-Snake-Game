@@ -1,6 +1,8 @@
 package Core;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import Geometry.Ponto;
 import Geometry.Square;
@@ -68,6 +70,85 @@ public class Snake {
         this.direction = randomDirection;
     }
 
+    public boolean checkSnakeSelfCollision() {
+        // Obtém os quadrados da cobra
+
+        // Obtém a cabeça da cobra (primeiro quadrado)
+
+        // Verifica se a cabeça da cobra intersecta com algum outro quadrado do corpo
+        for (int i = 1; i < snake.size(); i++) {
+            if (snake.get(0).intersect2(snake.get(i))) {
+                // Se houver interseção, significa que a cabeça da cobra bateu em alguma parte
+
+                return true;
+            }
+
+            // Verifica se os 4 pontos da cabeça são iguais aos 4 pontos de qualquer outra
+            // parte do corpo
+            Square bodyPart = snake.get(i);
+            List<Ponto> headPoints = snake.get(0).getPontos();
+            List<Ponto> bodyPartPoints = bodyPart.getPontos();
+
+            if (headPoints.containsAll(bodyPartPoints) && bodyPartPoints.containsAll(headPoints)) {
+                // Se todos os pontos são iguais, houve colisão
+
+                return true;
+            }
+        }
+
+        // Se não houve interseção, significa que não houve colisão com o próprio corpo
+        return false;
+    }
+
+    public boolean checkSnakeInsideArena(int[] arenaDimensions) {
+        // Obtém os quadrados da cobra
+
+        // Obtém as dimensões da arena
+        int arenaWidth = arenaDimensions[0];
+        int arenaHeight = arenaDimensions[1];
+
+        // Itera sobre os quadrados da cobra
+        for (Square square : snake) {
+            // Obtém os pontos do quadrado
+            List<Ponto> squareCoordinates = square.getAllCoordinates();
+
+            // Verifica cada ponto do quadrado
+            for (Ponto point : squareCoordinates) {
+                // Verifica se o ponto está fora dos limites da arena
+                if (point.getX() < 0 || point.getX() > arenaWidth || point.getY() < 0
+                        || point.getY() > arenaHeight) {
+                    // Se algum ponto estiver fora dos limites, a cobra saiu da arena
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkSnakeObstacleColision(Snake s, ArrayList<Obstacle> obstacles) {
+        // Obtém os quadrados da cobra
+        List<Square> squares = s.getSnake();
+
+        // Itera sobre os quadrados da cobra
+        for (Square square : squares) {
+            // Verifica se algum quadrado intersecta os polígonos dos obstáculos
+            for (Obstacle obstacle : obstacles) {
+
+                if (square.intersect(obstacle.getObstacle()) || square.contains(obstacle.getObstacle())
+                        || square.distance(obstacle.getObstacle())) {
+                    // Se houver interseção, a cobra colidiu com um obstáculo
+                    System.out.println("Colisao snake com objeto");
+
+                    // Retorna verdadeiro indicando que houve colisão
+                    return true;
+                }
+            }
+        }
+
+        // Se não houve colisão, retorna falso
+        return false;
+    }
+
     public Square getHead() {
         return snake.getFirst();
     }
@@ -113,13 +194,13 @@ public class Snake {
         snake.set(0, head.translacaoSemPonto(xMove, yMove));
 
         // Chama o método grow passando a posição da última cauda
-        
+
     }
 
     public void grow() {
         // Calcula as coordenadas do novo quadrado com base na posição da última cauda
-        int xNewSquare = (int)lastTailPosition.getX(); // Mantém a mesma coordenada X da última cauda
-        int yNewSquare = (int)lastTailPosition.getY(); // Mantém a mesma coordenada Y da última cauda
+        int xNewSquare = (int) lastTailPosition.getX(); // Mantém a mesma coordenada X da última cauda
+        int yNewSquare = (int) lastTailPosition.getY(); // Mantém a mesma coordenada Y da última cauda
 
         // Cria um novo quadrado com as coordenadas calculadas e o mesmo tamanho da
         // cabeça
