@@ -22,81 +22,76 @@ class OutlineRasterization implements RasterizationStrategy {
     public void render() {
         initializeArena();
 
-        // Desenha a cabeça da cobra
-        drawObject(arena.getS().getHead(), "HEAD");
+        // Desenha o contorno da cabeça da cobra
+        drawOutline(arena.getS().getHead(), "HEAD");
 
-        // Desenha a cauda da cobra
+        // Desenha o contorno da cauda da cobra
         LinkedList<Square> tail = arena.getS().getTailCoordinates();
         for (Square square : tail) {
-            drawObject(square, "TAIL");
+            drawOutline(square, "TAIL");
         }
 
-        // Desenha os obstáculos
+        // Desenha o contorno dos obstáculos
         for (Obstacle obstacle : arena.getObstacles()) {
-            drawObject(obstacle.getObstacle(), "OBSTACLE");
+            drawOutline(obstacle.getObstacle(), "OBSTACLE");
         }
 
-        // Desenha a fruta
+        // Desenha o contorno da fruta
         if (arena.getFruit() != null) {
             Square a = new Square(arena.getFruit().SquareVertices());
-            drawObject(a, "FOOD");
+            drawOutline(a, "FOOD");
         }
     }
 
-    private void drawObject(Poligono object, String cellType) {
+    private void drawOutline(Poligono object, String cellType) {
         List<Ponto> vertices = object.getPontos();
-    
-        // Desenha uma linha entre cada par de vértices adjacentes
-        for (int i = 0; i < vertices.size(); i++) {
-            Ponto currentVertex = vertices.get(i);
-            Ponto nextVertex = vertices.get((i + 1) % vertices.size()); // O próximo vértice é o primeiro se estivermos no último vértice
-            drawLine(currentVertex, nextVertex, cellType);
+
+        // Verifica se todos os pontos do objeto estão dentro dos limites do grid
+        if (checkIfWithinBounds(vertices)) {
+            // Encontra os limites do objeto
+            int minX = Integer.MAX_VALUE;
+            int minY = Integer.MAX_VALUE;
+            int maxX = Integer.MIN_VALUE;
+            int maxY = Integer.MIN_VALUE;
+            for (Ponto p : vertices) {
+                minX = (int) Math.min(minX, p.getX());
+                minY = (int) Math.min(minY, p.getY());
+                maxX = (int) Math.max(maxX, p.getX());
+                maxY = (int) Math.max(maxY, p.getY());
+            }
+
+            // Desenha o contorno do objeto
+            for (int x = minX; x < maxX; x++) {
+                if (x >= 0 && x < grid.length) {
+                    if (minY >= 0 && minY < grid[0].length) {
+                        grid[x][minY] = Cell.valueOf(cellType);
+                    }
+                    if (maxY - 1 >= 0 && maxY - 1 < grid[0].length) {
+                        grid[x][maxY - 1] = Cell.valueOf(cellType);
+                    }
+                }
+            }
+            for (int y = minY; y < maxY; y++) {
+                if (y >= 0 && y < grid[0].length) {
+                    if (minX >= 0 && minX < grid.length) {
+                        grid[minX][y] = Cell.valueOf(cellType);
+                    }
+                    if (maxX - 1 >= 0 && maxX - 1 < grid.length) {
+                        grid[maxX - 1][y] = Cell.valueOf(cellType);
+                    }
+                }
+            }
         }
     }
-    
-    private void drawLine(Ponto start, Ponto end, String cellType) {
-        double x0 = start.getX();
-        double y0 = start.getY();
-        double x1 = end.getX();
-        double y1 = end.getY();
-    
-        // Calcula as diferenças entre as coordenadas
-        double dx = Math.abs(x1 - x0);
-        double dy = Math.abs(y1 - y0);
-    
-        // Determina a direção do incremento para x e y
-        double sx = x0 < x1 ? 1 : -1;
-        double sy = y0 < y1 ? 1 : -1;
-    
-        // Inicializa os pontos de decisão para a primeira coordenada
-        double err = dx - dy;
-        double x = x0;
-        double y = y0;
-    
-        // Percorre a linha
-        while (true) {
-            // Desenha a célula correspondente
-            grid[(int)x - 1][(int)y - 1] = Cell.valueOf(cellType);
-    
-            // Verifica se chegamos ao fim da linha
-            if (x == x1 && y == y1) {
-                break;
-            }
-    
-            // Calcula os pontos de decisão para a próxima coordenada
-            double e2 = 2 * err;
-            if (e2 > -dy) {
-                err -= dy;
-                x += sx;
-            }
-            if (e2 < dx) {
-                err += dx;
-                y += sy;
+
+    private boolean checkIfWithinBounds(List<Ponto> vertices) {
+        for (Ponto p : vertices) {
+            if (p.getX() >= grid.length || p.getY() >= grid[0].length || p.getX() < 0 || p.getY() < 0) {
+                return false;
             }
         }
-    }    
-    
-    
+        return true;
+    }
 
     private void initializeArena() {
         for (int i = 0; i < grid.length; i++) {
