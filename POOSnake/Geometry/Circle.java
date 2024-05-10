@@ -56,10 +56,7 @@ public class Circle implements Shape {
     }
 
     public void setRaio(int raio) {
-        if (raio <= 0) {
-            System.out.println("raio:vi");
-            System.exit(0);
-        }
+        
         this.raio = raio;
     }
 
