@@ -1,10 +1,6 @@
 package Core;
 
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,10 +15,8 @@ import UI.UIFactory;
 public class Arena {
 
     Snake s;
-
     AbstractFood<?> fruit;
     ArrayList<Obstacle> obstacles;
-
     private int[] arenaDimensions = new int[2];
     private FoodType foodtype;
     private int headDimensions;
@@ -51,8 +45,8 @@ public class Arena {
             int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
             Ponto rotacao,
             char interfaceMode, String namePlayer, Scanner scanner, Character movement) {
-        // this.grid = new Cell[arenaDimensionsX][arenaDimensionsY];
 
+        this.rank = new Rank(players);
         this.rotacao = rotacao;
         this.obstacletype = obstacleType;
         this.arenaDimensions[0] = arenaDimensionsX;
@@ -97,11 +91,8 @@ public class Arena {
     }
 
     public void startGame() {
-        while (true) {
-            // Captura a entrada do usuário e executa o movimento
+        while (true) 
             movementStrategy.input();
-            // Atualiza o frame do jogo
-        }
     }
 
     public int calculateBestDirection(int currentDirection) {
@@ -193,58 +184,45 @@ public class Arena {
         return bestDirection;
     }
 
-    private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
-        boolean foodIntersects = true;
-
-        // Repete até que a comida não intersecte com a cobra ou obstáculos
-        while (foodIntersects) {
-            // Cria a comida com uma posição aleatória
-            fruit = FoodFactory.createFood(color, foodType, arena, foodDimensions);
-
-            // Verifica se a comida intersecta com a cobra
+// Dentro do método generateFood na classe Arena
+private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
+    boolean foodIntersects = true;
+    while (foodIntersects) {
+        fruit = FoodFactory.createFood(color, foodType, arena, foodDimensions);
+        // Verificar se a comida está dentro de um obstáculo
+        foodIntersects = checkFoodObstacleCollision(fruit);
+        if (!foodIntersects) {
+            // Verificar se a comida está dentro da cobra
             foodIntersects = checkFoodSnakeCollision(fruit);
-
-            // Se a comida não intersectar com a cobra, verifica se intersecta com algum
-            // obstáculo
-            if (!foodIntersects) {
-                foodIntersects = checkFoodObstacleCollision(fruit);
-            }
-
-            // Se a comida intersectar com a cobra ou um obstáculo, gere uma nova posição
-            // para ela
-            if (foodIntersects) {
-                fruit.spawnFood(arena);
-            }
+        }
+        // Se ainda houver interseção, gerar uma nova posição
+        if (foodIntersects) {
+            fruit.spawnFood(arena);
         }
     }
+}
 
-    
-
-    private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
-        // Obtém os quadrados da cobra
-        List<Square> squares = s.getSnake();
-
-        // Verifica se a comida intersecta com algum polígono da cobra
-        for (Square square : squares) {
-            if (food.intersect(square)) {
-                System.out.println("snake colidiu food");
-                updateRank();
-                System.exit(0);
-                return true;
-            }
+// Dentro do método checkFoodObstacleCollision na classe Arena
+private boolean checkFoodObstacleCollision(AbstractFood<?> food) {
+    for (Obstacle obstacle : obstacles) {
+        if (food.intersect(obstacle.getObstacle())) {
+            return true;
         }
-        return false;
     }
+    return false;
+}
 
-    private boolean checkFoodObstacleCollision(AbstractFood<?> food) {
-        // Verifica se a comida intersecta com algum obstáculo
-        for (Obstacle obstacle : obstacles) {
-            if (food.intersect(obstacle.getObstacle())) {
-                return true;
-            }
+// Dentro do método checkFoodSnakeCollision na classe Arena
+private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
+    List<Square> squares = s.getSnake();
+    for (Square square : squares) {
+        if (food.intersect(square)) {
+            return true;
         }
-        return false;
     }
+    return false;
+}
+
 
     private void createObstacles(int numObstacles, Core.Obstacle.ObstacleType obstacleType, int[] arenaDimensions,
             int headDimensions) {
@@ -317,7 +295,7 @@ public class Arena {
        
 
         if (s.checkSnakeObstacleColision(s,obstacles) == true) {
-            updateRank();
+            rank.updateRank(namePlayer, points);
             ui.render();
             Rank.printLeaderboard();
             System.exit(0);
@@ -325,14 +303,14 @@ public class Arena {
 
         if (s.checkSnakeInsideArena(arenaDimensions)==true) {
             System.out.println("snake saiu da arena");
-                    updateRank();
+            rank.updateRank(namePlayer, points);
                     ui.render();
                     Rank.printLeaderboard();
                     System.exit(0);
         }
         
         if ( s.checkSnakeSelfCollision()==true) {
-            updateRank();
+            rank.updateRank(namePlayer, points);
                 ui.render();
                 Rank.printLeaderboard();
                 System.exit(0);
@@ -354,50 +332,6 @@ public class Arena {
         return fruit;
     }
 
-    public void updateRank() {
-        // Leitura do conteúdo do arquivo para obter os jogadores existentes
-        List<Player> existingPlayers = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("rank.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(", ");
-                String playerName = parts[0];
-                int playerScore = Integer.parseInt(parts[1]);
-                existingPlayers.add(new Player(playerName, playerScore));
-            }
-        } catch (IOException e) {
-            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
-        }
-
-        // Verificação se o jogador atual já está na lista
-        boolean playerExists = false;
-        for (Player player : existingPlayers) {
-            if (player.getName().equals(namePlayer)) {
-                playerExists = true;
-                // Se o jogador existir, atualizamos seu resultado se for maior
-                if (points > player.getScore()) {
-                    player.setScore(points);
-                    System.out.println("Pontuação atualizada para o jogador " + namePlayer + ": " + points);
-                    break; // Não é necessário continuar a busca
-                }
-            }
-        }
-
-        // Se o jogador não existir na lista, adicionamos ele
-        if (!playerExists) {
-            existingPlayers.add(new Player(namePlayer, points));
-            System.out.println("Novo jogador adicionado: " + namePlayer + ", Pontuação: " + points);
-        }
-
-        // Escrevendo a lista atualizada no arquivo
-        try (FileWriter writer = new FileWriter("rank.txt")) {
-            for (Player player : existingPlayers) {
-                writer.write(player.getName() + ", " + player.getScore() + "\n");
-            }
-            System.out.println("Rank atualizado e escrito no arquivo 'rank.txt'");
-        } catch (IOException e) {
-            System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
-        }
-    }
+    
 
 }

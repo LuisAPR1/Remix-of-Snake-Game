@@ -113,10 +113,10 @@ public class Poligono implements Shape {
         return false;
     }
 
-    public boolean contains(Circle circle) {
+    public boolean contains(Circle shape) {
         // Obtém o centro do círculo e o raio
-        Ponto centroCirculo = circle.getCentro();
-        double raioCirculo = circle.getRaio();
+        Ponto centroCirculo = shape.getCentro();
+        double raioCirculo = shape.getRaio();
 
         // Calcula os limites do quadrado definido pelos vértices do polígono
         int minX = Integer.MAX_VALUE;

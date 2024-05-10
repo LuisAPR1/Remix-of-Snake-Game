@@ -24,13 +24,54 @@ public class Rank {
         Players.add(p);
     }
 
-    public void updateRank() {
-    // Atualiza o rank dos jogadores ao final do jogo
-    // Este método já está atualizando o rank dos jogadores e escrevendo no arquivo
+    public void updateRank(String namePlayer, int points) {
+        // Leitura do conteúdo do arquivo para obter os jogadores existentes
+        List<Player> existingPlayers = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("rank.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(", ");
+                String playerName = parts[0];
+                int playerScore = Integer.parseInt(parts[1]);
+                existingPlayers.add(new Player(playerName, playerScore));
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        }
 
-    // Após atualizar o rank, imprime a leaderboard
-    printLeaderboard();
-}
+        // Verificação se o jogador atual já está na lista
+        boolean playerExists = false;
+        for (Player player : existingPlayers) {
+            if (player.getName().equals(namePlayer)) {
+                playerExists = true;
+                // Se o jogador existir, atualizamos seu resultado se for maior
+                if (points > player.getScore()) {
+                    player.setScore(points);
+                    System.out.println("Pontuação atualizada para o jogador " + namePlayer + ": " + points);
+                    break; // Não é necessário continuar a busca
+                }
+            }
+        }
+
+        // Se o jogador não existir na lista, adicionamos ele
+        if (!playerExists) {
+            existingPlayers.add(new Player(namePlayer, points));
+            System.out.println("Novo jogador adicionado: " + namePlayer + ", Pontuação: " + points);
+        }
+
+        // Escrevendo a lista atualizada no arquivo
+        try (FileWriter writer = new FileWriter("rank.txt")) {
+            for (Player player : existingPlayers) {
+                writer.write(player.getName() + ", " + player.getScore() + "\n");
+            }
+            System.out.println("Rank atualizado e escrito no arquivo 'rank.txt'");
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
+
+        printLeaderboard();
+    }
+    
 
 public static void printLeaderboard() {
     // Lê o conteúdo do arquivo "rank.txt" e imprime a leaderboard dos jogadores
@@ -90,6 +131,7 @@ public void writeToFile() {
         System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
     }
 }
+
 
 
 }

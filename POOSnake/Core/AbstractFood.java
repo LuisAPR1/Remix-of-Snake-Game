@@ -1,22 +1,17 @@
 package Core;
 
 import java.awt.Color;
-import java.util.List; // Importe List do pacote java.util
-
+import java.util.List;
 import Geometry.Circle;
 import Geometry.Poligono;
 import Geometry.Ponto;
 import Geometry.Square;
 
 public abstract class AbstractFood<T extends Shape> {
+    protected Ponto position;
     protected Color color;
     protected Core.FoodType type;
     protected Arena arena;
-
-    public enum FoodType {
-        C,
-        S
-    }
 
     public AbstractFood(Color color, Core.FoodType type, Arena arena) {
         this.color = color;
@@ -25,7 +20,6 @@ public abstract class AbstractFood<T extends Shape> {
     }
 
     public abstract void spawnFood(Arena arena);
-
 
     public boolean isContainedIn(Poligono poligono) {
         T shape = getShape();
@@ -57,10 +51,11 @@ public abstract class AbstractFood<T extends Shape> {
         }
     }
 
-    
 
     // Getters and Setters
-    
+    public Ponto getPosition() {
+        return position;
+    }
 
     public Color getColor() {
         return color;
