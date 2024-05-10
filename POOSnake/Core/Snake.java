@@ -31,13 +31,13 @@ public class Snake {
     }
 
     public void HeadInitializer(int[] arenaDimensions, int headDimensions) {
-        // Determina um fator de deslocamento aleatório relativo ao tamanho da cabeça
-        int offsetFactorX = (int) (Math.random() * (arenaDimensions[0] / headDimensions - 2)) + 1;
-        int offsetFactorY = (int) (Math.random() * (arenaDimensions[1] / headDimensions - 2)) + 1;
+        // Calcula as coordenadas X e Y da cabeça da cobra de forma aleatória dentro da arena
+        int headX = (int) (Math.random() * (arenaDimensions[0] - headDimensions));
+        int headY = (int) (Math.random() * (arenaDimensions[1] - headDimensions));
     
-        // Calcula as coordenadas da cabeça da cobra baseadas no fator de deslocamento
-        int headX = offsetFactorX * headDimensions;
-        int headY = offsetFactorY * headDimensions;
+        // Ajusta as coordenadas X e Y para garantir que a cabeça da cobra esteja próxima ao canto da arena
+        headX -= headX % headDimensions;
+        headY -= headY % headDimensions;
     
         // Monta a representação da cabeça como uma string
         String headRepresentation = headX + " " + headY + " " +
@@ -52,6 +52,8 @@ public class Snake {
         // Define uma direção inicial aleatória para a cobra (em graus)
         this.direction = (int) (Math.random() * 360);
     }
+    
+    
     
 
     public boolean checkSnakeSelfCollision() {
