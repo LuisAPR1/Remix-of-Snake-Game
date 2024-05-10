@@ -191,7 +191,6 @@ public class Arena {
     }
 
     public void Frame() {
-        ui.render();
         s.move();
 
         if (s.CheckFoodEaten(fruit) == true) {
@@ -230,6 +229,7 @@ public class Arena {
             obstaclesmove();
         }
 
+        System.out.println();
         ui.render();
 
     }

@@ -1,5 +1,5 @@
 Peter, 2
-Luis, 26
+Luis, 68
 Ola, 4
 Adeus, 2
 Hello, 2
