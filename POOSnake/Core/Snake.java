@@ -36,25 +36,12 @@ public class Snake {
         int randomY = 1 + (int) (Math.random() * (arenaDimensions[1] - headDimensions - 1));
 
         // Define a direção aleatória da cobra (0, 90, 180, 270 graus)
-        int randomDirection = (int) (Math.random() * 4) * 90;
+        int randomDirection = 2;
 
         // Calcula as coordenadas da cabeça com base na direção
         int headX = randomX;
         int headY = randomY;
-        switch (randomDirection) {
-            case 90: // Baixo
-                headY = arenaDimensions[1] - headDimensions;
-                break;
-            case 180: // Esquerda
-                headX = arenaDimensions[0] - headDimensions;
-                break;
-            case 270: // Cima
-                headY = 1;
-                break;
-            default:
-                break;
-        }
-
+       
         // Monta a representação da cabeça como uma string
         String headRepresentation = headX + " " + headY + " " +
                 (headX + headDimensions) + " " + headY + " " +
