@@ -15,8 +15,10 @@ import UI.UIFactory;
 public class Arena {
 
     Snake s;
+
     AbstractFood<?> fruit;
     ArrayList<Obstacle> obstacles;
+
     private int[] arenaDimensions = new int[2];
     private FoodType foodtype;
     private int headDimensions;
@@ -32,10 +34,6 @@ public class Arena {
     String namePlayer;
     Rank rank;
 
-    public int getHeadDimensions() {
-        return headDimensions;
-    }
-
     @SuppressWarnings("unused")
     private InterfaceMode interfaceMode;
     private MovementStrategy movementStrategy;
@@ -45,8 +43,7 @@ public class Arena {
             int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
             Ponto rotacao,
             char interfaceMode, String namePlayer, Scanner scanner, Character movement) {
-
-        this.rank = new Rank(players);
+        
         this.rotacao = rotacao;
         this.obstacletype = obstacleType;
         this.arenaDimensions[0] = arenaDimensionsX;
@@ -56,6 +53,7 @@ public class Arena {
         this.rasterization = rasterizationType;
         this.foodtype = foodType;
         this.namePlayer = namePlayer;
+        this.rank = new Rank(players);
 
         // Cria os obstáculos
         createObstacles(numObstacles, obstacleType, arenaDimensions, headDimensions);
@@ -86,145 +84,65 @@ public class Arena {
         startGame();
     }
 
-    public void setMovementStrategy(MovementStrategy strategy) {
-        this.movementStrategy = strategy;
-    }
-
     public void startGame() {
         while (true) {
             // Captura a entrada do usuário e executa o movimento
             movementStrategy.input();
+            // Atualiza o frame do jogo
         }
     }
 
-    public int calculateBestDirection(int currentDirection) {
-        // Obtém a posição da cabeça da cobra
-        Ponto headPosition = s.getSnake().get(0).calcularCentro();
+    
+    private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
+        boolean foodIntersects = true;
 
-        // Obtém a posição da comida
-        Ponto foodPosition = fruit.getShape().getPosition();
+        // Repete até que a comida não intersecte com a cobra ou obstáculos
+        while (foodIntersects) {
+            // Cria a comida com uma posição aleatória
+            fruit = FoodFactory.createFood(color, foodType, arena, foodDimensions);
 
-        // Calcula a distância entre a cabeça da cobra e a comida
-        double distanceX = Math.abs(headPosition.getX() - foodPosition.getX());
-        double distanceY = Math.abs(headPosition.getY() - foodPosition.getY());
-
-        // Inicializa a melhor direção como a direção oposta à direção atual (para
-        // garantir que seja alterada)
-        int bestDirection = currentDirection;
-
-        // Verifica se a comida está mais próxima no eixo X ou no eixo Y
-        if (distanceX < distanceY) {
-            // Se a comida estiver mais próxima no eixo X, mova-se horizontalmente (esquerda
-            // ou direita)
-            if (headPosition.getX() < foodPosition.getX()) {
-                // Comida está à direita da cabeça da cobra
-                if (currentDirection != 90) {
-                    // Se a direção atual não for esquerda, mova-se para a direita
-                    bestDirection = 270; // Direita
-                } else {
-                    // Se não for possível mover para a direita, mova-se verticalmente
-                    if (headPosition.getY() < foodPosition.getY()) {
-                        // Comida está abaixo da cabeça da cobra
-                        bestDirection = 180; // Baixo
-                    } else {
-                        // Comida está acima da cabeça da cobra
-                        bestDirection = 0; // Cima
-                    }
-                }
-            } else {
-                // Comida está à esquerda da cabeça da cobra
-                if (currentDirection != 270) {
-                    // Se a direção atual não for direita, mova-se para a esquerda
-                    bestDirection = 90; // Esquerda
-                } else {
-                    // Se não for possível mover para a esquerda, mova-se verticalmente
-                    if (headPosition.getY() < foodPosition.getY()) {
-                        // Comida está abaixo da cabeça da cobra
-                        bestDirection = 180; // Baixo
-                    } else {
-                        // Comida está acima da cabeça da cobra
-                        bestDirection = 0; // Cima
-                    }
-                }
-            }
-        } else {
-            // Se a comida estiver mais próxima no eixo Y, mova-se verticalmente (cima ou
-            // baixo)
-            if (headPosition.getY() < foodPosition.getY()) {
-                // Comida está abaixo da cabeça da cobra
-                if (currentDirection != 0) {
-                    // Se a direção atual não for para cima, mova-se para baixo
-                    bestDirection = 180; // Baixo
-                } else {
-                    // Se não for possível mover para baixo, mova-se horizontalmente
-                    if (headPosition.getX() < foodPosition.getX()) {
-                        // Comida está à direita da cabeça da cobra
-                        bestDirection = 270; // Direita
-                    } else {
-                        // Comida está à esquerda da cabeça da cobra
-                        bestDirection = 90; // Esquerda
-                    }
-                }
-            } else {
-                // Comida está acima da cabeça da cobra
-                if (currentDirection != 180) {
-                    // Se a direção atual não for para baixo, mova-se para cima
-                    bestDirection = 0; // Cima
-                } else {
-                    // Se não for possível mover para cima, mova-se horizontalmente
-                    if (headPosition.getX() < foodPosition.getX()) {
-                        // Comida está à direita da cabeça da cobra
-                        bestDirection = 270; // Direita
-                    } else {
-                        // Comida está à esquerda da cabeça da cobra
-                        bestDirection = 90; // Esquerda
-                    }
-                }
-            }
-        }
-
-        return bestDirection;
-    }
-
-// Dentro do método generateFood na classe Arena
-private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
-    boolean foodIntersects = true;
-    while (foodIntersects) {
-        fruit = FoodFactory.createFood(color, foodType, arena, foodDimensions);
-        // Verificar se a comida está dentro de um obstáculo
-        foodIntersects = checkFoodObstacleCollision(fruit);
-        if (!foodIntersects) {
-            // Verificar se a comida está dentro da cobra
+            // Verifica se a comida intersecta com a cobra
             foodIntersects = checkFoodSnakeCollision(fruit);
-        }
-        // Se ainda houver interseção, gerar uma nova posição
-        if (foodIntersects) {
-            fruit.spawnFood(arena);
+
+            // Se a comida não intersectar com a cobra, verifica se intersecta com algum
+            // obstáculo
+            if (!foodIntersects) {
+                foodIntersects = checkFoodObstacleCollision(fruit);
+            }
+
+            // Se a comida intersectar com a cobra ou um obstáculo, gere uma nova posição
+            // para ela
+            if (foodIntersects) {
+                fruit.spawnFood(arena);
+            }
         }
     }
-}
 
-// Dentro do método checkFoodObstacleCollision na classe Arena
-private boolean checkFoodObstacleCollision(AbstractFood<?> food) {
-    for (Obstacle obstacle : obstacles) {
-        if (food.intersect(obstacle.getObstacle())) {
-            return true;
+    private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
+        // Obtém os quadrados da cobra
+        List<Square> squares = s.getSnake();
+
+        // Verifica se a comida intersecta com algum polígono da cobra
+        for (Square square : squares) {
+            if (food.intersect(square)) {
+                System.out.println("snake colidiu food");
+                rank.updateRank(namePlayer, points);
+                System.exit(0);
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
 
-// Dentro do método checkFoodSnakeCollision na classe Arena
-private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
-    List<Square> squares = s.getSnake();
-    for (Square square : squares) {
-        if (food.intersect(square)) {
-            return true;
+    private boolean checkFoodObstacleCollision(AbstractFood<?> food) {
+        // Verifica se a comida intersecta com algum obstáculo
+        for (Obstacle obstacle : obstacles) {
+            if (food.intersect(obstacle.getObstacle())) {
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
-
 
     private void createObstacles(int numObstacles, Core.Obstacle.ObstacleType obstacleType, int[] arenaDimensions,
             int headDimensions) {
@@ -259,16 +177,7 @@ private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
         }
     }
 
-    public int[] getArenaDimensions() {
-        return arenaDimensions;
-    }
-
-   
-    public ArrayList<Obstacle> getObstacles() {
-        return obstacles;
-    }
-
-    private void obstaclesmove() {
+    public void obstaclesmove () {
         // Itera sobre todos os obstáculos na lista
         for (Obstacle obstacle : obstacles) {
             // Obtém o polígono do obstáculo
@@ -282,7 +191,6 @@ private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
         }
     }
 
-    
     public void Frame() {
         ui.render();
         s.move();
@@ -293,8 +201,6 @@ private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
             generateFood(Color.YELLOW, foodtype, this, foodDimensions);
 
         }
-
-       
 
         if (s.checkSnakeObstacleColision(s,obstacles) == true) {
             rank.updateRank(namePlayer, points);
@@ -325,7 +231,8 @@ private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
         ui.render();
 
     }
-
+    
+    //GETTERS NAD SETTERS
     public Snake getS() {
         return s;
     }
@@ -334,6 +241,20 @@ private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
         return fruit;
     }
 
+    public int[] getArenaDimensions() {
+        return arenaDimensions;
+    }
+
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
+    public int getHeadDimensions() {
+        return headDimensions;
+    }
     
+    public void setMovementStrategy(MovementStrategy strategy) {
+        this.movementStrategy = strategy;
+    }
 
 }
