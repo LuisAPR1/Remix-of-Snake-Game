@@ -322,6 +322,7 @@ public class Poligono implements Shape {
         // Retorna a lista de coordenadas
         return coordenadas;
     }
+    
     public boolean sharePoints(Poligono otherPolygon) {
         // Obtém todas as coordenadas do polígono atual
         List<Ponto> coordenadasPoligonoAtual = this.getAllCoordinates();
