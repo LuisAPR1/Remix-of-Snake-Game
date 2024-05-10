@@ -32,32 +32,32 @@ public class Snake {
     }
 
     public void HeadInitializer(int[] arenaDimensions, int headDimensions) {
-        // Calcula as coordenadas X e Y da cabeça da cobra de forma aleatória dentro da arena
+        // Calcula as coordenadas X e Y da cabeça da cobra de forma aleatória dentro da
+        // arena
         int headX = (int) (Math.random() * (arenaDimensions[0] - headDimensions));
         int headY = (int) (Math.random() * (arenaDimensions[1] - headDimensions));
-    
-        // Ajusta as coordenadas X e Y para garantir que a cabeça da cobra esteja próxima ao canto da arena
+
+        // Ajusta as coordenadas X e Y para garantir que a cabeça da cobra esteja
+        // próxima ao canto da arena
         headX -= headX % headDimensions;
         headY -= headY % headDimensions;
-    
+
         // Monta a representação da cabeça como uma string
         String headRepresentation = headX + " " + headY + " " +
                 (headX + headDimensions) + " " + headY + " " +
                 (headX + headDimensions) + " " + (headY + headDimensions) + " " +
                 headX + " " + (headY + headDimensions);
-    
-        // Cria o objeto Square representando a cabeça e adiciona à lista de quadrados da cobra
+
+        // Cria o objeto Square representando a cabeça e adiciona à lista de quadrados
+        // da cobra
         Square h = new Square(headRepresentation);
         snake.addFirst(h);
-    
+
         // Define uma direção inicial aleatória para a cobra (em graus)
         this.direction = (int) (Math.random() * 360);
     }
-    
-    
-    
 
-     public boolean CheckFoodEaten(AbstractFood<?> fruit) {
+    public boolean CheckFoodEaten(AbstractFood<?> fruit) {
         Poligono square;
         if (snake.size() >= 2) {
             // Se a cobra tem pelo menos dois quadrados, combina os quadrados 0 e 1
@@ -68,10 +68,10 @@ public class Snake {
             // Se a cobra tem apenas um quadrado, usa apenas esse quadrado
             square = snake.get(0);
         }
-    
+
         // Verifica se a comida está contida no quadrado
         boolean isContained = fruit.isContainedIn(square);
-    
+
         // Faça algo com o resultado, como imprimir ou processar
         if (isContained) {
             return true;
@@ -143,11 +143,11 @@ public class Snake {
             // Verifica se algum quadrado intersecta os polígonos dos obstáculos
             for (Obstacle obstacle : obstacles) {
 
-                if ( square.contains(obstacle.getObstacle()) || square.distance(obstacle.getObstacle())) {
-                   
-                   System.out.println("intersect "+square.intersect(obstacle.getObstacle()));
-                   System.out.println("contains "+square.contains(obstacle.getObstacle()));
-                   System.out.println("distance "+square.distance(obstacle.getObstacle()));
+                if (square.contains(obstacle.getObstacle()) || square.distance(obstacle.getObstacle())) {
+
+                    System.out.println("intersect " + square.intersect(obstacle.getObstacle()));
+                    System.out.println("contains " + square.contains(obstacle.getObstacle()));
+                    System.out.println("distance " + square.distance(obstacle.getObstacle()));
 
                     // Se houver interseção, a cobra colidiu com um obstáculo
                     System.out.println("Colisao snake com objeto");
@@ -161,8 +161,6 @@ public class Snake {
         // Se não houve colisão, retorna falso
         return false;
     }
-
-    
 
     public Square getHead() {
         return snake.getFirst();

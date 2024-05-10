@@ -51,6 +51,51 @@ public abstract class AbstractFood<T extends Shape> {
         }
     }
 
+    public boolean sharePoints(Poligono poligono) {
+        T shape = getShape();
+
+        // Verifica se a forma está contida no polígono
+        if (shape instanceof Circle) {
+            return poligono.sharePoints((Circle) shape);
+            
+        } else if (shape instanceof Square) {
+            return poligono.sharePoints((Square) shape);
+        } else {
+            // Caso a forma não seja um círculo ou quadrado, não podemos verificar a contenção
+            return false;
+        }
+    }
+
+    public boolean contains(Poligono poligono) {
+        T shape = getShape();
+
+        // Verifica se a forma está contida no polígono
+        if (shape instanceof Circle) {
+            return poligono.contains((Circle) shape);
+            
+        } else if (shape instanceof Square) {
+            return poligono.contains((Square) shape);
+        } else {
+            // Caso a forma não seja um círculo ou quadrado, não podemos verificar a contenção
+            return false;
+        }
+    }
+
+    public boolean distance(Poligono poligono) {
+        T shape = getShape();
+
+        // Verifica se a forma está contida no polígono
+        if (shape instanceof Circle) {
+            return poligono.distance((Circle) shape);
+            
+        } else if (shape instanceof Square) {
+            return poligono.distance((Square) shape);
+        } else {
+            // Caso a forma não seja um círculo ou quadrado, não podemos verificar a contenção
+            return false;
+        }
+    }
+
 
     // Getters and Setters
     public Ponto getPosition() {

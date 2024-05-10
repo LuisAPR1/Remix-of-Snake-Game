@@ -133,6 +133,48 @@ public class Poligono implements Shape {
         // Se nenhum ponto do polígono estiver dentro do círculo, não há interseção
         return false;
     }
+    public boolean distance(Poligono poligono) {
+        // Obtém o centro do polígono fornecido
+        Ponto centroPoligono = poligono.calcularCentro();
+
+        // Obtém o centro do quadrado
+        Ponto centroQuadrado = calcularCentro();
+        // Calcula a distância entre os centros dos dois polígonos
+        double distancia = centroQuadrado.dist(centroPoligono);
+
+        // Verifica se a distância é menor que o tamanho do lado do quadrado
+        return distancia < tamanhoLado();
+    }
+    public boolean distance(Circle poligono) {
+        // Obtém o centro do polígono fornecido
+        Ponto centroPoligono = poligono.getPosition();
+
+        // Obtém o centro do quadrado
+        Ponto centroQuadrado = calcularCentro();
+        // Calcula a distância entre os centros dos dois polígonos
+        double distancia = centroQuadrado.dist(centroPoligono);
+
+        // Verifica se a distância é menor que o tamanho do lado do quadrado
+        return distancia < tamanhoLado();
+    }
+    
+    public double tamanhoLado() {
+        double maiorDistancia = 0;
+    
+        // Itera sobre todos os segmentos de reta do polígono
+        for (Segmento segmento : segmentoDeRetas) {
+            // Calcula a distância entre os pontos inicial e final do segmento
+            double distancia = segmento.getPonto1().dist(segmento.getPonto2());
+            
+            // Atualiza a maior distância, se necessário
+            if (distancia > maiorDistancia) {
+                maiorDistancia = distancia;
+            }
+        }
+    
+        return maiorDistancia;
+    }
+    
 
     public boolean contains(Circle shape) {
         // Obtém o centro do círculo e o raio
@@ -280,6 +322,44 @@ public class Poligono implements Shape {
         // Retorna a lista de coordenadas
         return coordenadas;
     }
+    public boolean sharePoints(Poligono otherPolygon) {
+        // Obtém todas as coordenadas do polígono atual
+        List<Ponto> coordenadasPoligonoAtual = this.getAllCoordinates();
+    
+        // Obtém todas as coordenadas do polígono recebido por argumento
+        List<Ponto> coordenadasOutroPoligono = otherPolygon.getAllCoordinates();
+    
+        // Itera sobre todas as coordenadas do polígono atual
+        for (Ponto ponto : coordenadasPoligonoAtual) {
+            // Verifica se o ponto do polígono atual está presente no polígono recebido
+            if (coordenadasOutroPoligono.contains(ponto)) {
+                return true; // Se o ponto estiver presente, retorna verdadeiro
+            }
+        }
+    
+        // Se nenhum ponto do polígono atual estiver presente no polígono recebido, retorna falso
+        return false;
+    }
+
+    public boolean sharePoints(Circle otherPolygon) {
+        // Obtém todas as coordenadas do polígono atual
+        List<Ponto> coordenadasPoligonoAtual = this.getAllCoordinates();
+    
+        // Obtém todas as coordenadas do polígono recebido por argumento
+        List<Ponto> coordenadasOutroPoligono = otherPolygon.getAllCoordinates();
+    
+        // Itera sobre todas as coordenadas do polígono atual
+        for (Ponto ponto : coordenadasPoligonoAtual) {
+            // Verifica se o ponto do polígono atual está presente no polígono recebido
+            if (coordenadasOutroPoligono.contains(ponto)) {
+                return true; // Se o ponto estiver presente, retorna verdadeiro
+            }
+        }
+    
+        // Se nenhum ponto do polígono atual estiver presente no polígono recebido, retorna falso
+        return false;
+    }
+    
 
     /**
      * Obtém a lista de pontos do polígono.
