@@ -104,8 +104,10 @@ public class Arena {
             movementStrategy = new AutomaticMovementStrategy(this);
             setMovementStrategy(movementStrategy);
         }
-
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
         ui.render();
+        
         startGame();
     }
 
@@ -327,22 +329,30 @@ public class Arena {
 
         if (s.checkSnakeObstacleColision(s, obstacles) == true) {
             rank.updateRank(namePlayer, points);
-
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
             ui.render();
+            
             Rank.printLeaderboard();
             System.exit(0);
         }
 
         if (s.checkSnakeInsideArena(arenaDimensions) == true) {
             rank.updateRank(namePlayer, points);
+            System.out.print("\033[H\033[2J");
+        System.out.flush();
             ui.render();
+            
             Rank.printLeaderboard();
             System.exit(0);
         }
 
         if (s.checkSnakeSelfCollision() == true) {
             rank.updateRank(namePlayer, points);
+            System.out.print("\033[H\033[2J");
+        System.out.flush();
             ui.render();
+            
             Rank.printLeaderboard();
             System.exit(0);
         }
@@ -352,8 +362,10 @@ public class Arena {
         }
 
         System.out.println();
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
         ui.render();
-
+        
     }
 
     // GETTERS AND SETTERS

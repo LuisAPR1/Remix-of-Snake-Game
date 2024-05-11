@@ -11,7 +11,12 @@ import Geometry.Ponto;
 public class GameClient {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        
+        System.out.println("\033[0;31mBem-vindo ao jogo POOSNAKE - Desenvolvido por Pedro Ferreira, Luís Rosa e José Lima \033[0m\n\n");
+                
+        
         // Solicita ao usuário que escolha o modo de jogo
         char movement;
         do {
@@ -50,7 +55,8 @@ public class GameClient {
             System.out.println("Escolha o tipo de rasterização (O para contorno, F para preenchido):");
             rasterization = scanner.next().charAt(0);
             if (rasterization != 'O' && rasterization != 'F') {
-                System.out.println("Tipo de rasterização inválido. Por favor, insira 'O' para contorno ou 'F' para preenchido.");
+                System.out.println(
+                        "Tipo de rasterização inválido. Por favor, insira 'O' para contorno ou 'F' para preenchido.");
             }
         } while (rasterization != 'O' && rasterization != 'F');
         RasterizationType rasterizationType = RasterizationType.valueOf(Character.toString(rasterization));
@@ -92,7 +98,8 @@ public class GameClient {
             System.out.println("Escolha o tipo de obstáculos (D para dinâmicos, S para estáticos):");
             obstacleTypeString = scanner.next().charAt(0);
             if (obstacleTypeString != 'D' && obstacleTypeString != 'S') {
-                System.out.println("Tipo de obstáculo inválido. Por favor, insira 'D' para dinâmicos ou 'S' para estáticos.");
+                System.out.println(
+                        "Tipo de obstáculo inválido. Por favor, insira 'D' para dinâmicos ou 'S' para estáticos.");
             }
         } while (obstacleTypeString != 'D' && obstacleTypeString != 'S');
         ObstacleType obstacleType = ObstacleType.valueOf(Character.toString(obstacleTypeString));
@@ -117,7 +124,8 @@ public class GameClient {
             System.out.println("Escolha o modo de interface (G para gráfico, T para textual):");
             interfaceMode = scanner.next().charAt(0);
             if (interfaceMode != 'G' && interfaceMode != 'T') {
-                System.out.println("Modo de interface inválido. Por favor, insira 'G' para gráfico ou 'T' para textual.");
+                System.out
+                        .println("Modo de interface inválido. Por favor, insira 'G' para gráfico ou 'T' para textual.");
             }
         } while (interfaceMode != 'G' && interfaceMode != 'T');
 
