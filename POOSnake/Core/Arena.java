@@ -244,7 +244,7 @@ public class Arena {
             int posX = rand.nextInt(arenaDimensions[0] - headDimensions) + 1;
             int posY = rand.nextInt(arenaDimensions[1] - headDimensions) + 1;
 
-            if (obstacleShapeType == 0) {
+            if (obstacleShapeType == 0 || headDimensions<4) {
                 // Criação de quadrado
                 ArrayList<Ponto> pontos = new ArrayList<>();
                 pontos.add(new Ponto(posX, posY));
