@@ -32,6 +32,7 @@ public class Arena {
     private Core.Obstacle.ObstacleType obstacletype;
     Ponto rotacao;
     int points;
+    int angle=0;
     List<Player> players;
     String namePlayer;
     Rank rank;
@@ -59,8 +60,9 @@ public class Arena {
      */
     public Arena(int arenaDimensionsX, int arenaDimensionsY, int headDimensions, RasterizationType rasterizationType,
             int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
-            Ponto rotacao, char interfaceMode, String namePlayer, Scanner scanner, Character movement) {
+            Ponto rotacao, char interfaceMode, String namePlayer, Scanner scanner, Character movement, int angle) {
         // Configurações iniciais da arena
+        this.angle=angle;
         this.rotacao = rotacao;
         this.obstacletype = obstacleType;
         this.arenaDimensions[0] = arenaDimensionsX;
@@ -242,12 +244,12 @@ public class Arena {
         for (int i = 0; i < numObstacles; i++) {
             // Decidindo aleatoriamente se o próximo obstáculo será um quadrado, um
             // retângulo ou um triângulo
-            int obstacleShapeType = rand.nextInt(3); // 0 para quadrado, 1 para retângulo, 2 para triângulo
+            int obstacleShapeType = rand.nextInt(50); // 0 para quadrado, 1 para retângulo, 2 para triângulo
 
             int posX = rand.nextInt(arenaDimensions[0] - headDimensions) + 1;
             int posY = rand.nextInt(arenaDimensions[1] - headDimensions) + 1;
 
-            if (obstacleShapeType == 0 || headDimensions < 4) {
+            if (obstacleShapeType <25 || headDimensions < 4) {
                 // Criação de quadrado
                 ArrayList<Ponto> pontos = new ArrayList<>();
                 pontos.add(new Ponto(posX, posY));
@@ -257,9 +259,7 @@ public class Arena {
                 Poligono obstacleShape = new Poligono(pontos);
                 Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, rotacao);
                 obstacles.add(obstacle);
-                System.out.println("QUADRADO: " + obstacle.getObstacle().toString());
-            } else if (obstacleShapeType == 1) {
-                // Criação dos dois quadrados
+            } else if (obstacleShapeType == 26) {
                 ArrayList<Ponto> pontos1 = new ArrayList<>();
                 pontos1.add(new Ponto(posX, posY));
                 pontos1.add(new Ponto(posX + headDimensions, posY));
@@ -268,7 +268,6 @@ public class Arena {
                 Poligono obstacleShape1 = new Poligono(pontos1);
                 Obstacle obstacle1 = new Obstacle(obstacleType, obstacleShape1, rotacao);
                 obstacles.add(obstacle1);
-
                 ArrayList<Ponto> pontos2 = new ArrayList<>();
                 pontos2.add(new Ponto(posX + headDimensions, posY));
                 pontos2.add(new Ponto(posX + headDimensions * 2, posY));
@@ -277,9 +276,6 @@ public class Arena {
                 Poligono obstacleShape2 = new Poligono(pontos2);
                 Obstacle obstacle2 = new Obstacle(obstacleType, obstacleShape2, rotacao);
                 obstacles.add(obstacle2);
-
-                System.out.println("DOIS QUADRADOS: " + obstacle1.getObstacle().toString() + " "
-                        + obstacle2.getObstacle().toString());
 
             } else {
                 // Criação de triângulo
@@ -290,8 +286,6 @@ public class Arena {
                 Poligono obstacleShape = new Poligono(pontos);
                 Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
                 obstacles.add(obstacle);
-
-                System.out.println("TRIÂNGULO: " + obstacle.getObstacle().toString());
             }
         }
     }
@@ -322,7 +316,7 @@ public class Arena {
         // Itera sobre todos os obstáculos na lista
         for (Obstacle obstacle : obstacles) {
             // Obtém o polígono do obstáculo
-            Poligono obstacleShape = obstacle.rotate(10);
+            Poligono obstacleShape = obstacle.rotate(this.angle);
 
             // Atualiza o polígono do obstáculo com a nova posição após a rotação
             obstacle.setObstacle(obstacleShape);

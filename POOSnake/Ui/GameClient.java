@@ -12,10 +12,10 @@ public class GameClient {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.flush();
-        
-        System.out.println("\033[0;31mBem-vindo ao jogo POOSNAKE - Desenvolvido por Pedro Ferreira, Luís Rosa e José Lima \033[0m\n\n");
-                
-        
+int angle=0;
+        System.out.println(
+                "\033[0;31mBem-vindo ao jogo POOSNAKE - Desenvolvido por Pedro Ferreira, Luís Rosa e José Lima \033[0m\n\n");
+
         // Solicita ao usuário que escolha o modo de jogo
         char movement;
         do {
@@ -102,7 +102,8 @@ public class GameClient {
             }
         } while (obstacleTypeString != 'D' && obstacleTypeString != 'S');
         ObstacleType obstacleType = ObstacleType.valueOf(Character.toString(obstacleTypeString));
-
+        System.out.println("Digite o angulo de rotação");
+        angle = scanner.next().charAt(0);
         Ponto rotation = null;
         // Se os obstáculos são dinâmicos, solicita as coordenadas do ponto de rotação
         if (obstacleType == ObstacleType.D) {
@@ -114,6 +115,7 @@ public class GameClient {
                 System.out.println("Digite y do ponto de rotação:");
                 int pointY = scanner.nextInt();
                 rotation = new Ponto(pointX, pointY);
+                
             }
         }
 
@@ -135,7 +137,7 @@ public class GameClient {
         // Criação do objeto Arena com os valores inseridos
         @SuppressWarnings("unused")
         Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationType, foodDimensions,
-                foodType, numObstacles, obstacleType, rotation, interfaceMode, namePlayer, scanner, movement);
+                foodType, numObstacles, obstacleType, rotation, interfaceMode, namePlayer, scanner, movement, angle);
 
         // Agora você tem um objeto Arena pronto para uso!
     }
