@@ -175,6 +175,8 @@ public class Arena {
                 fruit.spawnFood(arena);
                 tryyyy++;
                 if (tryyyy > 100000) {
+                    
+                    ui.render();
                     System.out.println("Max Score Achieved!");
                     Rank.printLeaderboard();
                     System.exit(0);
