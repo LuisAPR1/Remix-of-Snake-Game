@@ -19,6 +19,11 @@ public enum Cell {
     TAIL("T"),
 
     /**
+     * Representa o corpo da cobra.
+     */
+    BOTH("#"),
+
+    /**
      * Representa a comida.
      */
     FOOD("F"),

@@ -1,6 +1,7 @@
 package Core;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import Geometry.Poligono;
@@ -8,7 +9,8 @@ import Geometry.Ponto;
 import Geometry.Square;
 
 /**
- * Estratégia de rasterização preenchida para renderizar objetos na arena do jogo.
+ * Estratégia de rasterização preenchida para renderizar objetos na arena do
+ * jogo.
  * 
  * @version Versão 1.0 10/05/2024
  * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
@@ -33,8 +35,13 @@ class FilledRasterization implements RasterizationStrategy {
     public void render() {
         initializeArena();
 
+
+        List<Ponto> headPoints;
+        List<Ponto> foodPoints;
+        List<Ponto> cardinalPoints;
+
         // Desenha a cabeça da cobra
-        drawObject(arena.getS().getHead(), "HEAD");
+        headPoints=drawObject(arena.getS().getHead(), "HEAD");
 
         // Desenha a cauda da cobra
         LinkedList<Square> tail = arena.getS().getTailCoordinates();
@@ -50,8 +57,39 @@ class FilledRasterization implements RasterizationStrategy {
         // Desenha a fruta
         if (arena.getFruit() != null) {
             Square a = new Square(arena.getFruit().SquareVertices());
-            drawObject(a, "FOOD");
+            foodPoints = drawObject(a, "FOOD");
+        }else{foodPoints=null;}
+
+        cardinalPoints=findCommonPoints(headPoints, foodPoints);
+
+        for (Ponto point : cardinalPoints) {
+            if (point.getX() >= 0 && point.getX() < grid.length &&
+                point.getY() >= 0 && point.getY() < grid[0].length) {
+                grid[(int)point.getX()][(int)point.getY()] = Cell.BOTH;
+            }
         }
+
+    }
+
+    /**
+     * Compara duas listas de pontos e retorna uma nova lista contendo apenas os pontos
+     * que são iguais em ambas as listas.
+     * 
+     * @param list1 A primeira lista de pontos.
+     * @param list2 A segunda lista de pontos.
+     * @return Uma nova lista contendo os pontos iguais nas duas listas.
+     */
+    private List<Ponto> findCommonPoints(List<Ponto> list1, List<Ponto> list2) {
+        List<Ponto> commonPoints = new ArrayList<>();
+        for (Ponto point1 : list1) {
+            for (Ponto point2 : list2) {
+                if (point1.equals(point2)) {
+                    commonPoints.add(point1);
+                    break;
+                }
+            }
+        }
+        return commonPoints;
     }
 
     /**
@@ -60,7 +98,8 @@ class FilledRasterization implements RasterizationStrategy {
      * @param object   O objeto a ser desenhado.
      * @param cellType O tipo de célula associado ao objeto.
      */
-    private void drawObject(Poligono object, String cellType) {
+    private List<Ponto> drawObject(Poligono object, String cellType) {
+        List<Ponto> filledCells = new ArrayList<>();
         List<Ponto> vertices = object.getPontos();
 
         // Verifica se todos os pontos do objeto estão dentro dos limites do grid
@@ -84,10 +123,12 @@ class FilledRasterization implements RasterizationStrategy {
                             isInsidePolygon(x, y, vertices)) {
                         // Ajusta as coordenadas para o índice da matriz
                         grid[x][y] = Cell.valueOf(cellType);
+                        filledCells.add(new Ponto(x, y));
                     }
                 }
             }
         }
+        return filledCells;
     }
 
     /**
