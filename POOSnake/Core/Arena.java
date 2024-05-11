@@ -177,6 +177,8 @@ public class Arena {
 
                     ui.render();
                     System.out.println("Max Score Achieved!");
+                    System.out.println("Score: " + points);
+                    System.out.println();
                     Rank.printLeaderboard();
                     System.exit(0);
 
@@ -244,7 +246,7 @@ public class Arena {
             int posX = rand.nextInt(arenaDimensions[0] - headDimensions) + 1;
             int posY = rand.nextInt(arenaDimensions[1] - headDimensions) + 1;
 
-            if (obstacleShapeType == 0 || headDimensions<4) {
+            if (obstacleShapeType == 0 || headDimensions < 4) {
                 // Criação de quadrado
                 ArrayList<Ponto> pontos = new ArrayList<>();
                 pontos.add(new Ponto(posX, posY));
@@ -256,16 +258,28 @@ public class Arena {
                 obstacles.add(obstacle);
                 System.out.println("QUADRADO: " + obstacle.getObstacle().toString());
             } else if (obstacleShapeType == 1) {
-                // Criação de retângulo
-                ArrayList<Ponto> pontos = new ArrayList<>();
-                pontos.add(new Ponto(posX, posY));
-                pontos.add(new Ponto(posX + headDimensions * 2, posY));
-                pontos.add(new Ponto(posX + headDimensions * 2, posY + headDimensions));
-                pontos.add(new Ponto(posX, posY + headDimensions));
-                Poligono obstacleShape = new Poligono(pontos);
-                Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
-                obstacles.add(obstacle);
-                System.out.println("RETÂNGULO: " + obstacle.getObstacle().toString());
+                // Criação dos dois quadrados
+                ArrayList<Ponto> pontos1 = new ArrayList<>();
+                pontos1.add(new Ponto(posX, posY));
+                pontos1.add(new Ponto(posX + headDimensions, posY));
+                pontos1.add(new Ponto(posX + headDimensions, posY + headDimensions));
+                pontos1.add(new Ponto(posX, posY + headDimensions));
+                Poligono obstacleShape1 = new Poligono(pontos1);
+                Obstacle obstacle1 = new Obstacle(obstacleType, obstacleShape1, null);
+                obstacles.add(obstacle1);
+
+                ArrayList<Ponto> pontos2 = new ArrayList<>();
+                pontos2.add(new Ponto(posX + headDimensions, posY));
+                pontos2.add(new Ponto(posX + headDimensions * 2, posY));
+                pontos2.add(new Ponto(posX + headDimensions * 2, posY + headDimensions));
+                pontos2.add(new Ponto(posX + headDimensions, posY + headDimensions));
+                Poligono obstacleShape2 = new Poligono(pontos2);
+                Obstacle obstacle2 = new Obstacle(obstacleType, obstacleShape2, null);
+                obstacles.add(obstacle2);
+
+                System.out.println("DOIS QUADRADOS: " + obstacle1.getObstacle().toString() + " "
+                        + obstacle2.getObstacle().toString());
+
             } else {
                 // Criação de triângulo
                 ArrayList<Ponto> pontos = new ArrayList<>();
@@ -275,6 +289,7 @@ public class Arena {
                 Poligono obstacleShape = new Poligono(pontos);
                 Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
                 obstacles.add(obstacle);
+
                 System.out.println("TRIÂNGULO: " + obstacle.getObstacle().toString());
             }
         }
