@@ -154,19 +154,7 @@ public class Ponto {
         return "(" + this.x + "," + this.y + ")";
     }
 
-    /**
-     * Obtém a coordenada x em ponto flutuante do ponto.
-     * 
-     * @return coordenada x em ponto flutuante.
-     */
- 
 
-    /**
-     * Obtém a coordenada y em ponto flutuante do ponto.
-     * 
-     * @return coordenada y em ponto flutuante.
-     */
-    
 
     /**
      * Rotaciona o ponto em torno de um ponto fixo por um determinado ângulo.

@@ -25,15 +25,7 @@ public class Segmento {
      * @param ponto1 primeiro ponto.
      * @param ponto2 segundo ponto.
      */
-    // private void check(Ponto ponto1, Ponto ponto2) {
-
-        
-
-    //     if (ponto1.getX() == ponto2.getX() && ponto1.getY() == ponto2.getY() && ponto1.getxDouble() == ponto2.getxDouble() && ponto1.getyDouble() == ponto2.getyDouble()) {
-    //         System.out.println("Segmehhhhnto:vi");
-    //         System.exit(0);
-    //     }
-    // }
+    
 
     /**
      * Obtém o primeiro ponto do segmento.
@@ -122,11 +114,7 @@ public class Segmento {
         return abac * abad < 0 && cdca * cdcb < 0;
     }
 
-    /**
- * Verifica se duas arestas se cruzam ou se intersectam.
- * @param segmentoDeReta outro segmento de reta.
- * @return true se as arestas se cruzam ou se intersectam, false caso contrário.
- */
+
 /**
  * Verifica se duas arestas se cruzam.
  * @param segmentoDeReta outro segmento de reta.

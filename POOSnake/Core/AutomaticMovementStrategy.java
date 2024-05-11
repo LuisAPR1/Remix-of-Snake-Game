@@ -118,6 +118,6 @@ public class AutomaticMovementStrategy implements MovementStrategy {
 
     @Override
     public void input() {
-        // Nada a ser feito aqui, pois o timer já está em execução
+        //input nao é necessário na automaticsnake
     }
 }

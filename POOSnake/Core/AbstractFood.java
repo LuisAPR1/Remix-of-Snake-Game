@@ -49,10 +49,7 @@ public abstract class AbstractFood<T extends Shape> {
             // Caso a forma não seja um círculo ou quadrado, não podemos verificar a contenção
             return false;
         }
-    }
-    
-
-    
+    }   
 
     public boolean sharePoints(Poligono poligono) {
         T shape = getShape();
