@@ -38,6 +38,7 @@ public class Arena {
     private MovementStrategy movementStrategy;
     UI ui;
     int tryyyy;
+    int t=0;
 
     /**
      * Construtor da classe Arena.
@@ -254,7 +255,7 @@ public class Arena {
                 pontos.add(new Ponto(posX + headDimensions, posY + headDimensions));
                 pontos.add(new Ponto(posX, posY + headDimensions));
                 Poligono obstacleShape = new Poligono(pontos);
-                Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
+                Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, rotacao);
                 obstacles.add(obstacle);
                 System.out.println("QUADRADO: " + obstacle.getObstacle().toString());
             } else if (obstacleShapeType == 1) {
@@ -265,7 +266,7 @@ public class Arena {
                 pontos1.add(new Ponto(posX + headDimensions, posY + headDimensions));
                 pontos1.add(new Ponto(posX, posY + headDimensions));
                 Poligono obstacleShape1 = new Poligono(pontos1);
-                Obstacle obstacle1 = new Obstacle(obstacleType, obstacleShape1, null);
+                Obstacle obstacle1 = new Obstacle(obstacleType, obstacleShape1, rotacao);
                 obstacles.add(obstacle1);
 
                 ArrayList<Ponto> pontos2 = new ArrayList<>();
@@ -274,7 +275,7 @@ public class Arena {
                 pontos2.add(new Ponto(posX + headDimensions * 2, posY + headDimensions));
                 pontos2.add(new Ponto(posX + headDimensions, posY + headDimensions));
                 Poligono obstacleShape2 = new Poligono(pontos2);
-                Obstacle obstacle2 = new Obstacle(obstacleType, obstacleShape2, null);
+                Obstacle obstacle2 = new Obstacle(obstacleType, obstacleShape2, rotacao);
                 obstacles.add(obstacle2);
 
                 System.out.println("DOIS QUADRADOS: " + obstacle1.getObstacle().toString() + " "
@@ -321,13 +322,10 @@ public class Arena {
         // Itera sobre todos os obstáculos na lista
         for (Obstacle obstacle : obstacles) {
             // Obtém o polígono do obstáculo
-            Poligono obstacleShape = obstacle.getObstacle();
-
-            // Rotaciona o polígono em torno do ponto de rotação (0, 0)
-            Poligono rotatedObstacle = obstacleShape.rotacionar(10, rotacao);
+            Poligono obstacleShape = obstacle.rotate(10);
 
             // Atualiza o polígono do obstáculo com a nova posição após a rotação
-            obstacle.setObstacle(rotatedObstacle);
+            obstacle.setObstacle(obstacleShape);
         }
     }
 
@@ -335,6 +333,7 @@ public class Arena {
      * Atualiza o frame do jogo.
      */
     public void Frame() {
+        
         s.move();
 
         if (s.CheckFoodEaten(fruit) == true) {
@@ -374,14 +373,16 @@ public class Arena {
             System.exit(0);
         }
 
-        if (this.obstacletype == Obstacle.ObstacleType.D) {
+        if (this.obstacletype == Obstacle.ObstacleType.D && t!=0) {
             obstaclesmove();
         }
+
+        
 
         System.out.println();
         System.out.flush();
         ui.render();
-
+t++;
         
         
     }

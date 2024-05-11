@@ -261,6 +261,7 @@ public class Snake {
         // Move a cabeça da cobra na nova posição
         Square head = snake.getFirst();
         snake.set(0, head.translacaoSemPonto(xMove, yMove));
+        
     }
 
     /**
