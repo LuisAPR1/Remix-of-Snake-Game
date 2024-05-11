@@ -38,7 +38,6 @@ public class Arena {
     private MovementStrategy movementStrategy;
     UI ui;
     int tryyyy;
-    int ot = 0;
 
     /**
      * Construtor da classe Arena.
@@ -108,7 +107,7 @@ public class Arena {
         System.out.print("\033[H\033[2J");
         System.out.flush();
         ui.render();
-
+        
         startGame();
     }
 
@@ -175,9 +174,11 @@ public class Arena {
                 fruit.spawnFood(arena);
                 tryyyy++;
                 if (tryyyy > 100000) {
-                    
+
                     ui.render();
                     System.out.println("Max Score Achieved!");
+                    System.out.println("Score: " + points);
+                    System.out.println();
                     Rank.printLeaderboard();
                     System.exit(0);
 
@@ -348,7 +349,7 @@ public class Arena {
             System.out.print("\033[H\033[2J");
             System.out.flush();
             ui.render();
-
+            
             Rank.printLeaderboard();
             System.exit(0);
         }
@@ -356,9 +357,9 @@ public class Arena {
         if (s.checkSnakeInsideArena(arenaDimensions) == true) {
             rank.updateRank(namePlayer, points);
             System.out.print("\033[H\033[2J");
-            System.out.flush();
+        System.out.flush();
             ui.render();
-
+            
             Rank.printLeaderboard();
             System.exit(0);
         }
@@ -366,9 +367,9 @@ public class Arena {
         if (s.checkSnakeSelfCollision() == true) {
             rank.updateRank(namePlayer, points);
             System.out.print("\033[H\033[2J");
-            System.out.flush();
+        System.out.flush();
             ui.render();
-
+            
             Rank.printLeaderboard();
             System.exit(0);
         }
@@ -378,10 +379,11 @@ public class Arena {
         }
 
         System.out.println();
-        System.out.print("\033[H\033[2J");
         System.out.flush();
         ui.render();
 
+        
+        
     }
 
     // GETTERS AND SETTERS

@@ -28,6 +28,10 @@ public class ManualMovementStrategy implements MovementStrategy {
      */
     @Override
     public void input() {
+
+        System.out.println("Dir H: " + arena.getS().getDirection());
+        System.out.println("Pontos: " + arena.points);
+
         System.out.println("Digite uma direção (w, a, s ou d) ou pressione Enter para manter a direção");
         String input = scanner.nextLine().toLowerCase();
     
