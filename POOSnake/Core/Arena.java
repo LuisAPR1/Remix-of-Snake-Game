@@ -233,14 +233,15 @@ public class Arena {
         obstacles = new ArrayList<>();
         Random rand = new Random();
         for (int i = 0; i < numObstacles; i++) {
-            // Decidindo aleatoriamente se o próximo obstáculo será um quadrado ou um
-            // triângulo
-            boolean isSquare = rand.nextBoolean();
+            // Decidindo aleatoriamente se o próximo obstáculo será um quadrado, um
+            // retângulo ou um triângulo
+            int obstacleShapeType = rand.nextInt(3); // 0 para quadrado, 1 para retângulo, 2 para triângulo
 
-            if (isSquare) {
+            int posX = rand.nextInt(arenaDimensions[0] - headDimensions) + 1;
+            int posY = rand.nextInt(arenaDimensions[1] - headDimensions) + 1;
+
+            if (obstacleShapeType == 0) {
                 // Criação de quadrado
-                int posX = rand.nextInt(arenaDimensions[0] - headDimensions) + 1;
-                int posY = rand.nextInt(arenaDimensions[1] - headDimensions) + 1;
                 ArrayList<Ponto> pontos = new ArrayList<>();
                 pontos.add(new Ponto(posX, posY));
                 pontos.add(new Ponto(posX + headDimensions, posY));
@@ -250,11 +251,19 @@ public class Arena {
                 Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
                 obstacles.add(obstacle);
                 System.out.println("QUADRADO: " + obstacle.getObstacle().toString());
-
+            } else if (obstacleShapeType == 1) {
+                // Criação de retângulo
+                ArrayList<Ponto> pontos = new ArrayList<>();
+                pontos.add(new Ponto(posX, posY));
+                pontos.add(new Ponto(posX + headDimensions * 2, posY));
+                pontos.add(new Ponto(posX + headDimensions * 2, posY + headDimensions));
+                pontos.add(new Ponto(posX, posY + headDimensions));
+                Poligono obstacleShape = new Poligono(pontos);
+                Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
+                obstacles.add(obstacle);
+                System.out.println("RETÂNGULO: " + obstacle.getObstacle().toString());
             } else {
                 // Criação de triângulo
-                int posX = rand.nextInt(arenaDimensions[0] - headDimensions) + 1;
-                int posY = rand.nextInt(arenaDimensions[1] - headDimensions) + 1;
                 ArrayList<Ponto> pontos = new ArrayList<>();
                 pontos.add(new Ponto(posX, posY));
                 pontos.add(new Ponto(posX + headDimensions, posY));
@@ -262,9 +271,8 @@ public class Arena {
                 Poligono obstacleShape = new Poligono(pontos);
                 Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
                 obstacles.add(obstacle);
-                System.out.println("TRIANGULO: " + obstacle.getObstacle().toString());
+                System.out.println("TRIÂNGULO: " + obstacle.getObstacle().toString());
             }
-
         }
     }
 
