@@ -14,6 +14,7 @@ import UI.UIFactory;
 
 /**
  * Classe que representa a arena do jogo POOSnake.
+ * 
  * @version Versão 1.0 10/05/2024
  * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
  */
@@ -41,19 +42,19 @@ public class Arena {
     /**
      * Construtor da classe Arena.
      * 
-     * @param arenaDimensionsX    largura da arena.
-     * @param arenaDimensionsY    altura da arena.
-     * @param headDimensions      dimensões da cabeça da cobra.
-     * @param rasterizationType   tipo de rasterização para a UI.
-     * @param foodDimensions      dimensões da comida.
-     * @param foodType            tipo de comida.
-     * @param numObstacles        número de obstáculos.
-     * @param obstacleType        tipo de obstáculo.
-     * @param rotacao             ponto de rotação.
-     * @param interfaceMode       modo de interface.
-     * @param namePlayer          nome do jogador.
-     * @param scanner             scanner para entrada.
-     * @param movement            tipo de movimento.
+     * @param arenaDimensionsX  largura da arena.
+     * @param arenaDimensionsY  altura da arena.
+     * @param headDimensions    dimensões da cabeça da cobra.
+     * @param rasterizationType tipo de rasterização para a UI.
+     * @param foodDimensions    dimensões da comida.
+     * @param foodType          tipo de comida.
+     * @param numObstacles      número de obstáculos.
+     * @param obstacleType      tipo de obstáculo.
+     * @param rotacao           ponto de rotação.
+     * @param interfaceMode     modo de interface.
+     * @param namePlayer        nome do jogador.
+     * @param scanner           scanner para entrada.
+     * @param movement          tipo de movimento.
      */
     public Arena(int arenaDimensionsX, int arenaDimensionsY, int headDimensions, RasterizationType rasterizationType,
             int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
@@ -68,6 +69,16 @@ public class Arena {
         this.foodtype = foodType;
         this.namePlayer = namePlayer;
         this.rank = new Rank(players);
+
+        if (arenaDimensionsX % headDimensions != 0 || arenaDimensionsY % headDimensions != 0) {
+            // Calcula as dimensões ajustadas da arena para serem múltiplos do tamanho da
+            // cabeça
+            this.arenaDimensions[0] = adjustArenaDimension(arenaDimensionsX, headDimensions);
+            this.arenaDimensions[1] = adjustArenaDimension(arenaDimensionsY, headDimensions);
+            System.out.println("O tamanho da arena foi ajustado para uma melhor experiência!");
+            System.out.println("Ajustado em função do tamanho da cabeça escolhido");
+
+        }
 
         // Cria os obstáculos
         createObstacles(numObstacles, obstacleType, arenaDimensions, headDimensions);
@@ -110,11 +121,32 @@ public class Arena {
     }
 
     /**
+     * Ajusta a dimensão da arena para garantir que seja um múltiplo inteiro da
+     * dimensão da cabeça.
+     *
+     * @param dimension      A dimensão original da arena.
+     * @param headDimensions As dimensões da cabeça da cobra.
+     * @return A dimensão ajustada da arena.
+     */
+    private int adjustArenaDimension(int dimension, int headDimensions) {
+        // Calcula o quociente da divisão entre a dimensão original e o tamanho da
+        // cabeça
+        int quotient = dimension / headDimensions;
+        // Incrementa o quociente para garantir que a dimensão seja múltiplo do tamanho
+        // da cabeça
+        if (dimension % headDimensions != 0) {
+            quotient++;
+        }
+        // Retorna a dimensão ajustada
+        return (quotient * headDimensions);
+    }
+
+    /**
      * Gera a comida na arena.
      * 
-     * @param color           cor da comida.
-     * @param foodType        tipo de comida.
-     * @param arena           arena do jogo.
+     * @param color          cor da comida.
+     * @param foodType       tipo de comida.
+     * @param arena          arena do jogo.
      * @param foodDimensions dimensões da comida.
      */
     private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
@@ -174,7 +206,8 @@ public class Arena {
      * Verifica se a comida intersecta com algum obstáculo.
      * 
      * @param food comida a ser verificada.
-     * @return true se a comida intersecta com algum obstáculo, false caso contrário.
+     * @return true se a comida intersecta com algum obstáculo, false caso
+     *         contrário.
      */
     private boolean checkFoodObstacleCollision(AbstractFood<?> food) {
         // Verifica se a comida intersecta com algum obstáculo
@@ -190,10 +223,10 @@ public class Arena {
     /**
      * Cria os obstáculos na arena.
      * 
-     * @param numObstacles   número de obstáculos a serem criados.
-     * @param obstacleType   tipo de obstáculo.
+     * @param numObstacles    número de obstáculos a serem criados.
+     * @param obstacleType    tipo de obstáculo.
      * @param arenaDimensions dimensões da arena.
-     * @param headDimensions dimensões da cabeça da cobra.
+     * @param headDimensions  dimensões da cabeça da cobra.
      */
     private void createObstacles(int numObstacles, Core.Obstacle.ObstacleType obstacleType, int[] arenaDimensions,
             int headDimensions) {
@@ -239,7 +272,7 @@ public class Arena {
      * Gera a cobra na arena.
      * 
      * @param arenaDimensions dimensões da arena.
-     * @param headDimensions   dimensões da cabeça da cobra.
+     * @param headDimensions  dimensões da cabeça da cobra.
      */
     private void generateSnake(int[] arenaDimensions, int headDimensions) {
         boolean snakeCollidedWithObstacle = true;
