@@ -59,8 +59,34 @@ public class Poligono implements Shape {
         }
         this.pontos = pontos;
     }
+    public static boolean saoColineares(Ponto p1, Ponto p2, Ponto p3) {
+        // Calcula a área do triângulo formado pelos três pontos
+        double area = 0.5 * ((p2.getX() - p1.getX()) * (p3.getY() - p1.getY()) - (p3.getX() - p1.getX()) * (p2.getY() - p1.getY()));
+        
+        // Se a área for próxima de zero, os pontos são colineares
+        return Math.abs(area) < 1e-9; // 1e-9 é uma tolerância pequena para lidar com imprecisões de ponto flutuante
+    }
 
     
+    public double calcularArea() {
+        double area = 0.0;
+    
+        // Itera sobre todos os vértices do polígono
+        for (int i = 0; i < pontos.size(); i++) {
+            // Obtém os pontos consecutivos
+            Ponto pontoAtual = pontos.get(i);
+            Ponto proximoPonto = pontos.get((i + 1) % pontos.size());
+    
+            // Calcula o produto cruzado entre os pontos
+            area += pontoAtual.getX() * proximoPonto.getY();
+            area -= pontoAtual.getY() * proximoPonto.getX();
+        }
+    
+        // Divide o resultado por 2 para obter a área final
+        area = Math.abs(area) / 2.0;
+    
+        return area;
+    }
     
 
     public boolean intersect2(Poligono otherPolygon) {

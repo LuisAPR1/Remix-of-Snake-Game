@@ -43,7 +43,7 @@ public class Arena {
             int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
             Ponto rotacao,
             char interfaceMode, String namePlayer, Scanner scanner, Character movement) {
-        
+
         this.rotacao = rotacao;
         this.obstacletype = obstacleType;
         this.arenaDimensions[0] = arenaDimensionsX;
@@ -92,7 +92,6 @@ public class Arena {
         }
     }
 
-    
     private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
         boolean foodIntersects = true;
 
@@ -124,8 +123,9 @@ public class Arena {
 
         // Verifica se a comida intersecta com algum polígono da cobra
         for (Square square : squares) {
-            
-            if (food.intersect(square) || food.contains(square) || food.distance(square) || food.isContainedIn(square)) {
+
+            if (food.intersect(square) || food.contains(square) || food.distance(square)
+                    || food.isContainedIn(square)) {
                 return true;
             }
         }
@@ -136,32 +136,51 @@ public class Arena {
         // Verifica se a comida intersecta com algum obstáculo
         for (Obstacle obstacle : obstacles) {
 
-            if (food.intersect(obstacle.getObstacle()) || food.contains(obstacle.getObstacle()) || food.distance(obstacle.getObstacle())|| food.isContainedIn(obstacle.getObstacle())) {
+            if (food.intersect(obstacle.getObstacle()) || food.contains(obstacle.getObstacle())
+                    || food.distance(obstacle.getObstacle()) || food.isContainedIn(obstacle.getObstacle())) {
                 return true;
             }
         }
         return false;
     }
-
     private void createObstacles(int numObstacles, Core.Obstacle.ObstacleType obstacleType, int[] arenaDimensions,
-            int headDimensions) {
-        obstacles = new ArrayList<>();
-        Random rand = new Random();
-        for (int i = 0; i < numObstacles; i++) {
-            int posX = rand.nextInt(arenaDimensions[0] - headDimensions) + 1; // Adiciona 1 para garantir que seja no
-                                                                              // mínimo 1
-            int posY = rand.nextInt(arenaDimensions[1] - headDimensions) + 1; // Adiciona 1 para garantir que seja no
-                                                                              // mínimo 1
-            ArrayList<Ponto> pontos = new ArrayList<>();
-            pontos.add(new Ponto(posX, posY));
-            pontos.add(new Ponto(posX + headDimensions, posY));
-            pontos.add(new Ponto(posX + headDimensions, posY + headDimensions));
-            pontos.add(new Ponto(posX, posY + headDimensions));
-            Poligono obstacleShape = new Poligono(pontos);
-            Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
-            obstacles.add(obstacle);
-        }
+    int headDimensions) {
+obstacles = new ArrayList<>();
+Random rand = new Random();
+for (int i = 0; i < numObstacles; i++) {
+    // Decidindo aleatoriamente se o próximo obstáculo será um quadrado ou um triângulo
+    boolean isSquare = rand.nextBoolean();
+    
+    if (isSquare) {
+        // Criação de quadrado
+        int posX = rand.nextInt(arenaDimensions[0] - headDimensions) + 1; 
+        int posY = rand.nextInt(arenaDimensions[1] - headDimensions) + 1; 
+        ArrayList<Ponto> pontos = new ArrayList<>();
+        pontos.add(new Ponto(posX, posY));
+        pontos.add(new Ponto(posX + headDimensions, posY));
+        pontos.add(new Ponto(posX + headDimensions, posY + headDimensions));
+        pontos.add(new Ponto(posX, posY + headDimensions));
+        Poligono obstacleShape = new Poligono(pontos);
+        Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
+        obstacles.add(obstacle);
+        System.out.println("QUADRADO: " +obstacle.getObstacle().toString());
+
+    } else {
+        // Criação de triângulo
+        int posX = rand.nextInt(arenaDimensions[0] - headDimensions) + 1; 
+        int posY = rand.nextInt(arenaDimensions[1] - headDimensions) + 1; 
+        ArrayList<Ponto> pontos = new ArrayList<>();
+        pontos.add(new Ponto(posX, posY));
+        pontos.add(new Ponto(posX + headDimensions, posY));
+        pontos.add(new Ponto(posX + (headDimensions / 2), posY + headDimensions));
+        Poligono obstacleShape = new Poligono(pontos);
+        Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
+        obstacles.add(obstacle);
+        System.out.println("TRIANGULO: "+ obstacle.getObstacle().toString());
     }
+    
+}
+}
 
     private void generateSnake(int[] arenaDimensions, int headDimensions) {
         boolean snakeCollidedWithObstacle = true;
@@ -172,11 +191,11 @@ public class Arena {
             this.s = new Snake(arenaDimensions, headDimensions);
 
             // Verifica se a cobra colidiu com algum obstáculo
-            snakeCollidedWithObstacle = s.checkSnakeObstacleColision(s,obstacles);
+            snakeCollidedWithObstacle = s.checkSnakeObstacleColision(s, obstacles);
         }
     }
 
-    public void obstaclesmove () {
+    public void obstaclesmove() {
         // Itera sobre todos os obstáculos na lista
         for (Obstacle obstacle : obstacles) {
             // Obtém o polígono do obstáculo
@@ -200,7 +219,7 @@ public class Arena {
 
         }
 
-        if (s.checkSnakeObstacleColision(s,obstacles) == true) {
+        if (s.checkSnakeObstacleColision(s, obstacles) == true) {
             rank.updateRank(namePlayer, points);
             System.out.println("COORDENADAS OBSTACULO " + obstacles.get(0).getObstacle().toString());
             System.out.println("COORDENADAS SNAKE " + s.getSnake().get(0).getPontos().toString());
@@ -210,20 +229,20 @@ public class Arena {
             System.exit(0);
         }
 
-        if (s.checkSnakeInsideArena(arenaDimensions)==true) {
+        if (s.checkSnakeInsideArena(arenaDimensions) == true) {
             System.out.println("snake saiu da arena");
             rank.updateRank(namePlayer, points);
-                    ui.render();
-                    Rank.printLeaderboard();
-                    System.exit(0);
+            ui.render();
+            Rank.printLeaderboard();
+            System.exit(0);
         }
-        
-        if ( s.checkSnakeSelfCollision()==true) {
+
+        if (s.checkSnakeSelfCollision() == true) {
             rank.updateRank(namePlayer, points);
-                ui.render();
-                Rank.printLeaderboard();
-                System.exit(0);
-        } 
+            ui.render();
+            Rank.printLeaderboard();
+            System.exit(0);
+        }
 
         if (this.obstacletype == Obstacle.ObstacleType.D) {
             obstaclesmove();
@@ -233,8 +252,8 @@ public class Arena {
         ui.render();
 
     }
-    
-    //GETTERS NAD SETTERS
+
+    // GETTERS NAD SETTERS
     public Snake getS() {
         return s;
     }
@@ -254,7 +273,7 @@ public class Arena {
     public int getHeadDimensions() {
         return headDimensions;
     }
-    
+
     public void setMovementStrategy(MovementStrategy strategy) {
         this.movementStrategy = strategy;
     }
