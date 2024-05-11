@@ -106,11 +106,15 @@ public class GameClient {
         Ponto rotation = null;
         // Se os obstáculos são dinâmicos, solicita as coordenadas do ponto de rotação
         if (obstacleType == ObstacleType.D) {
-            System.out.println("Digite x do ponto de rotação:");
-            int pointX = scanner.nextInt();
-            System.out.println("Digite y do ponto de rotação:");
-            int pointY = scanner.nextInt();
-            rotation = new Ponto(pointX, pointY);
+            System.out.println("Deseja definir um ponto de rotação para os obstáculos dinâmicos? (S/N):");
+            char rotationChoice = scanner.next().charAt(0);
+            if (rotationChoice == 'S' || rotationChoice == 's') {
+                System.out.println("Digite x do ponto de rotação:");
+                int pointX = scanner.nextInt();
+                System.out.println("Digite y do ponto de rotação:");
+                int pointY = scanner.nextInt();
+                rotation = new Ponto(pointX, pointY);
+            }
         }
 
         // Solicita ao usuário o nome do jogador
