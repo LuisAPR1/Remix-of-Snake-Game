@@ -5,8 +5,8 @@ import java.util.List;
 /**
  * Classe que representa um quadrado, um tipo especial de retângulo.
  * 
- * @version 1.0 03/04/2024
- * @author Luís Rosa
+ * @version Versão 1.0 10/05/2024
+ * @author Luís Rosa, José Lima, Pedro Ferreira
  */
 public class Square extends Retangulo {
 
@@ -67,6 +67,12 @@ public class Square extends Retangulo {
         return end;
     }
 
+    /**
+     * Calcula se existe uma distância mínima entre o quadrado e outro polígono.
+     * 
+     * @param poligono polígono a ser verificado se está próximo ao quadrado.
+     * @return true se o polígono está próximo, false caso contrário.
+     */
     public boolean distance(Poligono poligono) {
         // Obtém o centro do polígono fornecido
         Ponto centroPoligono = poligono.calcularCentro();
@@ -80,6 +86,11 @@ public class Square extends Retangulo {
         return distancia < tamanhoLado();
     }
 
+    /**
+     * Calcula o tamanho do lado do quadrado.
+     * 
+     * @return tamanho do lado do quadrado.
+     */
     public double tamanhoLado() {
         // Obtém dois vértices opostos do quadrado
         Ponto ponto1 = getPontos().get(0);
@@ -87,7 +98,6 @@ public class Square extends Retangulo {
 
         // Calcula a distância entre esses dois pontos, que é o tamanho do lado do
         // quadrado
-
         return ponto1.dist(ponto2);
     }
 
@@ -105,6 +115,13 @@ public class Square extends Retangulo {
         return end;
     }
 
+    /**
+     * Realiza uma translação no quadrado sem mover um ponto específico.
+     * 
+     * @param x deslocamento horizontal.
+     * @param y deslocamento vertical.
+     * @return novo quadrado transladado sem mover um ponto específico.
+     */
     public Square translacaoSemPonto(int x, int y) {
         Poligono p = super.translacaoSemPonto(x, y);
         Square end = new Square(p.getPontos());

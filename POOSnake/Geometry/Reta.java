@@ -2,8 +2,8 @@ package Geometry;
 
 /**
  * Classe que representa uma reta definida por dois pontos.
- * @version 1.0 03/04/2024
- * @author Luís Rosa
+ * @version Versão 1.0 10/05/2024
+ * @author Luís Rosa, José Lima, Pedro Ferreira
  */
 public class Reta {
     private Ponto ponto1; // Primeiro ponto da reta.
@@ -15,22 +15,9 @@ public class Reta {
      * @param ponto2 segundo ponto da reta.
      */
     public Reta(Ponto ponto1, Ponto ponto2) {
-        // check(ponto1,ponto2);
         this.ponto1 = ponto1;
         this.ponto2 = ponto2;
     }
-
-    /**
-     * Verifica se os pontos fornecidos para criar a reta são iguais.
-     * @param ponto1 primeiro ponto.
-     * @param ponto2 segundo ponto.
-     */
-    // private void check(Ponto ponto1, Ponto ponto2){
-    //     if (ponto1.getX() == ponto2.getX() && ponto1.getY() == ponto2.getY() && ponto1.getxDouble() == ponto2.getxDouble() && ponto1.getyDouble() == ponto2.getyDouble()){
-    //         System.out.println("Reta:vi");
-    //         System.exit(0);
-    //     }
-    // }
 
     /**
      * Obtém o primeiro ponto da reta.
@@ -69,11 +56,11 @@ public class Reta {
      * @param ponto ponto a ser verificado.
      * @return true se o ponto estiver na mesma linha da reta, false caso contrário.
      */
-    public boolean colineares (Ponto ponto){
-        double diferença_y = ponto2.getY() - ponto1.getY();
-        double diferença_x = ponto2.getX() - ponto1.getX();
-        double m = diferença_y/diferença_x;
-        double b = ponto1.getY() - m*ponto1.getX();
-        return ponto.getY() == ponto.getX()*m + b;
+    public boolean colineares(Ponto ponto) {
+        double diferencaY = ponto2.getY() - ponto1.getY();
+        double diferencaX = ponto2.getX() - ponto1.getX();
+        double m = diferencaY / diferencaX;
+        double b = ponto1.getY() - m * ponto1.getX();
+        return ponto.getY() == ponto.getX() * m + b;
     }
 }

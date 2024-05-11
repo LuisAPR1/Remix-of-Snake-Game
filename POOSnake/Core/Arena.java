@@ -12,6 +12,11 @@ import Geometry.Square;
 import UI.UI;
 import UI.UIFactory;
 
+/**
+ * Classe que representa a arena do jogo POOSnake.
+ * @version Versão 1.0 10/05/2024
+ * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
+ */
 public class Arena {
 
     Snake s;
@@ -23,11 +28,7 @@ public class Arena {
     private FoodType foodtype;
     private int headDimensions;
     private int foodDimensions;
-    @SuppressWarnings("unused")
-    private RasterizationType rasterization;
-    @SuppressWarnings("unused")
-    private int score;
-    Core.Obstacle.ObstacleType obstacletype;
+    private Core.Obstacle.ObstacleType obstacletype;
     Ponto rotacao;
     int points;
     List<Player> players;
@@ -37,18 +38,33 @@ public class Arena {
     UI ui;
     int tryyyy;
 
+    /**
+     * Construtor da classe Arena.
+     * 
+     * @param arenaDimensionsX    largura da arena.
+     * @param arenaDimensionsY    altura da arena.
+     * @param headDimensions      dimensões da cabeça da cobra.
+     * @param rasterizationType   tipo de rasterização para a UI.
+     * @param foodDimensions      dimensões da comida.
+     * @param foodType            tipo de comida.
+     * @param numObstacles        número de obstáculos.
+     * @param obstacleType        tipo de obstáculo.
+     * @param rotacao             ponto de rotação.
+     * @param interfaceMode       modo de interface.
+     * @param namePlayer          nome do jogador.
+     * @param scanner             scanner para entrada.
+     * @param movement            tipo de movimento.
+     */
     public Arena(int arenaDimensionsX, int arenaDimensionsY, int headDimensions, RasterizationType rasterizationType,
             int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
-            Ponto rotacao,
-            char interfaceMode, String namePlayer, Scanner scanner, Character movement) {
-
+            Ponto rotacao, char interfaceMode, String namePlayer, Scanner scanner, Character movement) {
+        // Configurações iniciais da arena
         this.rotacao = rotacao;
         this.obstacletype = obstacleType;
         this.arenaDimensions[0] = arenaDimensionsX;
         this.arenaDimensions[1] = arenaDimensionsY;
         this.foodDimensions = foodDimensions;
         this.headDimensions = headDimensions;
-        this.rasterization = rasterizationType;
         this.foodtype = foodType;
         this.namePlayer = namePlayer;
         this.rank = new Rank(players);
@@ -82,6 +98,9 @@ public class Arena {
         startGame();
     }
 
+    /**
+     * Inicia o jogo.
+     */
     public void startGame() {
         while (true) {
             // Captura a entrada do usuário e executa o movimento
@@ -90,6 +109,14 @@ public class Arena {
         }
     }
 
+    /**
+     * Gera a comida na arena.
+     * 
+     * @param color           cor da comida.
+     * @param foodType        tipo de comida.
+     * @param arena           arena do jogo.
+     * @param foodDimensions dimensões da comida.
+     */
     private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
         boolean foodIntersects = true;
 
@@ -123,13 +150,18 @@ public class Arena {
 
     }
 
+    /**
+     * Verifica se a comida intersecta com a cobra.
+     * 
+     * @param food comida a ser verificada.
+     * @return true se a comida intersecta com a cobra, false caso contrário.
+     */
     private boolean checkFoodSnakeCollision(AbstractFood<?> food) {
         // Obtém os quadrados da cobra
         List<Square> squares = s.getSnake();
 
         // Verifica se a comida intersecta com algum polígono da cobra
         for (Square square : squares) {
-
             if (food.intersect(square) || food.contains(square) || food.distance(square)
                     || food.isContainedIn(square)) {
                 return true;
@@ -138,10 +170,15 @@ public class Arena {
         return false;
     }
 
+    /**
+     * Verifica se a comida intersecta com algum obstáculo.
+     * 
+     * @param food comida a ser verificada.
+     * @return true se a comida intersecta com algum obstáculo, false caso contrário.
+     */
     private boolean checkFoodObstacleCollision(AbstractFood<?> food) {
         // Verifica se a comida intersecta com algum obstáculo
         for (Obstacle obstacle : obstacles) {
-
             if (food.intersect(obstacle.getObstacle()) || food.contains(obstacle.getObstacle())
                     || food.distance(obstacle.getObstacle()) || food.isContainedIn(obstacle.getObstacle())) {
                 return true;
@@ -150,6 +187,14 @@ public class Arena {
         return false;
     }
 
+    /**
+     * Cria os obstáculos na arena.
+     * 
+     * @param numObstacles   número de obstáculos a serem criados.
+     * @param obstacleType   tipo de obstáculo.
+     * @param arenaDimensions dimensões da arena.
+     * @param headDimensions dimensões da cabeça da cobra.
+     */
     private void createObstacles(int numObstacles, Core.Obstacle.ObstacleType obstacleType, int[] arenaDimensions,
             int headDimensions) {
         obstacles = new ArrayList<>();
@@ -190,6 +235,12 @@ public class Arena {
         }
     }
 
+    /**
+     * Gera a cobra na arena.
+     * 
+     * @param arenaDimensions dimensões da arena.
+     * @param headDimensions   dimensões da cabeça da cobra.
+     */
     private void generateSnake(int[] arenaDimensions, int headDimensions) {
         boolean snakeCollidedWithObstacle = true;
 
@@ -203,6 +254,9 @@ public class Arena {
         }
     }
 
+    /**
+     * Move os obstáculos na arena.
+     */
     public void obstaclesmove() {
         // Itera sobre todos os obstáculos na lista
         for (Obstacle obstacle : obstacles) {
@@ -217,6 +271,9 @@ public class Arena {
         }
     }
 
+    /**
+     * Atualiza o frame do jogo.
+     */
     public void Frame() {
         s.move();
 
@@ -258,7 +315,8 @@ public class Arena {
 
     }
 
-    // GETTERS NAD SETTERS
+    // GETTERS AND SETTERS
+
     public Snake getS() {
         return s;
     }

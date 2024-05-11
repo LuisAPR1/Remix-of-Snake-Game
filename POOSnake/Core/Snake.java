@@ -8,29 +8,68 @@ import Geometry.Poligono;
 import Geometry.Ponto;
 import Geometry.Square;
 
+/**
+ * Classe que representa uma cobra no jogo Snake.
+ * 
+ * A cobra é composta por uma lista encadeada de quadrados, onde cada quadrado
+ * representa uma parte do corpo da cobra.
+ * 
+ * Esta classe é responsável por gerenciar o movimento da cobra, detectar colisões
+ * e crescer quando come um alimento.
+ * 
+ * @author Luís Rosa, José Lima, Pedro Ferreira, José Lima, Pedro Ferreira
+ * @version Versão 1.0 10/05/2024
+ */
 public class Snake {
     private LinkedList<Square> snake = new LinkedList<>();
     int headDimensions;
     int direction;
     Ponto lastTailPosition;
 
+    /**
+     * Obtém a lista encadeada de quadrados que representam a cobra.
+     * 
+     * @return A lista encadeada de quadrados que representam a cobra.
+     */
     public LinkedList<Square> getSnake() {
         return snake;
     }
 
+    /**
+     * Define a lista encadeada de quadrados que representam a cobra.
+     * 
+     * @param snake A lista encadeada de quadrados que representam a cobra.
+     */
     public void setSnake(LinkedList<Square> snake) {
         this.snake = snake;
     }
 
+    /**
+     * Construtor para criar uma cobra dentro da arena com dimensões especificadas.
+     * 
+     * @param arenaDimensions As dimensões da arena onde a cobra irá se mover.
+     * @param headDimensions  As dimensões da cabeça da cobra.
+     */
     public Snake(int[] arenaDimensions, int headDimensions) {
         this.headDimensions = headDimensions;
         HeadInitializer(arenaDimensions, headDimensions);
     }
 
+    /**
+     * Define a direção da cobra.
+     * 
+     * @param direction A direção da cobra em graus (0 a 359).
+     */
     public void setDirection(int direction) {
         this.direction = direction;
     }
 
+    /**
+     * Inicializa a cabeça da cobra dentro da arena.
+     * 
+     * @param arenaDimensions As dimensões da arena onde a cobra irá se mover.
+     * @param headDimensions  As dimensões da cabeça da cobra.
+     */
     public void HeadInitializer(int[] arenaDimensions, int headDimensions) {
         // Calcula as coordenadas X e Y da cabeça da cobra de forma aleatória dentro da
         // arena
@@ -57,6 +96,12 @@ public class Snake {
         this.direction = (int) (Math.random() * 360);
     }
 
+    /**
+     * Verifica se a cobra comeu o alimento.
+     * 
+     * @param fruit O alimento a ser verificado.
+     * @return true se a cobra comeu o alimento, caso contrário false.
+     */
     public boolean CheckFoodEaten(AbstractFood<?> fruit) {
         Poligono square;
         if (snake.size() >= 2) {
@@ -72,23 +117,20 @@ public class Snake {
         // Verifica se a comida está contida no quadrado
         boolean isContained = fruit.isContainedIn(square);
 
-        // Faça algo com o resultado, como imprimir ou processar
-        if (isContained) {
-            return true;
-        }
-        return false;
+        // Retorna true se a comida foi comida, caso contrário false
+        return isContained;
     }
 
+    /**
+     * Verifica se houve colisão da cobra com o próprio corpo.
+     * 
+     * @return true se houve colisão, caso contrário false.
+     */
     public boolean checkSnakeSelfCollision() {
-        // Obtém os quadrados da cobra
-
-        // Obtém a cabeça da cobra (primeiro quadrado)
-
-        // Verifica se a cabeça da cobra intersecta com algum outro quadrado do corpo
+        // Itera sobre os quadrados do corpo da cobra
         for (int i = 1; i < snake.size(); i++) {
             if (snake.get(0).intersect2(snake.get(i))) {
                 // Se houver interseção, significa que a cabeça da cobra bateu em alguma parte
-
                 return true;
             }
 
@@ -100,7 +142,6 @@ public class Snake {
 
             if (headPoints.containsAll(bodyPartPoints) && bodyPartPoints.containsAll(headPoints)) {
                 // Se todos os pontos são iguais, houve colisão
-
                 return true;
             }
         }
@@ -109,9 +150,13 @@ public class Snake {
         return false;
     }
 
+    /**
+     * Verifica se a cobra saiu da arena.
+     * 
+     * @param arenaDimensions As dimensões da arena.
+     * @return true se a cobra saiu da arena, caso contrário false.
+     */
     public boolean checkSnakeInsideArena(int[] arenaDimensions) {
-        // Obtém os quadrados da cobra
-
         // Obtém as dimensões da arena
         int arenaWidth = arenaDimensions[0];
         int arenaHeight = arenaDimensions[1];
@@ -134,6 +179,13 @@ public class Snake {
         return false;
     }
 
+    /**
+     * Verifica se a cobra colidiu com algum obstáculo.
+     * 
+     * @param s          A cobra.
+     * @param obstacles  A lista de obstáculos.
+     * @return true se houve colisão com algum obstáculo, caso contrário false.
+     */
     public boolean checkSnakeObstacleColision(Snake s, ArrayList<Obstacle> obstacles) {
         // Obtém os quadrados da cobra
         List<Square> squares = s.getSnake();
@@ -142,34 +194,38 @@ public class Snake {
         for (Square square : squares) {
             // Verifica se algum quadrado intersecta os polígonos dos obstáculos
             for (Obstacle obstacle : obstacles) {
-
                 if (square.contains(obstacle.getObstacle()) || square.distance(obstacle.getObstacle())) {
-
-                    System.out.println("intersect " + square.intersect(obstacle.getObstacle()));
-                    System.out.println("contains " + square.contains(obstacle.getObstacle()));
-                    System.out.println("distance " + square.distance(obstacle.getObstacle()));
-
                     // Se houver interseção, a cobra colidiu com um obstáculo
-                    System.out.println("Colisao snake com objeto");
-
-                    // Retorna verdadeiro indicando que houve colisão
                     return true;
                 }
             }
         }
 
-        // Se não houve colisão, retorna falso
+        // Se não houve colisão, retorna false
         return false;
     }
 
+    /**
+     * Obtém a cabeça da cobra.
+     * 
+     * @return A cabeça da cobra.
+     */
     public Square getHead() {
         return snake.getFirst();
     }
 
+    /**
+     * Obtém as coordenadas da cauda da cobra.
+     * 
+     * @return A lista encadeada de quadrados representando a cauda da cobra.
+     */
     public LinkedList<Square> getTailCoordinates() {
         return new LinkedList<>(snake.subList(1, snake.size()));
     }
 
+    /**
+     * Move a cobra em direção à direção atual.
+     */
     public void move() {
         // Guarda a posição da última cauda antes de movê-la
         lastTailPosition = snake.getLast().getPontos().get(0);
@@ -205,11 +261,11 @@ public class Snake {
         // Move a cabeça da cobra na nova posição
         Square head = snake.getFirst();
         snake.set(0, head.translacaoSemPonto(xMove, yMove));
-
-        // Chama o método grow passando a posição da última cauda
-
     }
 
+    /**
+     * Faz a cobra crescer adicionando um novo quadrado à cauda.
+     */
     public void grow() {
         // Calcula as coordenadas do novo quadrado com base na posição da última cauda
         int xNewSquare = (int) lastTailPosition.getX(); // Mantém a mesma coordenada X da última cauda
@@ -226,6 +282,11 @@ public class Snake {
         snake.add(new Square(newSquareCoordinates));
     }
 
+    /**
+     * Retorna uma representação da cobra em forma de string.
+     * 
+     * @return Uma representação da cobra em forma de string.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -235,6 +296,11 @@ public class Snake {
         return sb.toString();
     }
 
+    /**
+     * Obtém a direção atual da cobra.
+     * 
+     * @return A direção atual da cobra em graus.
+     */
     public int getDirection() {
         return direction;
     }

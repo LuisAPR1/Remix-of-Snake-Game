@@ -5,8 +5,8 @@ import java.util.Objects;
 /**
  * Classe que representa um ponto no plano cartesiano.
  * 
- * @version 1.0 03/04/2024
- * @author Luís Rosa
+ * @version Versão 1.0 10/05/2024
+ * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
  */
 public class Ponto {
     private double x, y; // Coordenadas inteiras do ponto.
@@ -26,30 +26,9 @@ public class Ponto {
      * @param y coordenada y do ponto.
      */
     public Ponto(double x, double y) {
-        // check(x, y);
         setX(x);
         setY(y);
     }
-
-    /**
-     * Construtor que recebe coordenadas em ponto flutuante para criar um ponto.
-     * 
-     * @param xDouble coordenada x do ponto.
-     * @param yDouble coordenada y do ponto.
-     */
-   
-
-    /**
-     * Verifica se as coordenadas em ponto flutuante são próximas o suficiente para
-     * serem consideradas iguais.
-     * 
-     * @param x coordenada x.
-     * @param y coordenada y.
-     */
-    // private void check(double x, double y) {
-    //     if (Math.abs(x - y) < Math.pow(10, -9))
-    //         x = y;
-    // }
 
     /**
      * Calcula a distância entre este ponto e outro ponto.
@@ -62,14 +41,13 @@ public class Ponto {
         double dy = y - p.y;
         return Math.sqrt(dx * dx + dy * dy);
     }
-  
+
     /**
      * Obtém a coordenada x do ponto.
      * 
      * @return coordenada x.
      */
     public double getX() {
-        
         return x;
     }
 
@@ -88,17 +66,8 @@ public class Ponto {
      * @param x coordenada x.
      */
     public void setX(double x) {
-        
-        
         this.x = x;
     }
-
-    /**
-     * Define a coordenada x em ponto flutuante do ponto.
-     * 
-     * @param xDouble coordenada x em ponto flutuante.
-     */
-   
 
     /**
      * Define a coordenada y do ponto.
@@ -106,16 +75,8 @@ public class Ponto {
      * @param y coordenada y.
      */
     public void setY(double y) {
-       
         this.y = y;
     }
-
-    /**
-     * Define a coordenada y em ponto flutuante do ponto.
-     * 
-     * @param yDouble coordenada y em ponto flutuante.
-     */
-    
 
     /**
      * Verifica se este ponto é igual a outro objeto.
@@ -154,8 +115,6 @@ public class Ponto {
         return "(" + this.x + "," + this.y + ")";
     }
 
-
-
     /**
      * Rotaciona o ponto em torno de um ponto fixo por um determinado ângulo.
      * 
@@ -164,12 +123,11 @@ public class Ponto {
      * @return novo ponto rotacionado.
      */
     public Ponto rotacionar(int anguloGraus, Ponto fixo) {
-
         double x = (fixo.getX() + (this.x - fixo.getX()) * Math.cos(Math.toRadians(anguloGraus))
                 - (this.y - fixo.getY()) * Math.sin(Math.toRadians(anguloGraus)));
         double y = (fixo.getY() + ((this.x - fixo.getX()) * Math.sin(Math.toRadians(anguloGraus))
                 + (this.y - fixo.getY()) * Math.cos(Math.toRadians(anguloGraus))));
-        return new Ponto( x,  y);
+        return new Ponto(x, y);
     }
 
     /**
@@ -182,5 +140,4 @@ public class Ponto {
     public Ponto translacionar(int xmove, int ymove) {
         return new Ponto(this.x + xmove, this.y + ymove);
     }
-
 }

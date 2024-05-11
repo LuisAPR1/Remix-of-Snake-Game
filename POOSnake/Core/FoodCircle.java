@@ -7,19 +7,38 @@ import java.util.List;
 import Geometry.Circle;
 import Geometry.Ponto;
 
+/**
+ * Classe para representar uma comida na forma de um círculo na arena do jogo.
+ * 
+ * @version Versão 1.0 10/05/2024
+ * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
+ */
 public class FoodCircle extends AbstractFood<Circle> {
     private int diametro;
-    Circle shape;
+    private Circle shape;
     public Ponto position;
 
+    /**
+     * Construtor para criar uma comida na forma de um círculo.
+     * 
+     * @param color    A cor da comida.
+     * @param type     O tipo de comida.
+     * @param arena    A arena em que a comida será gerada.
+     * @param diametro O diâmetro do círculo.
+     */
     public FoodCircle(Color color, Core.FoodType type, Arena arena, int diametro) {
         super(color, type, arena);
         this.diametro = diametro;
         spawnFood(arena);
-        System.out.println("FRUTA NO CENTRO - "+ position);
-
+        System.out.println("FRUTA NO CENTRO - " + position);
     }
 
+    /**
+     * Gera uma posição aleatória para a comida.
+     * 
+     * @param headSize O tamanho da cabeça da cobra.
+     * @return A posição gerada.
+     */
     protected Ponto generatePosition(int headSize) {
         int[] arenaDimensions = arena.getArenaDimensions();
         int radius = diametro / 2;
@@ -53,14 +72,14 @@ public class FoodCircle extends AbstractFood<Circle> {
         int tries = 0;
         int movementIncrement = arena.getHeadDimensions();
         while (tries < maxTries) {
-            int x = (int) (Math.random() * (arena.getArenaDimensions()[0] - diametro)) + (diametro/2);
-            int y = (int) (Math.random() * (arena.getArenaDimensions()[1] - diametro)) + (diametro/2);
+            int x = (int) (Math.random() * (arena.getArenaDimensions()[0] - diametro)) + (diametro / 2);
+            int y = (int) (Math.random() * (arena.getArenaDimensions()[1] - diametro)) + (diametro / 2);
             boolean reachableBySnake = (x % movementIncrement == 0) && (y % movementIncrement == 0);
             boolean intersectsObstacle = false; // Flag para verificar interseção com obstáculo
             if (reachableBySnake) {
                 Ponto a = new Ponto(x, y);
                 this.shape = new Circle(a, diametro);
-                this.position=a;
+                this.position = a;
 
                 // Verificar se a comida não intersecta com nenhum obstáculo
                 for (Obstacle obstacle : arena.getObstacles()) {
@@ -74,7 +93,7 @@ public class FoodCircle extends AbstractFood<Circle> {
                 }
             }
             tries++;
-            
+
         }
 
         // Se não encontrar uma posição válida, gerar uma posição aleatória fora dos

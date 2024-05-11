@@ -7,11 +7,27 @@ import Geometry.Poligono;
 import Geometry.Ponto;
 import Geometry.Square;
 
+/**
+ * Classe responsável por realizar a rasterização do contorno dos objetos na arena.
+ * 
+ * Utiliza uma estratégia de rasterização para desenhar o contorno dos objetos, incluindo a cabeça e a cauda da cobra,
+ * obstáculos e a fruta, na grade da arena.
+ * 
+ * @author Luís Rosa, José Lima, Pedro Ferreira, José Lima, Pedro Ferreira
+ * @version Versão 1.0 10/05/2024
+ */
 class OutlineRasterization implements RasterizationStrategy {
 
+    // Grid que representa a arena
     Cell[][] grid;
+    // Referência para a arena
     Arena arena;
 
+    /**
+     * Construtor que inicializa a classe de rasterização do contorno.
+     * 
+     * @param arena A arena onde a rasterização será realizada.
+     */
     public OutlineRasterization(Arena arena) {
         this.grid = new Cell[arena.getArenaDimensions()[0]][arena.getArenaDimensions()[1]];
         this.arena = arena;
@@ -43,6 +59,12 @@ class OutlineRasterization implements RasterizationStrategy {
         }
     }
 
+    /**
+     * Desenha o contorno de um objeto na arena.
+     * 
+     * @param object   O objeto cujo contorno será desenhado.
+     * @param cellType O tipo de célula que será desenhada para representar o contorno.
+     */
     private void drawOutline(Poligono object, String cellType) {
         List<Ponto> vertices = object.getPontos();
 
@@ -84,6 +106,12 @@ class OutlineRasterization implements RasterizationStrategy {
         }
     }
 
+    /**
+     * Verifica se todos os pontos de um objeto estão dentro dos limites do grid.
+     * 
+     * @param vertices Os vértices do objeto.
+     * @return True se todos os pontos estiverem dentro dos limites do grid, False caso contrário.
+     */
     private boolean checkIfWithinBounds(List<Ponto> vertices) {
         for (Ponto p : vertices) {
             if (p.getX() >= grid.length || p.getY() >= grid[0].length || p.getX() < 0 || p.getY() < 0) {
@@ -93,6 +121,9 @@ class OutlineRasterization implements RasterizationStrategy {
         return true;
     }
 
+    /**
+     * Inicializa a arena, preenchendo o grid com células vazias.
+     */
     private void initializeArena() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {

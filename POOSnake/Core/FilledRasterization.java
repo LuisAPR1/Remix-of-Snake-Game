@@ -7,11 +7,22 @@ import Geometry.Poligono;
 import Geometry.Ponto;
 import Geometry.Square;
 
+/**
+ * Estratégia de rasterização preenchida para renderizar objetos na arena do jogo.
+ * 
+ * @version Versão 1.0 10/05/2024
+ * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
+ */
 class FilledRasterization implements RasterizationStrategy {
 
     Cell[][] grid;
     Arena arena;
 
+    /**
+     * Construtor para criar uma estratégia de rasterização preenchida.
+     * 
+     * @param arena A arena em que os objetos serão renderizados.
+     */
     public FilledRasterization(Arena arena) {
         this.grid = new Cell[arena.getArenaDimensions()[0]][arena.getArenaDimensions()[1]];
         this.arena = arena;
@@ -23,29 +34,35 @@ class FilledRasterization implements RasterizationStrategy {
         initializeArena();
 
         // Desenha a cabeça da cobra
-        drawObject(arena.getS().getHead(),"HEAD");
+        drawObject(arena.getS().getHead(), "HEAD");
 
         // Desenha a cauda da cobra
         LinkedList<Square> tail = arena.getS().getTailCoordinates();
         for (Square square : tail) {
-            drawObject(square,"TAIL");
+            drawObject(square, "TAIL");
         }
 
         // Desenha os obstáculos
         for (Obstacle obstacle : arena.getObstacles()) {
-            drawObject(obstacle.getObstacle(),"OBSTACLE");
+            drawObject(obstacle.getObstacle(), "OBSTACLE");
         }
 
         // Desenha a fruta
         if (arena.getFruit() != null) {
             Square a = new Square(arena.getFruit().SquareVertices());
-            drawObject(a,"FOOD");
+            drawObject(a, "FOOD");
         }
     }
 
+    /**
+     * Desenha um objeto na grade da arena.
+     * 
+     * @param object   O objeto a ser desenhado.
+     * @param cellType O tipo de célula associado ao objeto.
+     */
     private void drawObject(Poligono object, String cellType) {
         List<Ponto> vertices = object.getPontos();
-    
+
         // Verifica se todos os pontos do objeto estão dentro dos limites do grid
         if (checkIfWithinBounds(vertices)) {
             // Encontra os limites do objeto
@@ -59,12 +76,12 @@ class FilledRasterization implements RasterizationStrategy {
                 maxX = (int) Math.max(maxX, p.getX());
                 maxY = (int) Math.max(maxY, p.getY());
             }
-    
+
             // Preenche as células dentro do polígono definido pelos vértices
             for (int x = minX; x < maxX; x++) {
                 for (int y = minY; y < maxY; y++) {
                     if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length &&
-                        isInsidePolygon(x, y, vertices)) {
+                            isInsidePolygon(x, y, vertices)) {
                         // Ajusta as coordenadas para o índice da matriz
                         grid[x][y] = Cell.valueOf(cellType);
                     }
@@ -72,8 +89,14 @@ class FilledRasterization implements RasterizationStrategy {
             }
         }
     }
-    
-    
+
+    /**
+     * Verifica se todos os pontos de um objeto estão dentro dos limites do grid.
+     * 
+     * @param vertices Os vértices do objeto.
+     * @return true se todos os pontos estiverem dentro dos limites, caso contrário,
+     *         false.
+     */
     private boolean checkIfWithinBounds(List<Ponto> vertices) {
         for (Ponto p : vertices) {
             if (p.getX() > grid.length || p.getY() > grid[0].length) {
@@ -82,7 +105,15 @@ class FilledRasterization implements RasterizationStrategy {
         }
         return true;
     }
-    
+
+    /**
+     * Verifica se um ponto está dentro de um polígono.
+     * 
+     * @param x        A coordenada x do ponto.
+     * @param y        A coordenada y do ponto.
+     * @param vertices Os vértices do polígono.
+     * @return true se o ponto estiver dentro do polígono, caso contrário, false.
+     */
     private boolean isInsidePolygon(int x, int y, List<Ponto> vertices) {
         int intersectCount = 0;
         int numVertices = vertices.size();
@@ -90,14 +121,16 @@ class FilledRasterization implements RasterizationStrategy {
             Ponto v1 = vertices.get(i);
             Ponto v2 = vertices.get((i + 1) % numVertices);
             if ((v1.getY() > y) != (v2.getY() > y) &&
-                x < (v2.getX() - v1.getX()) * (y - v1.getY()) / (v2.getY() - v1.getY()) + v1.getX()) {
+                    x < (v2.getX() - v1.getX()) * (y - v1.getY()) / (v2.getY() - v1.getY()) + v1.getX()) {
                 intersectCount++;
             }
         }
         return intersectCount % 2 == 1;
     }
-    
 
+    /**
+     * Inicializa a grade da arena com células vazias.
+     */
     private void initializeArena() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {

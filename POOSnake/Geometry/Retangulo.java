@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * Classe que representa um retângulo, um tipo especial de polígono.
  * 
- * @version 1.0 03/04/2024
- * @author Luís Rosa
+ * @version Versão 1.0 10/05/2024
+ * @author Luís Rosa, José Lima, Pedro Ferreira
  */
 public class Retangulo extends Poligono {
 
@@ -117,12 +117,6 @@ public class Retangulo extends Poligono {
     @Override
     public Retangulo translacao(int x, int y) {
         Poligono p = super.translacao(x, y);
-        Retangulo end = new Retangulo(p.getPontos());
-        return end;
-    }
-
-    public Retangulo translacaoSemPonto(int x, int y) {
-        Poligono p = super.translacaoSemPonto(x, y);
         Retangulo end = new Retangulo(p.getPontos());
         return end;
     }

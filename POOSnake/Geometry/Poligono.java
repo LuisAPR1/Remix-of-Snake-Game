@@ -10,8 +10,8 @@ import Core.Shape;
 /**
  * Classe que representa um polígono.
  * 
- * @version 1.0 03/04/2024
- * @author Luís Rosa e Pedro Ferreira
+ * @version Versão 1.0 10/05/2024
+ * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
  * @inv O polígono tem de ter pelo m pontos.
  */
 public class Poligono implements Shape {
