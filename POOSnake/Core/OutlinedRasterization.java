@@ -13,7 +13,7 @@ import Geometry.Square;
  * Utiliza uma estratégia de rasterização para desenhar o contorno dos objetos, incluindo a cabeça e a cauda da cobra,
  * obstáculos e a fruta, na grade da arena.
  * 
- * @author Luís Rosa, José Lima, Pedro Ferreira, José Lima, Pedro Ferreira
+ * @author Luís Rosa, José Lima, Pedro Ferreira
  * @version Versão 1.0 10/05/2024
  */
 class OutlineRasterization implements RasterizationStrategy {
@@ -39,23 +39,23 @@ class OutlineRasterization implements RasterizationStrategy {
         initializeArena();
 
         // Desenha o contorno da cabeça da cobra
-        drawOutline(arena.getS().getHead(), "HEAD");
+        drawObject(arena.getS().getHead(), "HEAD");
 
         // Desenha o contorno da cauda da cobra
         LinkedList<Square> tail = arena.getS().getTailCoordinates();
         for (Square square : tail) {
-            drawOutline(square, "TAIL");
+            drawObject(square, "TAIL");
         }
 
         // Desenha o contorno dos obstáculos
         for (Obstacle obstacle : arena.getObstacles()) {
-            drawOutline(obstacle.getObstacle(), "OBSTACLE");
+            drawObject(obstacle.getObstacle(), "OBSTACLE");
         }
 
         // Desenha o contorno da fruta
         if (arena.getFruit() != null) {
             Square a = new Square(arena.getFruit().SquareVertices());
-            drawOutline(a, "FOOD");
+            drawObject(a, "FOOD");
         }
     }
 
@@ -65,11 +65,9 @@ class OutlineRasterization implements RasterizationStrategy {
      * @param object   O objeto cujo contorno será desenhado.
      * @param cellType O tipo de célula que será desenhada para representar o contorno.
      */
-    private void drawOutline(Poligono object, String cellType) {
+    private void drawObject(Poligono object, String cellType) {
         List<Ponto> vertices = object.getPontos();
 
-        // Verifica se todos os pontos do objeto estão dentro dos limites do grid
-        if (checkIfWithinBounds(vertices)) {
             // Encontra os limites do objeto
             int minX = Integer.MAX_VALUE;
             int minY = Integer.MAX_VALUE;
@@ -104,22 +102,7 @@ class OutlineRasterization implements RasterizationStrategy {
                 }
             }
         }
-    }
 
-    /**
-     * Verifica se todos os pontos de um objeto estão dentro dos limites do grid.
-     * 
-     * @param vertices Os vértices do objeto.
-     * @return True se todos os pontos estiverem dentro dos limites do grid, False caso contrário.
-     */
-    private boolean checkIfWithinBounds(List<Ponto> vertices) {
-        for (Ponto p : vertices) {
-            if (p.getX() >= grid.length || p.getY() >= grid[0].length || p.getX() < 0 || p.getY() < 0) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     /**
      * Inicializa a arena, preenchendo o grid com células vazias.
