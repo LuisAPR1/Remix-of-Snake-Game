@@ -213,6 +213,8 @@ public class Poligono implements Shape {
         return distancia < tamanhoLado();
     }
 
+    
+
     /**
      * Verifica se um círculo está a uma distância menor que o tamanho do lado de um
      * polígono.
@@ -240,6 +242,7 @@ public class Poligono implements Shape {
      * @return O tamanho do lado do polígono.
      */
     public double tamanhoLado() {
+
         double maiorDistancia = 0;
 
         // Itera sobre todos os segmentos de reta do polígono
@@ -252,7 +255,7 @@ public class Poligono implements Shape {
                 maiorDistancia = distancia;
             }
         }
-
+        
         return maiorDistancia;
     }
 
