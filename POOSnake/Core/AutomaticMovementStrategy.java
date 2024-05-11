@@ -19,8 +19,14 @@ public class AutomaticMovementStrategy implements MovementStrategy {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                arena.getS().direction=calculateBestDirection(arena.getS().getDirection());
-
+                int bestDirection = calculateBestDirection(arena.getS().getDirection());
+                if (arena.getS().checkSnakeSelfCollision() && (bestDirection != 0 && bestDirection != 180)) {
+                    bestDirection = 90; // Mudar para baixo
+                } else if (arena.getS().checkSnakeSelfCollision() && (bestDirection != 90 && bestDirection != 270)) {
+                    bestDirection = 0; // Mudar para cima
+                }
+                
+                arena.getS().setDirection(bestDirection);
                 arena.Frame();
             }
         }, 0, 1000); // Executa a cada 1 segundo (1000 milissegundos)
@@ -37,84 +43,75 @@ public class AutomaticMovementStrategy implements MovementStrategy {
         double distanceX = Math.abs(headPosition.getX() - foodPosition.getX());
         double distanceY = Math.abs(headPosition.getY() - foodPosition.getY());
 
-        // Inicializa a melhor direção como a direção oposta à direção atual (para
-        // garantir que seja alterada)
+        // Inicializa a melhor direção como a direção atual
         int bestDirection = currentDirection;
-
-        // Verifica se a comida está mais próxima no eixo X ou no eixo Y
-        if (distanceX < distanceY) {
-            // Se a comida estiver mais próxima no eixo X, mova-se horizontalmente (esquerda
-            // ou direita)
-            if (headPosition.getX() < foodPosition.getX()) {
-                // Comida está à direita da cabeça da cobra
-                if (currentDirection != 90) {
-                    // Se a direção atual não for esquerda, mova-se para a direita
-                    bestDirection = 270; // Direita
-                } else {
-                    // Se não for possível mover para a direita, mova-se verticalmente
-                    if (headPosition.getY() < foodPosition.getY()) {
-                        // Comida está abaixo da cabeça da cobra
-                        bestDirection = 180; // Baixo
-                    } else {
-                        // Comida está acima da cabeça da cobra
-                        bestDirection = 0; // Cima
-                    }
-                }
-            } else {
-                // Comida está à esquerda da cabeça da cobra
-                if (currentDirection != 270) {
-                    // Se a direção atual não for direita, mova-se para a esquerda
-                    bestDirection = 90; // Esquerda
-                } else {
-                    // Se não for possível mover para a esquerda, mova-se verticalmente
-                    if (headPosition.getY() < foodPosition.getY()) {
-                        // Comida está abaixo da cabeça da cobra
-                        bestDirection = 180; // Baixo
-                    } else {
-                        // Comida está acima da cabeça da cobra
-                        bestDirection = 0; // Cima
-                    }
-                }
-            }
-        } else {
-            // Se a comida estiver mais próxima no eixo Y, mova-se verticalmente (cima ou
-            // baixo)
-            if (headPosition.getY() < foodPosition.getY()) {
-                // Comida está abaixo da cabeça da cobra
-                if (currentDirection != 0) {
-                    // Se a direção atual não for para cima, mova-se para baixo
-                    bestDirection = 180; // Baixo
-                } else {
-                    // Se não for possível mover para baixo, mova-se horizontalmente
-                    if (headPosition.getX() < foodPosition.getX()) {
-                        // Comida está à direita da cabeça da cobra
-                        bestDirection = 270; // Direita
-                    } else {
-                        // Comida está à esquerda da cabeça da cobra
-                        bestDirection = 90; // Esquerda
-                    }
-                }
-            } else {
-                // Comida está acima da cabeça da cobra
-                if (currentDirection != 180) {
-                    // Se a direção atual não for para baixo, mova-se para cima
-                    bestDirection = 0; // Cima
-                } else {
-                    // Se não for possível mover para cima, mova-se horizontalmente
-                    if (headPosition.getX() < foodPosition.getX()) {
-                        // Comida está à direita da cabeça da cobra
-                        bestDirection = 270; // Direita
-                    } else {
-                        // Comida está à esquerda da cabeça da cobra
-                        bestDirection = 90; // Esquerda
-                    }
-                }
-            }
+if (distanceX < distanceY) {
+    // Mova-se horizontalmente (esquerda ou direita)
+    if (headPosition.getX() < foodPosition.getX()) {
+        // Comida está à direita da cabeça da cobra
+        if (currentDirection != 90) {
+            // Se a direção atual não for esquerda, mova-se para a direita
+            bestDirection = 270; // Direita
         }
+    } else {
+        // Comida está à esquerda da cabeça da cobra
+        if (currentDirection != 270) {
+            // Se a direção atual não for direita, mova-se para a esquerda
+            bestDirection = 90; // Esquerda
+        }
+    }
+} else {
+    // Mova-se verticalmente (cima ou baixo)
+    if (headPosition.getY() < foodPosition.getY()) {
+        // Comida está abaixo da cabeça da cobra
+        if (currentDirection != 0) {
+            // Se a direção atual não for para cima, mova-se para baixo
+            bestDirection = 180; // Baixo
+        }
+    } else {
+        // Comida está acima da cabeça da cobra
+        if (currentDirection != 180) {
+            // Se a direção atual não for para baixo, mova-se para cima
+            bestDirection = 0; // Cima
+        }
+    }
+}
+
+if (distanceX < distanceY) {
+    // Mova-se horizontalmente (esquerda ou direita)
+    if (headPosition.getX() < foodPosition.getX()) {
+        // Comida está à direita da cabeça da cobra
+        if (currentDirection != 90) {
+            // Se a direção atual não for esquerda, mova-se para a direita
+            bestDirection = 270; // Direita
+        }
+    } else {
+        // Comida está à esquerda da cabeça da cobra
+        if (currentDirection != 270) {
+            // Se a direção atual não for direita, mova-se para a esquerda
+            bestDirection = 90; // Esquerda
+        }
+    }
+} else {
+    // Mova-se verticalmente (cima ou baixo)
+    if (headPosition.getY() < foodPosition.getY()) {
+        // Comida está abaixo da cabeça da cobra
+        if (currentDirection != 0) {
+            // Se a direção atual não for para cima, mova-se para baixo
+            bestDirection = 180; // Baixo
+        }
+    } else {
+        // Comida está acima da cabeça da cobra
+        if (currentDirection != 180) {
+            // Se a direção atual não for para baixo, mova-se para cima
+            bestDirection = 0; // Cima
+        }
+    }
+}
+
 
         return bestDirection;
     }
-
 
     @Override
     public void input() {
