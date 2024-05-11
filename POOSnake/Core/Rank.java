@@ -96,8 +96,11 @@ public class Rank {
      * Lê o arquivo "rank.txt" e imprime a leaderboard dos jogadores.
      */
     public static void printLeaderboard() {
+
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
         // Lê o conteúdo do arquivo "rank.txt" e imprime a leaderboard dos jogadores
-        System.out.println("-----LEADERBOARD-----");
+        System.out.println("\\033[0;31m-----LEADERBOARD-----");
 
         List<Player> leaderboard = readRankFromFile();
 
