@@ -9,9 +9,9 @@ import Geometry.Ponto;
  * Estratégia de movimento automático para a cobra no jogo.
  * 
  * Esta estratégia permite que a cobra se mova automaticamente em direção à
- * comida mais próxima.
+ * comida mais próxima, evitando as bordas da arena, obstáculos e a própria cobra.
  * 
- * @version Versão 1.0 10/05/2024
+ * @version Versão 1.1 11/05/2024
  * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
  */
 public class AutomaticMovementStrategy implements MovementStrategy {
@@ -39,13 +39,6 @@ public class AutomaticMovementStrategy implements MovementStrategy {
                 // Calcula a melhor direção para a cobra se mover
                 int bestDirection = calculateBestDirection(arena.getS().getDirection());
 
-                // Verifica se há colisão da cobra consigo mesma
-                if (arena.getS().checkSnakeSelfCollision() && (bestDirection != 0 && bestDirection != 180)) {
-                    bestDirection = 90; // Muda para baixo
-                } else if (arena.getS().checkSnakeSelfCollision() && (bestDirection != 90 && bestDirection != 270)) {
-                    bestDirection = 0; // Muda para cima
-                }
-
                 // Define a direção da cobra como a melhor direção calculada
                 arena.getS().setDirection(bestDirection);
                 // Atualiza o frame da arena
@@ -55,7 +48,8 @@ public class AutomaticMovementStrategy implements MovementStrategy {
     }
 
     /**
-     * Calcula a melhor direção para a cobra se mover com base na posição da comida.
+     * Calcula a melhor direção para a cobra se mover com base na posição da comida,
+     * evitando as bordas da arena, obstáculos e a própria cobra.
      * 
      * @param currentDirection A direção atual da cobra.
      * @return A melhor direção para a cobra se mover.
@@ -66,47 +60,90 @@ public class AutomaticMovementStrategy implements MovementStrategy {
         // Obtém a posição da comida
         Ponto foodPosition = arena.getFruit().getShape().getPosition();
 
-        // Calcula a distância horizontal e vertical entre a cabeça da cobra e a comida
-        double distanceX = Math.abs(headPosition.getX() - foodPosition.getX());
-        double distanceY = Math.abs(headPosition.getY() - foodPosition.getY());
-
         // Inicializa a melhor direção como a direção atual da cobra
         int bestDirection = currentDirection;
 
-        // Verifica se a distância horizontal é menor do que a distância vertical
+        // Calcula as distâncias horizontal e vertical entre a cabeça da cobra e a comida
+        double distanceX = Math.abs(headPosition.getX() - foodPosition.getX());
+        double distanceY = Math.abs(headPosition.getY() - foodPosition.getY());
+
+        // Prioriza a direção mais próxima da comida
         if (distanceX < distanceY) {
-            // Move-se horizontalmente (esquerda ou direita)
+            // Movimento horizontal
             if (headPosition.getX() < foodPosition.getX()) {
-                // Comida está à direita da cabeça da cobra
-                if (currentDirection != 90) {
-                    // Se a direção atual não for esquerda, muda para a direita
-                    bestDirection = 270; // Direita
+                // Comida está à direita
+                if (currentDirection != 270 && !isCollision(headPosition, 270)) {
+                    bestDirection = 90; // Direita
                 }
             } else {
-                // Comida está à esquerda da cabeça da cobra
-                if (currentDirection != 270) {
-                    // Se a direção atual não for direita, muda para a esquerda
-                    bestDirection = 90; // Esquerda
+                // Comida está à esquerda
+                if (currentDirection != 90 && !isCollision(headPosition, 90)) {
+                    bestDirection = 270; // Esquerda
                 }
             }
         } else {
-            // Move-se verticalmente (cima ou baixo)
+            // Movimento vertical
             if (headPosition.getY() < foodPosition.getY()) {
-                // Comida está abaixo da cabeça da cobra
-                if (currentDirection != 0) {
-                    // Se a direção atual não for para cima, muda para baixo
-                    bestDirection = 180; // Baixo
+                // Comida está abaixo
+                if (currentDirection != 180 && !isCollision(headPosition, 180)) {
+                    bestDirection = 0; // Baixo
                 }
             } else {
-                // Comida está acima da cabeça da cobra
-                if (currentDirection != 180) {
-                    // Se a direção atual não for para baixo, muda para cima
-                    bestDirection = 0; // Cima
+                // Comida está acima
+                if (currentDirection != 0 && !isCollision(headPosition, 0)) {
+                    bestDirection = 180; // Cima
                 }
             }
         }
 
+        // Evitar bordas da arena
+        if (headPosition.getX() == 0 && bestDirection == 270) {
+            bestDirection = 0; // Evita a borda esquerda, indo para cima
+        } else if (headPosition.getX() == arena.getArenaDimensions()[0] - 1 && bestDirection == 90) {
+            bestDirection = 180; // Evita a borda direita, indo para baixo
+        } else if (headPosition.getY() == 0 && bestDirection == 0) {
+            bestDirection = 270; // Evita a borda superior, indo para a esquerda
+        } else if (headPosition.getY() == arena.getArenaDimensions()[1] - 1 && bestDirection == 180) {
+            bestDirection = 90; // Evita a borda inferior, indo para a direita
+        }
+
         return bestDirection;
+    }
+
+    // Método para verificar colisão em uma direção específica
+    private boolean isCollision(Ponto headPosition, int direction) {
+        // Calcula a próxima posição da cabeça da cobra na direção especificada
+        Ponto nextPosition = calculateNextPosition(headPosition, direction);
+        // Verifica se a próxima posição é uma colisão (com obstáculos ou com a própria cobra)
+        return isObstacle(nextPosition) || isSnakeCollision(nextPosition);
+    }
+
+    // Método para calcular a próxima posição da cabeça da cobra em uma direção específica
+    private Ponto calculateNextPosition(Ponto currentPosition, int direction) {
+        switch (direction) {
+            case 0: // Cima
+                return new Ponto(currentPosition.getX(), currentPosition.getY() - 1);
+            case 90: // Direita
+                return new Ponto(currentPosition.getX() + 1, currentPosition.getY());
+            case 180: // Baixo
+                return new Ponto(currentPosition.getX(), currentPosition.getY() + 1);
+            case 270: // Esquerda
+                return new Ponto(currentPosition.getX() - 1, currentPosition.getY());
+            default:
+                return currentPosition;
+        }
+    }
+
+    // Método para verificar se uma posição contém um obstáculo
+    private boolean isObstacle(Ponto position) {
+        // Implemente a lógica para verificar se a posição contém um obstáculo
+        return false; // Exemplo: sempre retorna falso por enquanto
+    }
+
+    // Método para verificar se uma posição está em colisão com a própria cobra
+    private boolean isSnakeCollision(Ponto position) {
+        // Implemente a lógica para verificar se a posição está em colisão com a própria cobra
+        return false; // Exemplo: sempre retorna falso por enquanto
     }
 
     /**
