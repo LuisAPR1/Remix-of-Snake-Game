@@ -8,11 +8,31 @@ package Core;
  * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
  */
 public enum Cell {
-    HEAD("H"), // Cabeça da cobra
-    TAIL("T"), // Corpo da cobra
-    FOOD("F"), // Comida
-    OBSTACLE("O"), // Obstáculo
-    EMPTY("."); // Célula vazia
+    /**
+     * Representa a cabeça da cobra.
+     */
+    HEAD("H"),
+
+    /**
+     * Representa o corpo da cobra.
+     */
+    TAIL("T"),
+
+    /**
+     * Representa a comida.
+     */
+    FOOD("F"),
+
+    /**
+     * Representa um obstáculo.
+     */
+    OBSTACLE("O"),
+
+    /**
+     * Representa uma célula vazia.
+     */
+    EMPTY(".");
+
 
     private final String state;
 

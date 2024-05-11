@@ -4,6 +4,13 @@ package Core;
  * Enum para os tipos de obstáculos no jogo.
  */
 public enum ObstacleType {
-    D, // Dinâmico
-    S  // Estático
+    /**
+     * Obstaculo dinâmico.
+     */
+    D,
+
+    /**
+     * Obstaculo estático.
+     */
+    S
 }

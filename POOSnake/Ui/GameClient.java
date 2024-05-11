@@ -9,8 +9,9 @@ import Core.RasterizationType;
 import Geometry.Ponto;
 
 /**
- * Classe que representa o cliente do jogo, responsável por interagir com o usuário para configurar o jogo.
- * 
+ *
+ * Classe que representa o cliente do jogo,responsável por interagir com o usuário para configurar o jogo.
+ *  
  * @version Versão 1.0 10/05/2024
  * @author Luís Rosa, José Lima, Pedro Ferreira, José Lima, Pedro Ferreira
  */

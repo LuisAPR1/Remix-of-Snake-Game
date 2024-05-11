@@ -7,6 +7,13 @@ package Core;
  * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
  */
 public enum InterfaceMode {
-    G, // Gráfico
-    T  // Textual
+   /**
+     * Modo gráfico.
+     */
+    G,
+
+    /**
+     * Modo textual.
+     */
+    T
 }

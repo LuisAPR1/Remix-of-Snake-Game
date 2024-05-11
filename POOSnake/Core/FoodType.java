@@ -7,6 +7,13 @@ package Core;
  * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
  */
 public enum FoodType {
-    C, // Comida em forma de círculo
-    S  // Comida em forma de quadrado
+    /**
+     * Comida em forma de círculo.
+     */
+    C,
+
+    /**
+     * Comida em forma de quadrado.
+     */
+    S
 }

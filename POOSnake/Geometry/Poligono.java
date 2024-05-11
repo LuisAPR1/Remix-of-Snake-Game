@@ -59,36 +59,55 @@ public class Poligono implements Shape {
         }
         this.pontos = pontos;
     }
+
+    /**
+     * Verifica se três pontos são colineares.
+     * 
+     * @param p1 Primeiro ponto.
+     * @param p2 Segundo ponto.
+     * @param p3 Terceiro ponto.
+     * @return true se os pontos são colineares, false caso contrário.
+     */
     public static boolean saoColineares(Ponto p1, Ponto p2, Ponto p3) {
         // Calcula a área do triângulo formado pelos três pontos
-        double area = 0.5 * ((p2.getX() - p1.getX()) * (p3.getY() - p1.getY()) - (p3.getX() - p1.getX()) * (p2.getY() - p1.getY()));
-        
+        double area = 0.5 * ((p2.getX() - p1.getX()) * (p3.getY() - p1.getY())
+                - (p3.getX() - p1.getX()) * (p2.getY() - p1.getY()));
+
         // Se a área for próxima de zero, os pontos são colineares
         return Math.abs(area) < 1e-9; // 1e-9 é uma tolerância pequena para lidar com imprecisões de ponto flutuante
     }
 
-    
+    /**
+     * Calcula a área do polígono.
+     * 
+     * @return A área do polígono.
+     */
     public double calcularArea() {
         double area = 0.0;
-    
+
         // Itera sobre todos os vértices do polígono
         for (int i = 0; i < pontos.size(); i++) {
             // Obtém os pontos consecutivos
             Ponto pontoAtual = pontos.get(i);
             Ponto proximoPonto = pontos.get((i + 1) % pontos.size());
-    
+
             // Calcula o produto cruzado entre os pontos
             area += pontoAtual.getX() * proximoPonto.getY();
             area -= pontoAtual.getY() * proximoPonto.getX();
         }
-    
+
         // Divide o resultado por 2 para obter a área final
         area = Math.abs(area) / 2.0;
-    
+
         return area;
     }
-    
 
+    /**
+     * Verifica se há interseção entre dois polígonos.
+     * 
+     * @param otherPolygon O outro polígono para verificar a interseção.
+     * @return true se houver interseção, false caso contrário.
+     */
     public boolean intersect2(Poligono otherPolygon) {
         // Verifica se os polígonos têm os 4 pontos iguais
         if (this.equals(otherPolygon)) {
@@ -110,37 +129,50 @@ public class Poligono implements Shape {
         return false; // Se nenhum ponto estiver dentro, retorna falso
     }
 
-
+    /**
+     * Verifica se há interseção entre dois polígonos.
+     * 
+     * @param otherPolygon O outro polígono para verificar a interseção.
+     * @return true se houver interseção, false caso contrário.
+     */
     public boolean intersect(Poligono otherPolygon) {
         // Verifica se os polígonos têm os mesmos pontos
         if (this.equals(otherPolygon)) {
             return true; // Se tiverem, considera-se como intersectados
         }
-    
+
         // Obtém todas as coordenadas do polígono recebido por argumento
         List<Ponto> coordenadasOutroPoligono = otherPolygon.getAllCoordinates();
-    
+
         // Itera sobre todos os pontos do polígono atual
         for (Ponto ponto : pontos) {
-            // Verifica se o ponto do polígono atual está dentro do polígono recebido por argumento
+            // Verifica se o ponto do polígono atual está dentro do polígono recebido por
+            // argumento
             if (otherPolygon.isPointInsidePolygon(ponto, coordenadasOutroPoligono)) {
 
                 return true; // Se o ponto estiver dentro, retorna verdadeiro
             }
         }
-    
+
         // Itera sobre todos os pontos do polígono recebido por argumento
         for (Ponto ponto : otherPolygon.getPontos()) {
-            // Verifica se o ponto do polígono recebido por argumento está dentro do polígono atual
+            // Verifica se o ponto do polígono recebido por argumento está dentro do
+            // polígono atual
             if (isPointInsidePolygon(ponto, getAllCoordinates())) {
 
                 return true; // Se o ponto estiver dentro, retorna verdadeiro
             }
         }
-    
+
         return false; // Se nenhum ponto estiver dentro, retorna falso
     }
-    
+
+    /**
+     * Verifica se há interseção entre um polígono e um círculo.
+     * 
+     * @param circle O círculo para verificar a interseção.
+     * @return true se houver interseção, false caso contrário.
+     */
     public boolean intersect(Circle circle) {
         // Obtém todas as coordenadas do polígono
         List<Ponto> coordenadasPoligono = getAllCoordinates();
@@ -159,6 +191,15 @@ public class Poligono implements Shape {
         // Se nenhum ponto do polígono estiver dentro do círculo, não há interseção
         return false;
     }
+
+    /**
+     * Verifica se dois polígonos estão a uma distância menor que o tamanho do lado
+     * de um polígono.
+     * 
+     * @param poligono O polígono com o qual se deseja verificar a distância.
+     * @return true se os polígonos estiverem a uma distância menor que o tamanho do
+     *         lado, false caso contrário.
+     */
     public boolean distance(Poligono poligono) {
         // Obtém o centro do polígono fornecido
         Ponto centroPoligono = poligono.calcularCentro();
@@ -171,6 +212,15 @@ public class Poligono implements Shape {
         // Verifica se a distância é menor que o tamanho do lado do quadrado
         return distancia < tamanhoLado();
     }
+
+    /**
+     * Verifica se um círculo está a uma distância menor que o tamanho do lado de um
+     * polígono.
+     * 
+     * @param poligono O círculo com o qual se deseja verificar a distância.
+     * @return true se o círculo estiver a uma distância menor que o tamanho do
+     *         lado, false caso contrário.
+     */
     public boolean distance(Circle poligono) {
         // Obtém o centro do polígono fornecido
         Ponto centroPoligono = poligono.getPosition();
@@ -183,25 +233,35 @@ public class Poligono implements Shape {
         // Verifica se a distância é menor que o tamanho do lado do quadrado
         return distancia < tamanhoLado();
     }
-    
+
+    /**
+     * Calcula o tamanho do lado de um polígono.
+     * 
+     * @return O tamanho do lado do polígono.
+     */
     public double tamanhoLado() {
         double maiorDistancia = 0;
-    
+
         // Itera sobre todos os segmentos de reta do polígono
         for (Segmento segmento : segmentoDeRetas) {
             // Calcula a distância entre os pontos inicial e final do segmento
             double distancia = segmento.getPonto1().dist(segmento.getPonto2());
-            
+
             // Atualiza a maior distância, se necessário
             if (distancia > maiorDistancia) {
                 maiorDistancia = distancia;
             }
         }
-    
+
         return maiorDistancia;
     }
-    
 
+    /**
+     * Verifica se o polígono contém um ponto.
+     * 
+     * @param shape O ponto para verificar se está contido no polígono.
+     * @return true se o ponto estiver contido, false caso contrário.
+     */
     public boolean contains(Circle shape) {
         // Obtém o centro do círculo e o raio
         Ponto centroCirculo = shape.getCentro();
@@ -215,10 +275,10 @@ public class Poligono implements Shape {
         for (Ponto ponto : pontos) {
             double x = ponto.getX();
             double y = ponto.getY();
-            minX = (int)Math.min(minX, x);
-            maxX = (int)Math.max(maxX, x);
-            minY = (int)Math.min(minY, y);
-            maxY = (int)Math.max(maxY, y);
+            minX = (int) Math.min(minX, x);
+            maxX = (int) Math.max(maxX, x);
+            minY = (int) Math.min(minY, y);
+            maxY = (int) Math.max(maxY, y);
         }
 
         // Verifica se o centro do círculo, somado ao raio, fica dentro do quadrado
@@ -236,6 +296,12 @@ public class Poligono implements Shape {
         return true;
     }
 
+    /**
+     * Verifica se o polígono contém outro polígono.
+     * 
+     * @param poligono O polígono para verificar se está contido no polígono.
+     * @return true se o polígono estiver contido, false caso contrário.
+     */
     public boolean contains(Poligono poligono) {
         // Obtém todas as coordenadas do polígono original
         List<Ponto> coordenadasPoligono = getAllCoordinates();
@@ -267,8 +333,14 @@ public class Poligono implements Shape {
         return true;
     }
 
-    // Método auxiliar para verificar se um ponto está dentro ou na borda de um
-    // polígono
+    /**
+     * Verifica se um ponto está dentro ou na borda de um polígono.
+     * 
+     * @param ponto               O ponto a ser verificado.
+     * @param coordenadasPoligono As coordenadas do polígono.
+     * @return true se o ponto estiver dentro ou na borda do polígono, false caso
+     *         contrário.
+     */
     private boolean isPointInsidePolygon2(Ponto ponto, List<Ponto> coordenadasPoligono) {
         int n = coordenadasPoligono.size();
         boolean inside = false;
@@ -290,7 +362,14 @@ public class Poligono implements Shape {
         return inside;
     }
 
-    // Método auxiliar para verificar se um ponto está dentro de um polígono
+    /**
+     * Verifica se um ponto está dentro ou na borda de um polígono.
+     * 
+     * @param ponto               O ponto a ser verificado.
+     * @param coordenadasPoligono As coordenadas do polígono.
+     * @return true se o ponto estiver dentro ou na borda do polígono, false caso
+     *         contrário.
+     */
     private boolean isPointInsidePolygon(Ponto ponto, List<Ponto> coordenadasPoligono) {
         int n = coordenadasPoligono.size();
         boolean inside = false;
@@ -308,6 +387,12 @@ public class Poligono implements Shape {
         return inside;
     }
 
+    /**
+     * Obtém todas as coordenadas dentro do polígono.
+     * 
+     * @return Lista de pontos que representam todas as coordenadas dentro do
+     *         polígono.
+     */
     public List<Ponto> getAllCoordinates() {
         // Inicializa a lista para armazenar as coordenadas
         List<Ponto> coordenadas = new ArrayList<>();
@@ -349,7 +434,12 @@ public class Poligono implements Shape {
         return coordenadas;
     }
 
-
+    /**
+     * Verifica se há interseção entre um polígono e outro polígono.
+     * 
+     * @param otherPolygon O outro polígono para verificar a interseção.
+     * @return true se houver interseção, false caso contrário.
+     */
     public boolean intersect4(Poligono otherPolygon) {
         // Verifica se há interseção entre as arestas dos polígonos
         for (Segmento segmento : this.getSegmentoDeRetas()) {
@@ -361,15 +451,20 @@ public class Poligono implements Shape {
         }
         return false;
     }
-    
-    
+
+    /**
+     * Verifica se há pontos compartilhados entre dois polígonos.
+     * 
+     * @param otherPolygon O outro polígono para verificar os pontos compartilhados.
+     * @return true se houver pontos compartilhados, false caso contrário.
+     */
     public boolean sharePoints(Poligono otherPolygon) {
         // Obtém todas as coordenadas do polígono atual
         List<Ponto> coordenadasPoligonoAtual = this.getAllCoordinates();
-    
+
         // Obtém todas as coordenadas do polígono recebido por argumento
         List<Ponto> coordenadasOutroPoligono = otherPolygon.getAllCoordinates();
-    
+
         // Itera sobre todas as coordenadas do polígono atual
         for (Ponto ponto : coordenadasPoligonoAtual) {
             // Verifica se o ponto do polígono atual está presente no polígono recebido
@@ -377,18 +472,25 @@ public class Poligono implements Shape {
                 return true; // Se o ponto estiver presente, retorna verdadeiro
             }
         }
-    
-        // Se nenhum ponto do polígono atual estiver presente no polígono recebido, retorna falso
+
+        // Se nenhum ponto do polígono atual estiver presente no polígono recebido,
+        // retorna falso
         return false;
     }
 
+    /**
+     * Verifica se há pontos compartilhados entre um polígono e um círculo.
+     * 
+     * @param otherPolygon O círculo para verificar os pontos compartilhados.
+     * @return true se houver pontos compartilhados, false caso contrário.
+     */
     public boolean sharePoints(Circle otherPolygon) {
         // Obtém todas as coordenadas do polígono atual
         List<Ponto> coordenadasPoligonoAtual = this.getAllCoordinates();
-    
+
         // Obtém todas as coordenadas do polígono recebido por argumento
         List<Ponto> coordenadasOutroPoligono = otherPolygon.getAllCoordinates();
-    
+
         // Itera sobre todas as coordenadas do polígono atual
         for (Ponto ponto : coordenadasPoligonoAtual) {
             // Verifica se o ponto do polígono atual está presente no polígono recebido
@@ -396,11 +498,11 @@ public class Poligono implements Shape {
                 return true; // Se o ponto estiver presente, retorna verdadeiro
             }
         }
-    
-        // Se nenhum ponto do polígono atual estiver presente no polígono recebido, retorna falso
+
+        // Se nenhum ponto do polígono atual estiver presente no polígono recebido,
+        // retorna falso
         return false;
     }
-    
 
     /**
      * Obtém a lista de pontos do polígono.
@@ -523,35 +625,38 @@ public class Poligono implements Shape {
         return new Poligono(pontosPol);
     }
 
-   
-        public Poligono combine(Poligono outroPoligono) {
-            // Obtém os pontos dos polígonos
-            List<Ponto> pontos1 = this.getPontos();
-            List<Ponto> pontos2 = outroPoligono.getPontos();
-    
-            // Encontra os pontos mais distantes em cada eixo (x e y) de ambos os polígonos
-            double minX = Math.min(pontos1.get(0).getX(), pontos2.get(0).getX());
-            double minY = Math.min(pontos1.get(0).getY(), pontos2.get(0).getY());
-            double maxX = Math.max(pontos1.get(2).getX(), pontos2.get(2).getX());
-            double maxY = Math.max(pontos1.get(2).getY(), pontos2.get(2).getY());
-    
-            // Cria um novo polígono com os pontos mais distantes
-            List<Ponto> combinedPoints = new ArrayList<>();
-            combinedPoints.add(new Ponto(minX, minY));
-            combinedPoints.add(new Ponto(maxX, minY));
-            combinedPoints.add(new Ponto(maxX, maxY));
-            combinedPoints.add(new Ponto(minX, maxY));
-    
-            return new Poligono(combinedPoints);
-        }
-    
-    
+    /**
+     * Combina dois polígonos em um novo polígono.
+     * 
+     * @param outroPoligono O outro polígono para combinar.
+     * @return O novo polígono combinado.
+     */
+    public Poligono combine(Poligono outroPoligono) {
+        // Obtém os pontos dos polígonos
+        List<Ponto> pontos1 = this.getPontos();
+        List<Ponto> pontos2 = outroPoligono.getPontos();
+
+        // Encontra os pontos mais distantes em cada eixo (x e y) de ambos os polígonos
+        double minX = Math.min(pontos1.get(0).getX(), pontos2.get(0).getX());
+        double minY = Math.min(pontos1.get(0).getY(), pontos2.get(0).getY());
+        double maxX = Math.max(pontos1.get(2).getX(), pontos2.get(2).getX());
+        double maxY = Math.max(pontos1.get(2).getY(), pontos2.get(2).getY());
+
+        // Cria um novo polígono com os pontos mais distantes
+        List<Ponto> combinedPoints = new ArrayList<>();
+        combinedPoints.add(new Ponto(minX, minY));
+        combinedPoints.add(new Ponto(maxX, minY));
+        combinedPoints.add(new Ponto(maxX, maxY));
+        combinedPoints.add(new Ponto(minX, maxY));
+
+        return new Poligono(combinedPoints);
+    }
 
     /**
-     * Realiza uma translação no polígono.
+     * Realiza uma translação no polígono para um ponto específico.
      * 
-     * @param x Deslocamento horizontal.
-     * @param y Deslocamento vertical.
+     * @param x Coordenada horizontal.
+     * @param y Coordenada vertical.
      * @return Novo polígono transladado.
      */
     public Poligono translacao(int x, int y) {
@@ -565,6 +670,13 @@ public class Poligono implements Shape {
         return new Poligono(pontosPol);
     }
 
+    /**
+     * Realiza uma translação no polígono.
+     * 
+     * @param x Deslocamento horizontal.
+     * @param y Deslocamento vertical.
+     * @return Novo polígono transladado sem a criação de novos pontos.
+     */
     public Poligono translacaoSemPonto(int x, int y) {
 
         List<Ponto> pontosCopy = new ArrayList<>();
@@ -584,6 +696,11 @@ public class Poligono implements Shape {
         return "Poligono de " + pontos.size() + " vertices: " + getPontos().toString();
     }
 
+    /**
+     * Obtém a posição do polígono.
+     * 
+     * @return A posição do polígono.
+     */
     @Override
     public Ponto getPosition() {
         return calcularCentro();

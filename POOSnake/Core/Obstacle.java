@@ -27,8 +27,15 @@ public class Obstacle {
      * Enumeração que define o tipo de obstáculo.
      */
     public enum ObstacleType {
-        D, // Dinâmico
-        S // Estático
+    /**
+     * Obstaculo dinâmico.
+     */
+    D,
+
+    /**
+     * Obstaculo estático.
+     */
+    S
     }
 
     /**

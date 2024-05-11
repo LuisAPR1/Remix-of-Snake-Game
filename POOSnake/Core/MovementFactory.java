@@ -3,6 +3,7 @@ package Core;
 import java.util.Scanner;
 
 /**
+ * 
  * Fábrica para criar instâncias de diferentes estratégias de movimento.
  * 
  * @version Versão 1.0 10/05/2024
