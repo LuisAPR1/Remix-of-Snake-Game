@@ -25,6 +25,8 @@ public class TextUI implements UI {
      */
     @Override
     public void render() {
+        System.out.print("\033[H\033[2J");
+            System.out.flush();
         rasterizationStrategy.render();
         System.out.println(toString());
         // Implementação adicional para renderização textual
