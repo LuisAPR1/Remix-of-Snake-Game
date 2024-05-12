@@ -16,7 +16,7 @@ public class FoodSquareTest {
     @Test
     void testSpawnFood() {
         // Criar uma arena com dimensões pequenas para facilitar o teste
-        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, ObstacleType.S, null, 'T', "Player", null, 'M');
+        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, ObstacleType.S, null, 'T', "Player", null, 'M', 0);
         
         // Criar uma comida quadrada
         FoodSquare food = new FoodSquare(Color.RED, FoodType.S, arena, 2);
@@ -29,7 +29,7 @@ public class FoodSquareTest {
     @Test
     void testFoodInsideArena() {
         // Criar uma arena pequena para facilitar o teste
-        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, ObstacleType.S, null, 'T', "Player", null, 'M');
+        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, ObstacleType.S, null, 'T', "Player", null, 'M', 0);
         
         // Criar uma comida quadrada
         FoodSquare food = new FoodSquare(Color.RED, FoodType.S, arena, 2);
