@@ -8,8 +8,11 @@ import Core.Obstacle;
 import Core.Obstacle.ObstacleType;
 import Core.RasterizationType;
 import Core.Snake;
+<<<<<<< Updated upstream
 import Geometry.Poligono;
 import Geometry.Ponto;
+=======
+>>>>>>> Stashed changes
 import Geometry.Square;
 
 import java.awt.Color;
@@ -22,6 +25,7 @@ public class SnakeTest {
 
     @Test
     public void testMove() {
+<<<<<<< Updated upstream
         Snake snake = new Snake(new int[]{20,20}, 1);
         List<Ponto> A = snake.getHead().getPontos(); 
 
@@ -72,6 +76,54 @@ public class SnakeTest {
         List<Ponto> B = snake.getTailCoordinates().getLast().getPontos();
         assertEquals(A,B);
     }
+=======
+        int[] starter = new int[2];
+        starter[0]=10;
+        starter[0]=10;
+        int headDimensions = 20;
+        Snake snake = new Snake(starter, headDimensions);
+        snake.getSnake().addLast(new Square("10 10 30 10 30 30 10 30")); 
+
+        snake.setDirection(0);
+        snake.move();
+        String expectedAfterRight = "11 10 31 10 31 30 11 30\n11 10 31 10 31 30 11 30\n";
+        assertEquals(expectedAfterRight, snake.toString());
+
+        snake.setDirection(90);
+
+        snake.move();
+        String expectedAfterDown = "11 11 31 11 31 31 11 31\n11 11 31 11 31 31 11 31\n";
+        assertEquals(expectedAfterDown, snake.toString());
+
+        snake.setDirection(180);
+
+        snake.move();
+        String expectedAfterLeft = "10 11 30 11 30 31 10 31\n10 11 30 11 30 31 10 31\n";
+        assertEquals(expectedAfterLeft, snake.toString());
+
+        snake.setDirection(270);
+
+        snake.move();
+        String expectedAfterUp = "10 10 30 10 30 30 10 30\n10 10 30 10 30 30 10 30\n";
+        assertEquals(expectedAfterUp, snake.toString());
+    }
+
+    public void testGrow() {
+        int[] directions = {0, 90, 180, 270};
+        int[] starter = new int[2];
+        starter[0]=10;
+        starter[0]=10;
+        int headDimensions = 20;
+
+        Snake snake = new Snake(starter, headDimensions);
+        for (int direction : directions) {
+
+            snake.getSnake().clear();
+            snake.getSnake().addFirst(new Square("10 10 30 10 30 30 10 30"));
+            snake.setDirection(direction); 
+            snake.grow();
+           
+>>>>>>> Stashed changes
     
     
     @Test

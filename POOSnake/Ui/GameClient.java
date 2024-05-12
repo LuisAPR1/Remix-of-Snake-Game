@@ -12,7 +12,7 @@ public class GameClient {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.flush();
-int angle=0;
+        int angle = 0;
         System.out.println(
                 "\033[0;31mBem-vindo ao jogo POOSNAKE - Desenvolvido por Pedro Ferreira, Luís Rosa e José Lima \033[0m\n\n");
 
@@ -118,7 +118,7 @@ int angle=0;
                 System.out.println("Digite y do ponto de rotação:");
                 int pointY = scanner.nextInt();
                 rotation = new Ponto(pointX, pointY);
-                
+
             }
         }
 
