@@ -70,6 +70,10 @@ public class Arena {
         this.obstacletype = obstacleType;
         this.arenaDimensions[0] = arenaDimensionsX;
         this.arenaDimensions[1] = arenaDimensionsY;
+        if (foodDimensions>=headDimensions) {
+            this.foodDimensions = headDimensions-1;
+
+        }
         this.foodDimensions = foodDimensions;
         this.headDimensions = headDimensions;
         this.foodtype = foodType;

@@ -13,8 +13,8 @@ public class GameClient {
         Scanner scanner = new Scanner(System.in);
         System.out.flush();
         int angle = 0;
-        int points=1;
-        int nleader=0;
+        int points = 1;
+        int nleader = 0;
         System.out.println(
                 "\033[0;31mBem-vindo ao jogo POOSNAKE - Desenvolvido por Pedro Ferreira, Luís Rosa e José Lima \033[0m\n\n");
 
@@ -45,12 +45,27 @@ public class GameClient {
         do {
             System.out.println("Digite as dimensões da cabeça:");
             headDimensions = scanner.nextInt();
-            if (headDimensions <= 0) {
-                System.out.println("As dimensões da cabeça devem ser maiores que zero.");
+            if (headDimensions < 3) {
+                System.out.println("O tamanho da cabeça deve ser no mínimo 3 para acomodar alimentos circulares.");
+                System.out.println("Por favor, escolha o tipo de comida como quadrado (S).");
             }
-        } while (headDimensions <= 0);
+        } while (headDimensions < 3);
 
-        // Solicita ao usuário que escolha o tipo de rasterização
+        // Solicita ao usuário que escolha o tipo de comida
+        char foodTypeString;
+        do {
+            System.out.println("Escolha o tipo de comida (C para círculo, S para quadrado):");
+            foodTypeString = scanner.next().charAt(0);
+            if (foodTypeString != 'C' && foodTypeString != 'S') {
+                System.out.println("Tipo de comida inválido. Por favor, insira 'C' para círculo ou 'S' para quadrado.");
+            } else if (foodTypeString == 'C' && headDimensions < 3) {
+                System.out.println("O tamanho da cabeça é muito pequeno para acomodar alimentos circulares.");
+                System.out.println("Por favor, escolha o tipo de comida como quadrado (S).");
+            }
+        } while ((foodTypeString != 'C' && foodTypeString != 'S') || (foodTypeString == 'C' && headDimensions < 3));
+        FoodType foodType = FoodType.valueOf(Character.toString(foodTypeString));
+
+        // Solicita ao usuário o tipo de rasterização
         char rasterization;
         do {
             System.out.println("Escolha o tipo de rasterização (O para contorno, F para preenchido):");
@@ -74,17 +89,6 @@ public class GameClient {
             points = scanner.nextInt();
         } while (foodDimensions <= 0);
 
-        // Solicita ao usuário que escolha o tipo de comida
-        char foodTypeString;
-        do {
-            System.out.println("Escolha o tipo de comida (C para círculo, S para quadrado):");
-            foodTypeString = scanner.next().charAt(0);
-            if (foodTypeString != 'C' && foodTypeString != 'S') {
-                System.out.println("Tipo de comida inválido. Por favor, insira 'C' para círculo ou 'S' para quadrado.");
-            }
-        } while (foodTypeString != 'C' && foodTypeString != 'S');
-        FoodType foodType = FoodType.valueOf(Character.toString(foodTypeString));
-
         // Solicita ao usuário o número de obstáculos
         int numObstacles;
         do {
@@ -106,14 +110,12 @@ public class GameClient {
             }
         } while (obstacleTypeString != 'D' && obstacleTypeString != 'S');
         ObstacleType obstacleType = ObstacleType.valueOf(Character.toString(obstacleTypeString));
-        
+
         Ponto rotation = null;
         // Se os obstáculos são dinâmicos, solicita as coordenadas do ponto de rotação
         if (obstacleType == ObstacleType.D) {
-
-            System.out.println("Digite o angulo de rotação");
-        angle = scanner.next().charAt(0);
-        
+            System.out.println("Digite o ângulo de rotação:");
+            angle = scanner.nextInt();
             System.out.println("Deseja definir um ponto de rotação para os obstáculos dinâmicos? (S/N):");
             char rotationChoice = scanner.next().charAt(0);
             if (rotationChoice == 'S' || rotationChoice == 's') {
@@ -122,7 +124,6 @@ public class GameClient {
                 System.out.println("Digite y do ponto de rotação:");
                 int pointY = scanner.nextInt();
                 rotation = new Ponto(pointX, pointY);
-
             }
         }
 
@@ -141,13 +142,14 @@ public class GameClient {
             }
         } while (interfaceMode != 'G' && interfaceMode != 'T');
 
-        System.out.println("Qantos jogadores da LeaderBoard deseja imprimir no fim do jogo?:");
+        System.out.println("Quantos jogadores da LeaderBoard deseja imprimir no fim do jogo?:");
         nleader = scanner.nextInt();
-        
+
         // Criação do objeto Arena com os valores inseridos
         @SuppressWarnings("unused")
         Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationType, foodDimensions,
-                foodType, numObstacles, obstacleType, rotation, interfaceMode, namePlayer, scanner, movement, angle, points, nleader);
+                foodType, numObstacles, obstacleType, rotation, interfaceMode, namePlayer, scanner, movement, angle,
+                points, nleader);
 
         // Agora você tem um objeto Arena pronto para uso!
     }
