@@ -16,7 +16,7 @@ import Geometry.Square;
  * @author Luís Rosa, José Lima, Pedro Ferreira
  * @version Versão 1.0 10/05/2024
  */
-class OutlineRasterization implements RasterizationStrategy {
+public class OutlineRasterization implements RasterizationStrategy {
 
     // Grid que representa a arena
     Cell[][] grid;

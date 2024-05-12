@@ -15,7 +15,7 @@ import Geometry.Square;
  * @version Versão 1.0 10/05/2024
  * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
  */
-class FilledRasterization implements RasterizationStrategy {
+public class FilledRasterization implements RasterizationStrategy {
 
     Cell[][] grid;
     Arena arena;
