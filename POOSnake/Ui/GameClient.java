@@ -13,6 +13,8 @@ public class GameClient {
         Scanner scanner = new Scanner(System.in);
         System.out.flush();
         int angle = 0;
+        int points=1;
+        int nleader=0;
         System.out.println(
                 "\033[0;31mBem-vindo ao jogo POOSNAKE - Desenvolvido por Pedro Ferreira, Luís Rosa e José Lima \033[0m\n\n");
 
@@ -68,6 +70,8 @@ public class GameClient {
             if (foodDimensions <= 0) {
                 System.out.println("A dimensão da comida deve ser maior que zero.");
             }
+            System.out.println("Quantos pontos vale cada comida?:");
+            points = scanner.nextInt();
         } while (foodDimensions <= 0);
 
         // Solicita ao usuário que escolha o tipo de comida
@@ -137,10 +141,13 @@ public class GameClient {
             }
         } while (interfaceMode != 'G' && interfaceMode != 'T');
 
+        System.out.println("Qantos jogadores da LeaderBoard deseja imprimir no fim do jogo?:");
+        nleader = scanner.nextInt();
+        
         // Criação do objeto Arena com os valores inseridos
         @SuppressWarnings("unused")
         Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationType, foodDimensions,
-                foodType, numObstacles, obstacleType, rotation, interfaceMode, namePlayer, scanner, movement, angle);
+                foodType, numObstacles, obstacleType, rotation, interfaceMode, namePlayer, scanner, movement, angle, points, nleader);
 
         // Agora você tem um objeto Arena pronto para uso!
     }

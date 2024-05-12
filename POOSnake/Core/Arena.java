@@ -31,6 +31,7 @@ public class Arena {
     private int foodDimensions;
     private Core.Obstacle.ObstacleType obstacletype;
     Ponto rotacao;
+    int pointsadder;
     int points;
     int angle=0;
     List<Player> players;
@@ -40,6 +41,7 @@ public class Arena {
     UI ui;
     int tryyyy;
     int t=0;
+    int nleader=1;
 
     /**
      * Construtor da classe Arena.
@@ -60,7 +62,7 @@ public class Arena {
      */
     public Arena(int arenaDimensionsX, int arenaDimensionsY, int headDimensions, RasterizationType rasterizationType,
             int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
-            Ponto rotacao, char interfaceMode, String namePlayer, Scanner scanner, Character movement, int angle) {
+            Ponto rotacao, char interfaceMode, String namePlayer, Scanner scanner, Character movement, int angle, int pointsadder, int nleader) {
         // Configurações iniciais da arena
         this.angle=angle;
         this.rotacao = rotacao;
@@ -71,7 +73,8 @@ public class Arena {
         this.headDimensions = headDimensions;
         this.foodtype = foodType;
         this.namePlayer = namePlayer;
-        this.rank = new Rank(players);
+        this.rank = new Rank(players, nleader);
+        this.pointsadder=pointsadder;
 
         if (arenaDimensionsX % headDimensions != 0 || arenaDimensionsY % headDimensions != 0) {
             // Calcula as dimensões ajustadas da arena para serem múltiplos do tamanho da
@@ -183,7 +186,7 @@ public class Arena {
                     System.out.println("Max Score Achieved!");
                     System.out.println("Score: " + points);
                     System.out.println();
-                    Rank.printLeaderboard();
+                    rank.printLeaderboard();
                     System.exit(0);
 
                 }
@@ -332,7 +335,7 @@ public class Arena {
         s.move();
 
         if (s.CheckFoodEaten(fruit) == true) {
-            points++;
+            points+=pointsadder;
             s.grow();
             generateFood(Color.YELLOW, foodtype, this, foodDimensions);
 
@@ -344,7 +347,7 @@ public class Arena {
             System.out.flush();
             ui.render();
             
-            Rank.printLeaderboard();
+            rank.printLeaderboard();
             System.exit(0);
         }
 
@@ -354,7 +357,7 @@ public class Arena {
         System.out.flush();
             ui.render();
             
-            Rank.printLeaderboard();
+            rank.printLeaderboard();
             System.exit(0);
         }
 
@@ -364,7 +367,7 @@ public class Arena {
         System.out.flush();
             ui.render();
             
-            Rank.printLeaderboard();
+            rank.printLeaderboard();
             System.exit(0);
         }
 
