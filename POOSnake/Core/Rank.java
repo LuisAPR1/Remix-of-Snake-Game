@@ -27,14 +27,15 @@ public class Rank {
 
     // Lista de jogadores no ranking
     private List<Player> Players;
-
+    int nleader;
     /**
      * Construtor para criar um objeto Rank com uma lista de jogadores.
      * 
      * @param p A lista de jogadores.
      */
-    public Rank(List<Player> p) {
+    public Rank(List<Player> p, int nleader) {
         this.Players = p;
+        this.nleader= nleader;
     }
 
     /**
@@ -95,16 +96,16 @@ public class Rank {
     /**
      * Lê o arquivo "rank.txt" e imprime a leaderboard dos jogadores.
      */
-    public static void printLeaderboard() {
+    public void printLeaderboard() {
 
-
+    
         System.out.flush();
         // Lê o conteúdo do arquivo "rank.txt" e imprime a leaderboard dos jogadores
         System.out.println("-----LEADERBOARD-----");
 
         List<Player> leaderboard = readRankFromFile();
 
-        for (int i = 0; i < leaderboard.size(); i++) {
+        for (int i = 0; i < this.nleader; i++) {
             Player player = leaderboard.get(i);
             System.out.println("TOP " + (i + 1) + " - " + player.getName() + ": " + player.getScore());
         }
