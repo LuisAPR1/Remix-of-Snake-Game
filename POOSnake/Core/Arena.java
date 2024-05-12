@@ -9,6 +9,7 @@ import java.util.Scanner;
 import Geometry.Poligono;
 import Geometry.Ponto;
 import Geometry.Square;
+import Geometry.Triangulo;
 import UI.UI;
 import UI.UIFactory;
 
@@ -236,7 +237,7 @@ public class Arena {
     }
 
     /**
-     * Cria os obstáculos na arena.
+     * Cria os obstáculos na arena. Podendo estes ser qualquer tipo de polígono
      * 
      * @param numObstacles    número de obstáculos a serem criados.
      * @param obstacleType    tipo de obstáculo.
@@ -289,7 +290,7 @@ public class Arena {
                 pontos.add(new Ponto(posX, posY));
                 pontos.add(new Ponto(posX + headDimensions, posY));
                 pontos.add(new Ponto(posX + (headDimensions / 2), posY + headDimensions));
-                Poligono obstacleShape = new Poligono(pontos);
+                Triangulo obstacleShape = new Triangulo(pontos);
                 Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
                 obstacles.add(obstacle);
             }
