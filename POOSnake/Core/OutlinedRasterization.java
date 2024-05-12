@@ -72,7 +72,7 @@ class OutlineRasterization implements RasterizationStrategy {
         // Desenha linhas entre todos os vértices do objeto
         for (int i = 0; i < numVertices; i++) {
             Ponto p1 = vertices.get(i);
-            Ponto p2 = vertices.get((i + 1) % numVertices);
+            Ponto p2 = vertices.get((i + 1) % numVertices) ;
             drawLine(p1.getX(), p1.getY(), p2.getX(), p2.getY(), cellType);
         }
     }
