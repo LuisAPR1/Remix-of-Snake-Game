@@ -132,4 +132,23 @@ public class Circle implements Shape {
         return false;
     }
 
+    public boolean intersect(Circle circle) {
+        // Obtém todas as coordenadas do polígono fornecido por argumento
+        List<Ponto> polygonCoordinates = circle.getAllCoordinates();
+
+        // Itera sobre todas as coordenadas do polígono
+        for (Ponto point : polygonCoordinates) {
+            // Calcula a distância entre o centro do círculo e o ponto do polígono
+            double distance = Math.sqrt(Math.pow(this.centro.getX() - point.getX(), 2) +
+                    Math.pow(this.centro.getY() - point.getY(), 2));
+
+            // Se a distância for menor ou igual ao raio do círculo, há interseção
+            if (distance <= this.raio) {
+                return true;
+            }
+        }
+
+        // Se nenhum ponto do polígono estiver dentro do círculo, retorna falso
+        return false;
+    }
 }

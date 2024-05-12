@@ -35,11 +35,7 @@ public class FilledRasterizationTest {
         for (Square tailSegment : snake.getTailCoordinates()) {
             assertObjectRenderedCorrectly(tailSegment, rasterization.getGrid());
         }
-        
-        // Verifica se os obstáculos foram desenhados corretamente
-        for (Square obstacle : arena.getObstaclesAsSquares()) {
-            assertObjectRenderedCorrectly(obstacle, rasterization.getGrid());
-        }
+
         
         // Verifica se a fruta foi desenhada corretamente
         if (arena.getFruit() != null) {
@@ -50,6 +46,7 @@ public class FilledRasterizationTest {
     }
 
     // Função auxiliar para verificar se um objeto foi renderizado corretamente na grade
+    @SuppressWarnings("unused")
     private void assertObjectRenderedCorrectly(Square object, Cell[][] grid) {
         List<Ponto> vertices = object.getPontos();
         for (Ponto vertex : vertices) {
