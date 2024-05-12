@@ -117,10 +117,7 @@ public class Arena {
         startGame();
     }
 
-    public Arena(int i, int j, int k, RasterizationType f, int l, FoodType s2, int m, ObstacleType s3, Object object,
-            char c, String string, Object object2, char d, int n) {
-        //TODO Auto-generated constructor stub
-    }
+   
 
     /**
      * Inicia o jogo.
