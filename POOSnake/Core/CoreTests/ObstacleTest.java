@@ -38,4 +38,15 @@ public class ObstacleTest {
         assertEquals(new Ponto(0, 3), rotatedObstacle.getPontos().get(2));
         assertEquals(new Ponto(0, 0), rotatedObstacle.getPontos().get(3));
     }
+
+    @Test
+    public void testStaticObstacle() {
+        Poligono obstaclePolygon = new Poligono("0 0 0 4 4 4 4 0");
+
+        Obstacle obstacle = new Obstacle(Obstacle.ObstacleType.S, obstaclePolygon, null);
+
+        assertEquals(Obstacle.ObstacleType.S, obstacle.getType());
+        assertEquals(obstaclePolygon, obstacle.getObstacle());
+    }
+
 }
