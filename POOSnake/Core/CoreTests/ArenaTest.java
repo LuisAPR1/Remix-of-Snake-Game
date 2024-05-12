@@ -29,7 +29,7 @@ public class ArenaTest {
     public void setUp() {
 
         Snake snake = new Snake(new int[]{10, 10}, 1);
-        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, ObstacleType.S, null, 'T', "Player", null, 'M', 0);
+        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, ObstacleType.S, null, 'T', "Player", null, 'M', 0, 0, 0);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ArenaTest {
 
     @Test
     void testCreateObstacles2() {
-        Arena arena1 = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, ObstacleType.D, new Ponto(0, 0), 'T', "Player", null, 'M', 0);
+        Arena arena1 = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, ObstacleType.D, new Ponto(0, 0), 'T', "Player", null, 'M', 0, 0, 0);
 
         arena1.createObstacles(2, ObstacleType.D, new int[]{10,10}, 1);
 

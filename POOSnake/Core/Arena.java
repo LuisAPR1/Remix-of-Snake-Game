@@ -117,6 +117,8 @@ public class Arena {
         startGame();
     }
 
+   
+
     /**
      * Inicia o jogo.
      */

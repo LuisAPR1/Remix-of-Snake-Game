@@ -19,7 +19,7 @@ public class RankTest {
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
-        rank = new Rank(players);
+        rank = new Rank(players, 0);
     }
 
     @Test
