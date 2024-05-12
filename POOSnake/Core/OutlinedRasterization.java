@@ -67,42 +67,42 @@ class OutlineRasterization implements RasterizationStrategy {
      */
     private void drawObject(Poligono object, String cellType) {
         List<Ponto> vertices = object.getPontos();
+        int numVertices = vertices.size();
+    
+        // Desenha linhas entre todos os vértices do objeto
+        for (int i = 0; i < numVertices; i++) {
+            Ponto p1 = vertices.get(i);
+            Ponto p2 = vertices.get((i + 1) % numVertices);
+            drawLine(p1.getX(), p1.getY(), p2.getX(), p2.getY(), cellType);
+        }
+    }
 
-            // Encontra os limites do objeto
-            int minX = Integer.MAX_VALUE;
-            int minY = Integer.MAX_VALUE;
-            int maxX = Integer.MIN_VALUE;
-            int maxY = Integer.MIN_VALUE;
-            for (Ponto p : vertices) {
-                minX = (int) Math.min(minX, p.getX());
-                minY = (int) Math.min(minY, p.getY());
-                maxX = (int) Math.max(maxX, p.getX());
-                maxY = (int) Math.max(maxY, p.getY());
+    
+    private void drawLine(double x0, double y0, double x1, double y1, String cellType) {
+        double dx = Math.abs(x1 - x0);
+        double dy = Math.abs(y1 - y0);
+        double sx = x0 < x1 ? 1 : -1;
+        double sy = y0 < y1 ? 1 : -1;
+        double err = dx - dy;
+    
+        while (x0 != x1 || y0 != y1) {
+            // Desenha o ponto atual
+            if (x0 >= 0 && x0 < grid.length && y0 >= 0 && y0 < grid[0].length) {
+                grid[(int) x0][(int) y0] = Cell.valueOf(cellType);
             }
-
-            // Desenha o contorno do objeto
-            for (int x = minX; x < maxX; x++) {
-                if (x >= 0 && x < grid.length) {
-                    if (minY >= 0 && minY < grid[0].length) {
-                        grid[x][minY] = Cell.valueOf(cellType);
-                    }
-                    if (maxY - 1 >= 0 && maxY - 1 < grid[0].length) {
-                        grid[x][maxY - 1] = Cell.valueOf(cellType);
-                    }
-                }
+            
+            double e2 = 2 * err;
+            if (e2 > -dy) {
+                err -= dy;
+                x0 += sx;
             }
-            for (int y = minY; y < maxY; y++) {
-                if (y >= 0 && y < grid[0].length) {
-                    if (minX >= 0 && minX < grid.length) {
-                        grid[minX][y] = Cell.valueOf(cellType);
-                    }
-                    if (maxX - 1 >= 0 && maxX - 1 < grid.length) {
-                        grid[maxX - 1][y] = Cell.valueOf(cellType);
-                    }
-                }
+            if (e2 < dx) {
+                err += dx;
+                y0 += sy;
             }
         }
-
+    }
+    
 
     /**
      * Inicializa a arena, preenchendo o grid com células vazias.
