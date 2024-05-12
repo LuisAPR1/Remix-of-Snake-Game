@@ -55,47 +55,38 @@ public class AutomaticMovementStrategy implements MovementStrategy {
      * @return A melhor direção para a cobra se mover.
      */
     public int calculateBestDirection(int currentDirection) {
-        // Obtém a posição da cabeça da cobra
         Ponto headPosition = arena.getS().getSnake().get(0).calcularCentro();
-        // Obtém a posição da comida
         Ponto foodPosition = arena.getFruit().getShape().getPosition();
-
-        // Inicializa a melhor direção como a direção atual da cobra
+    
         int bestDirection = currentDirection;
-
-        // Calcula as distâncias horizontal e vertical entre a cabeça da cobra e a comida
+    
         double distanceX = Math.abs(headPosition.getX() - foodPosition.getX());
         double distanceY = Math.abs(headPosition.getY() - foodPosition.getY());
-
-        // Prioriza a direção mais próxima da comida
+    
         if (distanceX < distanceY) {
-            // Movimento horizontal
+            // Prioriza o movimento horizontal em direção à comida
             if (headPosition.getX() < foodPosition.getX()) {
-                // Comida está à direita
                 if (currentDirection != 270 && !isCollision(headPosition, 270)) {
                     bestDirection = 90; // Direita
                 }
             } else {
-                // Comida está à esquerda
                 if (currentDirection != 90 && !isCollision(headPosition, 90)) {
                     bestDirection = 270; // Esquerda
                 }
             }
         } else {
-            // Movimento vertical
+            // Prioriza o movimento vertical em direção à comida
             if (headPosition.getY() < foodPosition.getY()) {
-                // Comida está abaixo
                 if (currentDirection != 180 && !isCollision(headPosition, 180)) {
                     bestDirection = 0; // Baixo
                 }
             } else {
-                // Comida está acima
                 if (currentDirection != 0 && !isCollision(headPosition, 0)) {
                     bestDirection = 180; // Cima
                 }
             }
         }
-
+    
         // Evitar bordas da arena
         if (headPosition.getX() == 0 && bestDirection == 270) {
             bestDirection = 0; // Evita a borda esquerda, indo para cima
@@ -106,10 +97,10 @@ public class AutomaticMovementStrategy implements MovementStrategy {
         } else if (headPosition.getY() == arena.getArenaDimensions()[1] - 1 && bestDirection == 180) {
             bestDirection = 90; // Evita a borda inferior, indo para a direita
         }
-
+    
         return bestDirection;
     }
-
+    
     // Método para verificar colisão em uma direção específica
     private boolean isCollision(Ponto headPosition, int direction) {
         // Calcula a próxima posição da cabeça da cobra na direção especificada

@@ -42,14 +42,14 @@ public class GameClient {
 
         // Solicita ao usuário as dimensões da cabeça do jogador
         int headDimensions;
-        do {
+        
             System.out.println("Digite as dimensões da cabeça:");
             headDimensions = scanner.nextInt();
             if (headDimensions < 3) {
                 System.out.println("O tamanho da cabeça deve ser no mínimo 3 para acomodar alimentos circulares.");
                 System.out.println("Por favor, escolha o tipo de comida como quadrado (S).");
             }
-        } while (headDimensions < 3);
+        
 
         // Solicita ao usuário que escolha o tipo de comida
         char foodTypeString;
