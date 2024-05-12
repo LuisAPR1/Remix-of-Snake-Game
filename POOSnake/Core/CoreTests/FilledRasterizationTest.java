@@ -1,43 +1,63 @@
 package Core.CoreTests;
-import Core.*;
-import Geometry.*;
 
+
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.Scanner;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Core.Arena;
+import Core.Cell;
+import Core.FilledRasterization;
+import Core.FoodType;
+import Core.ObstacleType;
+import Core.RasterizationType;
+import Geometry.Ponto;
+import Geometry.Square;
+
 public class FilledRasterizationTest {
+    private Scanner scanner;
+
+    @BeforeEach
+    void setUp() {
+        ByteArrayInputStream in = new ByteArrayInputStream("w".getBytes());
+        System.setIn(in);
+        scanner = new Scanner(System.in);
+    }
+
     @Test
     void testGetGrid() {
+        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, Core.Obstacle.ObstacleType.S, null, 'T', "Player", scanner, 'M', 0, 0, 0);
 
+        FilledRasterization rasterization = new FilledRasterization(arena);
+        rasterization.render();
+
+        assertNotNull(rasterization.getGrid());
     }
 
     @Test
     public void testRender() {
 
-        Snake snake = new Snake(new int[]{10, 10}, 1);
-        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, ObstacleType.S, null, 'T', "Player", null, 'M', 0);
-
-        FilledRasterization rasterization = new FilledRasterization(arena);
+        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, Core.Obstacle.ObstacleType.S, null, 'T', "Player", scanner, 'M', 0, 0, 0);
         
-        // Renderiza os objetos na grade da arena
+        FilledRasterization rasterization = new FilledRasterization(arena);
         rasterization.render();
         
-        // Verifica se os objetos foram renderizados corretamente
         
-        // Verifica se a cabeça da cobra foi desenhada corretamente
-        Square head = snake.getHead();
+        Square head = arena.getS().getHead();
         assertObjectRenderedCorrectly(head, rasterization.getGrid());
         
-        // Verifica se a cauda da cobra foi desenhada corretamente
-        for (Square tailSegment : snake.getTailCoordinates()) {
+        
+        for (Square tailSegment : arena.getS().getTailCoordinates()) {
             assertObjectRenderedCorrectly(tailSegment, rasterization.getGrid());
         }
 
         
-        // Verifica se a fruta foi desenhada corretamente
         if (arena.getFruit() != null) {
             Square fruit = new Square(arena.getFruit().SquareVertices());
             assertObjectRenderedCorrectly(fruit, rasterization.getGrid());
@@ -45,18 +65,37 @@ public class FilledRasterizationTest {
 
     }
 
-    // Função auxiliar para verificar se um objeto foi renderizado corretamente na grade
-    @SuppressWarnings("unused")
     private void assertObjectRenderedCorrectly(Square object, Cell[][] grid) {
         List<Ponto> vertices = object.getPontos();
-        for (Ponto vertex : vertices) {
-            int x = (int) vertex.getX();
-            int y = (int) vertex.getY();
-            // Verifica se o ponto está dentro dos limites da grade
-            if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length) {
-                // Verifica se a célula correspondente na grade está preenchida
-                assertEquals(Cell.BOTH, grid[x][y]);
+        for (int i = 0; i < vertices.size(); i++) {
+            int x1 = (int) vertices.get(i).getX();
+            int y1 = (int) vertices.get(i).getY();
+            int x2 = (int) vertices.get((i + 1) % vertices.size()).getX();
+            int y2 = (int) vertices.get((i + 1) % vertices.size()).getY();
+            
+            int dx = Math.abs(x2 - x1);
+            int dy = Math.abs(y2 - y1);
+            int sx = x1 < x2 ? 1 : -1;
+            int sy = y1 < y2 ? 1 : -1;
+            int err = dx - dy;
+            while (true) {
+                
+                if (x1 >= 0 && x1 < grid.length && y1 >= 0 && y1 < grid[0].length) {
+                    
+                    assertEquals(Cell.BOTH, grid[x1][y1]);
+                }
+                if (x1 == x2 && y1 == y2) break;
+                int e2 = 2 * err;
+                if (e2 > -dy) {
+                    err -= dy;
+                    x1 += sx;
+                }
+                if (e2 < dx) {
+                    err += dx;
+                    y1 += sy;
+                }
             }
         }
     }
+
 }
