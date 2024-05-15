@@ -145,11 +145,14 @@ public class GameClient {
         System.out.println("Quantos jogadores da LeaderBoard deseja imprimir no fim do jogo?:");
         nleader = scanner.nextInt();
 
+       
+
         // Criação do objeto Arena com os valores inseridos
         @SuppressWarnings("unused")
         Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationType, foodDimensions,
                 foodType, numObstacles, obstacleType, rotation, interfaceMode, namePlayer, scanner, movement, angle,
                 points, nleader);
+
 
         // Agora você tem um objeto Arena pronto para uso!
     }
