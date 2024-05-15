@@ -22,6 +22,7 @@ public class UIFactory {
             return new TextUI(rasterizationStrategy);
         } else if (Character.toLowerCase(type) == 'g') {
             return new GraphicalUI(rasterizationStrategy);
+
         } else {
             throw new IllegalArgumentException("Tipo de UI inválido.");
         }
