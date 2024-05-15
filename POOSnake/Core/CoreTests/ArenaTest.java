@@ -12,23 +12,25 @@ import Core.Snake;
 import Core.Obstacle.ObstacleType;
 import Geometry.Ponto;
 import Geometry.Square;
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
+    //Testes nao funcionais devido a visibilidade dos metodos, no momento de testar os metodos foram colocados como public.
+
 public class ArenaTest {
     private Arena arena;
     private Snake snake;
-
     @BeforeEach
     public void setUp() {
 
+        @SuppressWarnings("unused")
         Snake snake = new Snake(new int[]{10, 10}, 1);
+        @SuppressWarnings("unused")
         Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, ObstacleType.S, null, 'T', "Player", null, 'M', 0, 0, 0);
     }
 

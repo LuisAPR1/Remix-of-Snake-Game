@@ -9,6 +9,7 @@ import java.util.Scanner;
 import Geometry.Poligono;
 import Geometry.Ponto;
 import Geometry.Square;
+import Geometry.Triangulo;
 import UI.UI;
 import UI.UIFactory;
 
@@ -33,15 +34,15 @@ public class Arena {
     Ponto rotacao;
     int pointsadder;
     int points;
-    int angle=0;
+    int angle = 0;
     List<Player> players;
     String namePlayer;
     Rank rank;
     private MovementStrategy movementStrategy;
     UI ui;
     int tryyyy;
-    int t=0;
-    int nleader=1;
+    int t = 0;
+    int nleader = 1;
 
     /**
      * Construtor da classe Arena.
@@ -62,19 +63,25 @@ public class Arena {
      */
     public Arena(int arenaDimensionsX, int arenaDimensionsY, int headDimensions, RasterizationType rasterizationType,
             int foodDimensions, FoodType foodType, int numObstacles, Core.Obstacle.ObstacleType obstacleType,
-            Ponto rotacao, char interfaceMode, String namePlayer, Scanner scanner, Character movement, int angle, int pointsadder, int nleader) {
+            Ponto rotacao, char interfaceMode, String namePlayer, Scanner scanner, Character movement, int angle,
+            int pointsadder, int nleader) {
         // Configurações iniciais da arena
-        this.angle=angle;
+        this.angle = angle;
         this.rotacao = rotacao;
         this.obstacletype = obstacleType;
         this.arenaDimensions[0] = arenaDimensionsX;
         this.arenaDimensions[1] = arenaDimensionsY;
+        if (foodDimensions >= headDimensions && headDimensions > 1) {
+            this.foodDimensions = headDimensions - 1;
+        } else if (headDimensions == 1) {
+            this.foodDimensions = 1;
+        }
         this.foodDimensions = foodDimensions;
         this.headDimensions = headDimensions;
         this.foodtype = foodType;
         this.namePlayer = namePlayer;
         this.rank = new Rank(players, nleader);
-        this.pointsadder=pointsadder;
+        this.pointsadder = pointsadder;
 
         if (arenaDimensionsX % headDimensions != 0 || arenaDimensionsY % headDimensions != 0) {
             // Calcula as dimensões ajustadas da arena para serem múltiplos do tamanho da
@@ -113,11 +120,9 @@ public class Arena {
         System.out.print("\033[H\033[2J");
         System.out.flush();
         ui.render();
-        
+
         startGame();
     }
-
-   
 
     /**
      * Inicia o jogo.
@@ -162,6 +167,11 @@ public class Arena {
     private void generateFood(Color color, FoodType foodType, Arena arena, int foodDimensions) {
         boolean foodIntersects = true;
 
+        if (foodDimensions >= headDimensions && headDimensions > 1) {
+            foodDimensions = headDimensions - 1;
+        } else if (headDimensions == 1) {
+            foodDimensions = 1;
+        }
         // Repete até que a comida não intersecte com a cobra ou obstáculos
         while (foodIntersects) {
             // Cria a comida com uma posição aleatória
@@ -236,7 +246,7 @@ public class Arena {
     }
 
     /**
-     * Cria os obstáculos na arena.
+     * Cria os obstáculos na arena. Podendo estes ser qualquer tipo de polígono
      * 
      * @param numObstacles    número de obstáculos a serem criados.
      * @param obstacleType    tipo de obstáculo.
@@ -255,7 +265,7 @@ public class Arena {
             int posX = rand.nextInt(arenaDimensions[0] - headDimensions) + 1;
             int posY = rand.nextInt(arenaDimensions[1] - headDimensions) + 1;
 
-            if (obstacleShapeType <25 || headDimensions < 4) {
+            if (obstacleShapeType < 25 || headDimensions < 4) {
                 // Criação de quadrado
                 ArrayList<Ponto> pontos = new ArrayList<>();
                 pontos.add(new Ponto(posX, posY));
@@ -289,7 +299,7 @@ public class Arena {
                 pontos.add(new Ponto(posX, posY));
                 pontos.add(new Ponto(posX + headDimensions, posY));
                 pontos.add(new Ponto(posX + (headDimensions / 2), posY + headDimensions));
-                Poligono obstacleShape = new Poligono(pontos);
+                Triangulo obstacleShape = new Triangulo(pontos);
                 Obstacle obstacle = new Obstacle(obstacleType, obstacleShape, null);
                 obstacles.add(obstacle);
             }
@@ -333,11 +343,11 @@ public class Arena {
      * Atualiza o frame do jogo.
      */
     public void Frame() {
-        
+
         s.move();
 
         if (s.CheckFoodEaten(fruit) == true) {
-            points+=pointsadder;
+            points += pointsadder;
             s.grow();
             generateFood(Color.YELLOW, foodtype, this, foodDimensions);
 
@@ -348,7 +358,7 @@ public class Arena {
             System.out.print("\033[H\033[2J");
             System.out.flush();
             ui.render();
-            
+
             rank.printLeaderboard();
             System.exit(0);
         }
@@ -356,9 +366,9 @@ public class Arena {
         if (s.checkSnakeInsideArena(arenaDimensions) == true) {
             rank.updateRank(namePlayer, points);
             System.out.print("\033[H\033[2J");
-        System.out.flush();
+            System.out.flush();
             ui.render();
-            
+
             rank.printLeaderboard();
             System.exit(0);
         }
@@ -366,25 +376,22 @@ public class Arena {
         if (s.checkSnakeSelfCollision() == true) {
             rank.updateRank(namePlayer, points);
             System.out.print("\033[H\033[2J");
-        System.out.flush();
+            System.out.flush();
             ui.render();
-            
+
             rank.printLeaderboard();
             System.exit(0);
         }
 
-        if (this.obstacletype == Obstacle.ObstacleType.D && t!=0) {
+        if (this.obstacletype == Obstacle.ObstacleType.D && t != 0) {
             obstaclesmove();
         }
-
-        
 
         System.out.println();
         System.out.flush();
         ui.render();
-t++;
-        
-        
+        t++;
+
     }
 
     // GETTERS AND SETTERS

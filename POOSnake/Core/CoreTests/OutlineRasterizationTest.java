@@ -1,42 +1,35 @@
 package Core.CoreTests;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
-import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
 import Core.Arena;
 import Core.Cell;
-import Core.FilledRasterization;
-import Core.FoodType;
+import Core.Obstacle;
+import Core.OutlineRasterization;
 import Core.RasterizationType;
+import Geometry.Poligono;
 import Geometry.Ponto;
 import Geometry.Square;
 
-public class FilledRasterizationTest {
-    private Scanner scanner;
+class OutlineRasterizationTest {
 
     @Test
     void testGetGrid() {
-        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, Core.Obstacle.ObstacleType.S, null,
-                'T', "Player", scanner, 'M', 0, 0, 0);
-
-        FilledRasterization rasterization = new FilledRasterization(arena);
+        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, null, 0, Core.Obstacle.ObstacleType.S, null, 'T', "Player", null, 'M', 0, 0, 0);
+        OutlineRasterization rasterization = new OutlineRasterization(arena);
         rasterization.render();
-
         assertNotNull(rasterization.getGrid());
     }
 
     @Test
-    public void testRender() {
-
-        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, Core.Obstacle.ObstacleType.S, null,
-                'T', "Player", scanner, 'M', 0, 0, 0);
-
-        FilledRasterization rasterization = new FilledRasterization(arena);
+    void testRender() {
+        Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, null, 0, Core.Obstacle.ObstacleType.S, null, 'T', "Player", null, 'M', 0, 0, 0);
+        OutlineRasterization rasterization = new OutlineRasterization(arena);
         rasterization.render();
 
         Square head = arena.getS().getHead();
@@ -51,9 +44,12 @@ public class FilledRasterizationTest {
             assertObjectRenderedCorrectly(fruit, rasterization.getGrid());
         }
 
+        for (Obstacle obstacle : arena.getObstacles()) {
+            assertObjectRenderedCorrectly(obstacle.getObstacle(), rasterization.getGrid());
+        }
     }
 
-    private void assertObjectRenderedCorrectly(Square object, Cell[][] grid) {
+    private void assertObjectRenderedCorrectly(Poligono object, Cell[][] grid) {
         List<Ponto> vertices = object.getPontos();
         for (int i = 0; i < vertices.size(); i++) {
             int x1 = (int) vertices.get(i).getX();
@@ -67,9 +63,7 @@ public class FilledRasterizationTest {
             int sy = y1 < y2 ? 1 : -1;
             int err = dx - dy;
             while (true) {
-
                 if (x1 >= 0 && x1 < grid.length && y1 >= 0 && y1 < grid[0].length) {
-
                     assertEquals(Cell.BOTH, grid[x1][y1]);
                 }
                 if (x1 == x2 && y1 == y2)
@@ -86,5 +80,5 @@ public class FilledRasterizationTest {
             }
         }
     }
-
 }
+
