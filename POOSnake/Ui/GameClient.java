@@ -141,7 +141,7 @@ public class GameClient {
             }
         } while (interfaceMode != 'G' && interfaceMode != 'T');
 
-        System.out.println("Qantos jogadores da LeaderBoard deseja imprimir no fim do jogo?:");
+        System.out.println("Quantos jogadores da LeaderBoard deseja imprimir no fim do jogo?:");
         nleader = scanner.nextInt();
         
         // Criação do objeto Arena com os valores inseridos

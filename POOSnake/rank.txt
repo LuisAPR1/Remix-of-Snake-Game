@@ -1,5 +1,6 @@
 EGRGRE, 16000
-Luis, 68
+CARALHO, 130
+Luis, 100
 FEER, 30
 JOCA, 9
 ccc, 8
