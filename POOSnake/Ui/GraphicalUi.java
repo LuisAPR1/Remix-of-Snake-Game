@@ -1,34 +1,32 @@
 package UI;
-
 import Core.Cell;
 import Core.RasterizationStrategy;
 
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Classe que representa a interface gráfica do usuário (UI) para renderização gráfica.
- */
-public class GraphicalUI implements UI {
-    private RasterizationStrategy rasterizationStrategy;
+public class GraphicalUi implements UI {
+
     private JFrame frame;
     private JPanel panel;
+    private RasterizationStrategy rasterizationStrategy;
 
-    public GraphicalUI(RasterizationStrategy rasterizationStrategy) {
+    public GraphicalUi(RasterizationStrategy rasterizationStrategy) {
         this.rasterizationStrategy = rasterizationStrategy;
         initializeUI();
+        
     }
 
     private void initializeUI() {
-        frame = new JFrame("POOSNAKE"); // Título da janela
+        frame = new JFrame("POOSNAKE");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600); // Tamanho da janela
+        frame.setSize(1920, 600);
 
         panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                render(g);
+                renderGraphics(g);
             }
         };
 
@@ -36,37 +34,47 @@ public class GraphicalUI implements UI {
         frame.setVisible(true);
     }
 
-    private void render(Graphics g) {
-        Cell[][] grid = rasterizationStrategy.getGrid();
-        int cellSize = 20; // Tamanho de cada célula
+    private void renderGraphics(Graphics g) {
 
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                switch (grid[i][j]) {
-                    case HEAD:
-                        g.setColor(Color.RED);
-                        break;
-                    case TAIL:
-                        g.setColor(Color.GREEN);
-                        break;
-                    case FOOD:
-                        g.setColor(Color.YELLOW);
-                        break;
-                    case OBSTACLE:
-                        g.setColor(Color.BLUE);
-                        break;
-                    default:
-                        g.setColor(Color.WHITE);
-                        break;
-                }
-                g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+        Cell[][] grid = rasterizationStrategy.getGrid();
+
+        int numRows = grid.length;
+        int numCols = grid[0].length;
+
+        // Calcular o tamanho dos quadrados
+        int squareSize = Math.min(panel.getWidth() / numRows, panel.getHeight() / numCols);
+
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                Cell cell = grid[j][i];
+                Color color = getColorForCell(cell);
+                g.setColor(color);
+                // Desenhar o quadrado na posição correta
+                g.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
             }
         }
-        
+    }
+
+    private Color getColorForCell(Cell cell) {
+        switch (cell) {
+            case HEAD:
+                return Color.RED;
+            case TAIL:
+                return Color.GREEN;
+            case BOTH:
+                return Color.ORANGE;
+            case FOOD:
+                return Color.YELLOW;
+            case OBSTACLE:
+                return Color.BLACK;
+            default:
+                return Color.WHITE;
+        }
     }
 
     @Override
     public void render() {
+        rasterizationStrategy.render();
         panel.repaint();
     }
 }

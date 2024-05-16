@@ -21,7 +21,7 @@ public class UIFactory {
         if (Character.toLowerCase(type) == 't') {
             return new TextUI(rasterizationStrategy);
         } else if (Character.toLowerCase(type) == 'g') {
-            return new GraphicalUI(rasterizationStrategy);
+            return new GraphicalUi(rasterizationStrategy);
 
         } else {
             throw new IllegalArgumentException("Tipo de UI inválido.");
