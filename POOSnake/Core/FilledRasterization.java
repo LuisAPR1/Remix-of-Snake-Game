@@ -61,7 +61,7 @@ public class FilledRasterization implements RasterizationStrategy {
         // Desenha a fruta
         if (arena.getFruit() != null) {
             Square a = new Square(arena.getFruit().SquareVertices());
-            foodPoints = drawObject(arena.getFruit().getShape()., "FOOD");
+            foodPoints = drawObject(a, "FOOD");
         }else{foodPoints=null;}
 
         cardinalPoints=findCommonPoints(headPoints, foodPoints);
@@ -105,7 +105,7 @@ public class FilledRasterization implements RasterizationStrategy {
     private List<Ponto> drawObject(Poligono object, String cellType) {
         List<Ponto> filledCells = new ArrayList<>();
         List<Ponto> vertices = object.getPontos();
-
+    
         // Verifica se todos os pontos do objeto estão dentro dos limites do grid
         if (checkIfWithinBounds(vertices)) {
             // Encontra os limites do objeto
@@ -119,21 +119,50 @@ public class FilledRasterization implements RasterizationStrategy {
                 maxX = (int) Math.max(maxX, p.getX());
                 maxY = (int) Math.max(maxY, p.getY());
             }
-
-            // Preenche as células dentro do polígono definido pelos vértices
-            for (int x = minX; x < maxX; x++) {
-                for (int y = minY; y < maxY; y++) {
-                    if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length &&
-                            isInsidePolygon(x, y, vertices)) {
-                        // Ajusta as coordenadas para o índice da matriz
-                        grid[x][y] = Cell.valueOf(cellType);
-                        filledCells.add(new Ponto(x, y));
+    
+            // Para cada linha na faixa de Y
+            for (int y = minY; y <= maxY; y++) {
+                List<Integer> nodeX = new ArrayList<>();
+    
+                // Encontrar todas as interseções com as arestas do polígono
+                int numVertices = vertices.size();
+                for (int i = 0; i < numVertices; i++) {
+                    Ponto v1 = vertices.get(i);
+                    Ponto v2 = vertices.get((i + 1) % numVertices);
+                    if (v1.getY() < v2.getY()) {
+                        if (y >= v1.getY() && y < v2.getY()) {
+                            int x = (int) (v1.getX() + (y - v1.getY()) * (v2.getX() - v1.getX()) / (v2.getY() - v1.getY()));
+                            nodeX.add(x);
+                        }
+                    } else if (v1.getY() > v2.getY()) {
+                        if (y >= v2.getY() && y < v1.getY()) {
+                            int x = (int) (v2.getX() + (y - v2.getY()) * (v1.getX() - v2.getX()) / (v1.getY() - v2.getY()));
+                            nodeX.add(x);
+                        }
+                    }
+                }
+    
+                // Ordenar os pontos de interseção
+                nodeX.sort(Integer::compare);
+    
+                // Preencher os pixels entre os pares de interseção
+                for (int i = 0; i < nodeX.size(); i += 2) {
+                    if (i + 1 < nodeX.size()) {
+                        int x1 = nodeX.get(i);
+                        int x2 = nodeX.get(i + 1);
+                        for (int x = x1; x < x2; x++) {
+                            if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length) {
+                                grid[x][y] = Cell.valueOf(cellType);
+                                filledCells.add(new Ponto(x, y));
+                            }
+                        }
                     }
                 }
             }
         }
         return filledCells;
     }
+    
 
     /**
      * Verifica se todos os pontos de um objeto estão dentro dos limites do grid.
