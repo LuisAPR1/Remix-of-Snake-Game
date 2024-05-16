@@ -20,7 +20,8 @@ public class GraphicalUi implements UI {
     private void initializeUI() {
         frame = new JFrame("POOSNAKE");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1920, 600);
+        // frame.setSize(rasterizationStrategy.getArena().getArenaDimensions()[0],rasterizationStrategy.getArena().getArenaDimensions()[1]);
+        frame.setSize(1000,1000);
 
         panel = new JPanel() {
             @Override
@@ -40,6 +41,7 @@ public class GraphicalUi implements UI {
 
         int numRows = grid.length;
         int numCols = grid[0].length;
+        
 
         // Calcular o tamanho dos quadrados
         int squareSize = Math.min(panel.getWidth() / numRows, panel.getHeight() / numCols);

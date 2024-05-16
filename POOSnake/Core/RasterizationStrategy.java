@@ -25,5 +25,8 @@ public interface RasterizationStrategy {
      * 
      * Este método deve ser implementado pelas classes que utilizam esta interface para definir como os elementos serão renderizados na grade.
      */
-    void render();   
+    void render();  
+
+    Arena getArena();
+     
 }

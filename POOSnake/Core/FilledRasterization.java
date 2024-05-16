@@ -20,6 +20,10 @@ public class FilledRasterization implements RasterizationStrategy {
     Cell[][] grid;
     Arena arena;
 
+    public Arena getArena() {
+        return arena;
+    }
+
     /**
      * Construtor para criar uma estratégia de rasterização preenchida.
      * 
@@ -57,7 +61,7 @@ public class FilledRasterization implements RasterizationStrategy {
         // Desenha a fruta
         if (arena.getFruit() != null) {
             Square a = new Square(arena.getFruit().SquareVertices());
-            foodPoints = drawObject(a, "FOOD");
+            foodPoints = drawObject(arena.getFruit().getShape()., "FOOD");
         }else{foodPoints=null;}
 
         cardinalPoints=findCommonPoints(headPoints, foodPoints);
