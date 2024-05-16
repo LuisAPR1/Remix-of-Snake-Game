@@ -151,4 +151,18 @@ public class Circle implements Shape {
         // Se nenhum ponto do polígono estiver dentro do círculo, retorna falso
         return false;
     }
+
+    public Poligono toPolygon() {
+        int numLados = Math.max(10, (int) (2 * Math.PI * raio / 10)); // Aumenta o número de lados com o aumento do raio
+        List<Ponto> pontos = new ArrayList<>();
+
+        for (int i = 0; i < numLados; i++) {
+            double angle = 2 * Math.PI * i / numLados;
+            double x = centro.getX() + raio * Math.cos(angle);
+            double y = centro.getY() + raio * Math.sin(angle);
+            pontos.add(new Ponto(x, y));
+        }
+
+        return new Poligono(pontos);
+    }
 }

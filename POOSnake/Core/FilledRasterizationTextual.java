@@ -15,7 +15,7 @@ import Geometry.Square;
  * @version Versão 1.0 10/05/2024
  * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
  */
-public class FilledRasterization implements RasterizationStrategy {
+public class FilledRasterizationTextual implements RasterizationStrategy {
 
     Cell[][] grid;
     Arena arena;
@@ -29,7 +29,7 @@ public class FilledRasterization implements RasterizationStrategy {
      * 
      * @param arena A arena em que os objetos serão renderizados.
      */
-    public FilledRasterization(Arena arena) {
+    public FilledRasterizationTextual(Arena arena) {
         this.grid = new Cell[arena.getArenaDimensions()[0]][arena.getArenaDimensions()[1]];
         this.arena = arena;
         initializeArena();
@@ -61,7 +61,7 @@ public class FilledRasterization implements RasterizationStrategy {
         // Desenha a fruta
         if (arena.getFruit() != null) {
             Square a = new Square(arena.getFruit().SquareVertices());
-            foodPoints = drawObject(arena.getFruit().getShape()., "FOOD");
+            foodPoints = drawObject(arena.getFruit().getShape().toPolygon(), "FOOD");
         }else{foodPoints=null;}
 
         cardinalPoints=findCommonPoints(headPoints, foodPoints);

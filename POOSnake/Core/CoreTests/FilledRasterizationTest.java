@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import Core.Arena;
 import Core.Cell;
-import Core.FilledRasterization;
+import Core.FilledRasterizationTextual;
 import Core.FoodType;
 import Core.RasterizationType;
 import Geometry.Ponto;
@@ -24,7 +24,7 @@ public class FilledRasterizationTest {
         Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, Core.Obstacle.ObstacleType.S, null,
                 'T', "Player", scanner, 'M', 0, 0, 0);
 
-        FilledRasterization rasterization = new FilledRasterization(arena);
+        FilledRasterizationTextual rasterization = new FilledRasterizationTextual(arena);
         rasterization.render();
 
         assertNotNull(rasterization.getGrid());
@@ -36,7 +36,7 @@ public class FilledRasterizationTest {
         Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, FoodType.S, 0, Core.Obstacle.ObstacleType.S, null,
                 'T', "Player", scanner, 'M', 0, 0, 0);
 
-        FilledRasterization rasterization = new FilledRasterization(arena);
+        FilledRasterizationTextual rasterization = new FilledRasterizationTextual(arena);
         rasterization.render();
 
         Square head = arena.getS().getHead();

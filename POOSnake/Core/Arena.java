@@ -102,9 +102,9 @@ public class Arena {
         // Inicializa a UI
         RasterizationStrategy rasterization;
         if (rasterizationType == RasterizationType.O) {
-            rasterization = new OutlineRasterization(this);
+            rasterization = new OutlineRasterizationTextual(this);
         } else {
-            rasterization = new FilledRasterization(this);
+            rasterization = new FilledRasterizationTextual(this);
         }
         this.ui = UIFactory.createUI(interfaceMode, rasterization);
 

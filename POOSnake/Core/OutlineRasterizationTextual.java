@@ -18,7 +18,7 @@ import Geometry.Square;
  * @author Luís Rosa, José Lima, Pedro Ferreira
  * @version Versão 1.0 10/05/2024
  */
-public class OutlineRasterization implements RasterizationStrategy {
+public class OutlineRasterizationTextual implements RasterizationStrategy {
 
     // Grid que representa a arena
     Cell[][] grid;
@@ -30,7 +30,7 @@ public class OutlineRasterization implements RasterizationStrategy {
      * 
      * @param arena A arena onde a rasterização será realizada.
      */
-    public OutlineRasterization(Arena arena) {
+    public OutlineRasterizationTextual(Arena arena) {
         this.grid = new Cell[arena.getArenaDimensions()[0]][arena.getArenaDimensions()[1]];
         this.arena = arena;
         initializeArena();

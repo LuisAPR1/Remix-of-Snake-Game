@@ -11,4 +11,6 @@ public interface UI {
      * Método para renderizar a interface do usuário.
      */
     void render();
+
+    
 }

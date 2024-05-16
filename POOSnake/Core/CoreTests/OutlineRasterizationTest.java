@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import Core.Arena;
 import Core.Cell;
 import Core.Obstacle;
-import Core.OutlineRasterization;
+import Core.OutlineRasterizationTextual;
 import Core.RasterizationType;
 import Geometry.Poligono;
 import Geometry.Ponto;
@@ -21,7 +21,7 @@ class OutlineRasterizationTest {
     @Test
     void testGetGrid() {
         Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, null, 0, Core.Obstacle.ObstacleType.S, null, 'T', "Player", null, 'M', 0, 0, 0);
-        OutlineRasterization rasterization = new OutlineRasterization(arena);
+        OutlineRasterizationTextual rasterization = new OutlineRasterizationTextual(arena);
         rasterization.render();
         assertNotNull(rasterization.getGrid());
     }
@@ -29,7 +29,7 @@ class OutlineRasterizationTest {
     @Test
     void testRender() {
         Arena arena = new Arena(10, 10, 1, RasterizationType.F, 1, null, 0, Core.Obstacle.ObstacleType.S, null, 'T', "Player", null, 'M', 0, 0, 0);
-        OutlineRasterization rasterization = new OutlineRasterization(arena);
+        OutlineRasterizationTextual rasterization = new OutlineRasterizationTextual(arena);
         rasterization.render();
 
         Square head = arena.getS().getHead();
