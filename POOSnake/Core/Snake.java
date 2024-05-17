@@ -305,5 +305,6 @@ public class Snake {
     public int getDirection() {
         return direction;
     }
+    
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import Geometry.Circle;
 import Geometry.Poligono;
 import Geometry.Ponto;
 import Geometry.Square;

@@ -345,6 +345,7 @@ public class Arena {
     public void Frame() {
 
         s.move();
+        System.out.println(s.toString());
 
         if (s.CheckFoodEaten(fruit) == true) {
             points += pointsadder;
