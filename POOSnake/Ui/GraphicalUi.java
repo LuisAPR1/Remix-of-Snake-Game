@@ -21,7 +21,8 @@ public class GraphicalUi implements UI {
         frame = new JFrame("POOSNAKE");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        frame.setSize(rasterizationStrategy.getArena().getArenaDimensions()[0]+100,rasterizationStrategy.getArena().getArenaDimensions()[1]+100);
+        //frame.setSize(rasterizationStrategy.getArena().getArenaDimensions()[0]+100,rasterizationStrategy.getArena().getArenaDimensions()[1]+100);
+        frame.setSize(900,900);
 
         panel = new JPanel() {
             @Override

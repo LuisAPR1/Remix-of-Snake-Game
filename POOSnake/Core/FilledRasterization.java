@@ -60,7 +60,7 @@ public class FilledRasterization implements RasterizationStrategy {
 
         // Desenha a fruta
         if (arena.getFruit() != null) {
-            Square a = new Square(arena.getFruit().SquareVertices());
+            Poligono a = new Poligono(arena.getFruit().getShape().getAllCoordinates());
             foodPoints = drawObject(a, "FOOD");
         }else{foodPoints=null;}
 
@@ -129,14 +129,10 @@ public class FilledRasterization implements RasterizationStrategy {
                 for (int i = 0; i < numVertices; i++) {
                     Ponto v1 = vertices.get(i);
                     Ponto v2 = vertices.get((i + 1) % numVertices);
-                    if (v1.getY() < v2.getY()) {
-                        if (y >= v1.getY() && y < v2.getY()) {
+    
+                    if ((v1.getY() < y && v2.getY() >= y) || (v2.getY() < y && v1.getY() >= y)) {
+                        if (v1.getY() != v2.getY()) {
                             int x = (int) (v1.getX() + (y - v1.getY()) * (v2.getX() - v1.getX()) / (v2.getY() - v1.getY()));
-                            nodeX.add(x);
-                        }
-                    } else if (v1.getY() > v2.getY()) {
-                        if (y >= v2.getY() && y < v1.getY()) {
-                            int x = (int) (v2.getX() + (y - v2.getY()) * (v1.getX() - v2.getX()) / (v1.getY() - v2.getY()));
                             nodeX.add(x);
                         }
                     }
@@ -150,7 +146,7 @@ public class FilledRasterization implements RasterizationStrategy {
                     if (i + 1 < nodeX.size()) {
                         int x1 = nodeX.get(i);
                         int x2 = nodeX.get(i + 1);
-                        for (int x = x1; x < x2; x++) {
+                        for (int x = x1; x <= x2; x++) {  // Inclusivo em x2
                             if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length) {
                                 grid[x][y] = Cell.valueOf(cellType);
                                 filledCells.add(new Ponto(x, y));
@@ -162,6 +158,8 @@ public class FilledRasterization implements RasterizationStrategy {
         }
         return filledCells;
     }
+    
+    
     
 
     /**
