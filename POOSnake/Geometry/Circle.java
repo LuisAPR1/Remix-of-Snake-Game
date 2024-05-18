@@ -53,30 +53,36 @@ public class Circle implements Shape {
     public List<Ponto> getAllCoordinates() {
         // Inicializa a lista para armazenar as coordenadas
         List<Ponto> coordenadas = new ArrayList<>();
-
+    
         // Obtém as coordenadas do centro do círculo
         double centroX = this.centro.getX();
         double centroY = this.centro.getY();
-
+    
         // Encontra os limites do quadrado que circunscreve o círculo
-        int minX = (int) centroX - raio;
-        int maxX = (int) centroX + raio;
-        int minY = (int) centroY - raio;
-        int maxY = (int) centroY + raio;
+        int minX = (int) Math.floor(centroX - raio);
+        int maxX = (int) Math.ceil(centroX + raio);
+        int minY = (int) Math.floor(centroY - raio);
+        int maxY = (int) Math.ceil(centroY + raio);
 
+        System.out.println("Limites do círculo:");
+        System.out.println("minX: " + minX + ", maxX: " + maxX);
+        System.out.println("minY: " + minY + ", maxY: " + maxY);
+    
         // Itera sobre todas as coordenadas inteiras dentro do quadrado circunscrito
         for (int x = minX; x <= maxX; x++) {
             for (int y = minY; y <= maxY; y++) {
                 // Verifica se a coordenada está dentro do círculo usando a equação do círculo
-                if ((x - centroX) * (x - centroX) + (y - centroY) * (y - centroY) <= raio * raio) {
+                if (Math.pow(x - centroX, 2) + Math.pow(y - centroY, 2) <= Math.pow(raio, 2)) {
                     coordenadas.add(new Ponto(x, y));
                 }
             }
         }
-
+    
         // Retorna a lista de coordenadas
         return coordenadas;
     }
+    
+    
 
     /**
      * Obtém o raio do círculo.

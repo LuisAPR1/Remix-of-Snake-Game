@@ -62,6 +62,8 @@ public class FoodCircle extends AbstractFood<Circle> {
         // Gera aleatoriamente uma posição dentro desses limites ajustados
         int x = (int) (Math.random() * (maxX - minX + 1)) + minX; // Gera um valor aleatório para X dentro dos limites
         int y = (int) (Math.random() * (maxY - minY + 1)) + minY; // Gera um valor aleatório para Y dentro dos limites
+        x += diametro;
+        y += diametro;
 
         return new Ponto(x, y);
     }
@@ -72,10 +74,12 @@ public class FoodCircle extends AbstractFood<Circle> {
         int tries = 0;
         int movementIncrement = arena.getHeadDimensions();
         while (tries < maxTries) {
-            int x = (int) (Math.random() * (arena.getArenaDimensions()[0] - diametro)) + (diametro / 2);
-            int y = (int) (Math.random() * (arena.getArenaDimensions()[1] - diametro)) + (diametro / 2);
+            int x = (int) (Math.random() * (arena.getArenaDimensions()[0] - diametro)) + diametro/2;
+            int y = (int) (Math.random() * (arena.getArenaDimensions()[1] - diametro)) + diametro/2;
             boolean reachableBySnake = (x % movementIncrement == 0) && (y % movementIncrement == 0);
             boolean intersectsObstacle = false; // Flag para verificar interseção com obstáculo
+            x += diametro/2;
+            y += diametro/2;
             if (reachableBySnake) {
                 Ponto a = new Ponto(x, y);
                 this.shape = new Circle(a, diametro);

@@ -1,9 +1,11 @@
 package UI;
 import Core.Cell;
 import Core.RasterizationStrategy;
+import javafx.scene.input.KeyEvent;
 
 import javax.swing.*;
 import java.awt.*;
+
 
 public class GraphicalUi implements UI {
 
@@ -20,8 +22,9 @@ public class GraphicalUi implements UI {
     private void initializeUI() {
         frame = new JFrame("POOSNAKE");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // frame.setSize(rasterizationStrategy.getArena().getArenaDimensions()[0],rasterizationStrategy.getArena().getArenaDimensions()[1]);
-        frame.setSize(1000,1000);
+        frame.setResizable(false);
+        frame.setSize(rasterizationStrategy.getArena().getArenaDimensions()[0]+50,rasterizationStrategy.getArena().getArenaDimensions()[1]+50);
+        
 
         panel = new JPanel() {
             @Override
@@ -74,6 +77,7 @@ public class GraphicalUi implements UI {
         }
     }
 
+    
     @Override
     public void render() {
         rasterizationStrategy.render();
