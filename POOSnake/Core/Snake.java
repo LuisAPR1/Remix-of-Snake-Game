@@ -14,7 +14,8 @@ import Geometry.Square;
  * A cobra é composta por uma lista encadeada de quadrados, onde cada quadrado
  * representa uma parte do corpo da cobra.
  * 
- * Esta classe é responsável por gerenciar o movimento da cobra, detectar colisões
+ * Esta classe é responsável por gerenciar o movimento da cobra, detectar
+ * colisões
  * e crescer quando come um alimento.
  * 
  * @author Luís Rosa, José Lima, Pedro Ferreira, José Lima, Pedro Ferreira
@@ -182,8 +183,8 @@ public class Snake {
     /**
      * Verifica se a cobra colidiu com algum obstáculo.
      * 
-     * @param s          A cobra.
-     * @param obstacles  A lista de obstáculos.
+     * @param s         A cobra.
+     * @param obstacles A lista de obstáculos.
      * @return true se houve colisão com algum obstáculo, caso contrário false.
      */
     public boolean checkSnakeObstacleColision(Snake s, ArrayList<Obstacle> obstacles) {
@@ -247,6 +248,7 @@ public class Snake {
                 yMove = -headDimensions; // cima
                 break;
             default:
+                yMove = -headDimensions;
                 break;
         }
 
@@ -261,7 +263,7 @@ public class Snake {
         // Move a cabeça da cobra na nova posição
         Square head = snake.getFirst();
         snake.set(0, head.translacaoSemPonto(xMove, yMove));
-        
+
     }
 
     /**
@@ -305,6 +307,5 @@ public class Snake {
     public int getDirection() {
         return direction;
     }
-    
 
 }

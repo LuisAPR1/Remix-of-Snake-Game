@@ -145,4 +145,15 @@ public class AutomaticMovementStrategy implements MovementStrategy {
     public void input() {
         // Entrada não é necessária na estratégia de movimento automático
     }
+
+    @Override
+    public void setDirectionG(int i) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setDirection'");
+    }
+
+    @Override
+    public void move() {
+        arena.Frame();
+    }
 }

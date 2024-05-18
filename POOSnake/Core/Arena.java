@@ -43,6 +43,11 @@ public class Arena {
     int tryyyy;
     int t = 0;
     int nleader = 1;
+    char interfaceMode;
+
+    public char getInterfaceMode() {
+        return interfaceMode;
+    }
 
     /**
      * Construtor da classe Arena.
@@ -76,6 +81,7 @@ public class Arena {
         } else if (headDimensions == 1) {
             this.foodDimensions = 1;
         }
+        this.interfaceMode = interfaceMode;
         this.foodDimensions = foodDimensions;
         this.headDimensions = headDimensions;
         this.foodtype = foodType;
@@ -106,9 +112,6 @@ public class Arena {
         } else {
             rasterization = new FilledRasterizationTextual(this);
         }
-        this.ui = UIFactory.createUI(interfaceMode, rasterization);
-
-        // Configura a estratégia de movimento manual
         if (movement == 'M') {
             movementStrategy = new ManualMovementStrategy(scanner, this);
             setMovementStrategy(movementStrategy);
@@ -117,6 +120,11 @@ public class Arena {
             movementStrategy = new AutomaticMovementStrategy(this);
             setMovementStrategy(movementStrategy);
         }
+
+        this.ui = UIFactory.createUI(interfaceMode, rasterization, movementStrategy);
+
+        // Configura a estratégia de movimento manual
+
         System.out.print("\033[H\033[2J");
         System.out.flush();
         ui.render();

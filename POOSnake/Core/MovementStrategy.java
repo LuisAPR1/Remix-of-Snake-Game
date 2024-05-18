@@ -12,4 +12,8 @@ public interface MovementStrategy {
      * Método para receber entrada de movimento.
      */
     void input();
+
+    void setDirectionG(int i);
+
+    void move();
 }

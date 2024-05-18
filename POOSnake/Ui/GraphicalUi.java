@@ -1,30 +1,36 @@
 package UI;
+
 import Core.Cell;
+import Core.MovementStrategy;
 import Core.RasterizationStrategy;
-import javafx.scene.input.KeyEvent;
 
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GraphicalUi implements UI {
-
     private JFrame frame;
     private JPanel panel;
     private RasterizationStrategy rasterizationStrategy;
+    private MovementStrategy movementStrategy;
+    private Timer timer;
 
-    public GraphicalUi(RasterizationStrategy rasterizationStrategy) {
+    public GraphicalUi(RasterizationStrategy rasterizationStrategy, MovementStrategy movementStrategy) {
         this.rasterizationStrategy = rasterizationStrategy;
+        this.movementStrategy = movementStrategy;
         initializeUI();
-        
+        startPeriodicTask();
     }
 
     private void initializeUI() {
         frame = new JFrame("POOSNAKE");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        frame.setSize(rasterizationStrategy.getArena().getArenaDimensions()[0]+50,rasterizationStrategy.getArena().getArenaDimensions()[1]+50);
-        
+        frame.setSize(rasterizationStrategy.getArena().getArenaDimensions()[0] + 50,
+                rasterizationStrategy.getArena().getArenaDimensions()[1] + 50);
 
         panel = new JPanel() {
             @Override
@@ -35,18 +41,55 @@ public class GraphicalUi implements UI {
         };
 
         frame.add(panel);
+        frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                handleKeyPress(e);
+            }
+        });
+
         frame.setVisible(true);
     }
 
+    private void handleKeyPress(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                movementStrategy.setDirectionG(180);
+                break;
+            case KeyEvent.VK_A:
+                movementStrategy.setDirectionG(270);
+                break;
+            case KeyEvent.VK_S:
+                movementStrategy.setDirectionG(0);
+                break;
+            case KeyEvent.VK_D:
+                movementStrategy.setDirectionG(90);
+                break;
+            default:
+                movementStrategy.setDirectionG(1);
+                break;
+        }
+    }
+
+    private void startPeriodicTask() {
+        timer = new Timer(500, new ActionListener() { // 500 milliseconds = 0.5 seconds
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performPeriodicTask();
+                
+            }
+        });
+        timer.start();
+    }
+
+    private void performPeriodicTask() {
+       movementStrategy.move();
+    }
+
     private void renderGraphics(Graphics g) {
-
         Cell[][] grid = rasterizationStrategy.getGrid();
-
         int numRows = grid.length;
         int numCols = grid[0].length;
-        
-
-        // Calcular o tamanho dos quadrados
         int squareSize = Math.min(panel.getWidth() / numRows, panel.getHeight() / numCols);
 
         for (int i = 0; i < numRows; i++) {
@@ -54,7 +97,6 @@ public class GraphicalUi implements UI {
                 Cell cell = grid[j][i];
                 Color color = getColorForCell(cell);
                 g.setColor(color);
-                // Desenhar o quadrado na posição correta
                 g.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
             }
         }
@@ -77,7 +119,6 @@ public class GraphicalUi implements UI {
         }
     }
 
-    
     @Override
     public void render() {
         rasterizationStrategy.render();

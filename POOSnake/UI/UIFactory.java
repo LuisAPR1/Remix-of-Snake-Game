@@ -1,5 +1,6 @@
 package UI;
 
+import Core.MovementStrategy;
 import Core.RasterizationStrategy;
 
 /**
@@ -17,11 +18,11 @@ public class UIFactory {
      * @return instância de UI correspondente ao tipo especificado.
      * @throws IllegalArgumentException se o tipo de UI especificado não for válido.
      */
-    public static UI createUI(char type, RasterizationStrategy rasterizationStrategy) {
+    public static UI createUI(char type, RasterizationStrategy rasterizationStrategy, MovementStrategy movementStrategy) {
         if (Character.toLowerCase(type) == 't') {
             return new TextUI(rasterizationStrategy);
         } else if (Character.toLowerCase(type) == 'g') {
-            return new GraphicalUi(rasterizationStrategy);
+            return new GraphicalUi(rasterizationStrategy, movementStrategy);
 
         } else {
             throw new IllegalArgumentException("Tipo de UI inválido.");

@@ -3,7 +3,8 @@ package Core;
 import java.util.Scanner;
 
 /**
- * Estratégia de movimento manual, onde o jogador pode controlar a direção da cobra usando as teclas W, A, S e D.
+ * Estratégia de movimento manual, onde o jogador pode controlar a direção da
+ * cobra usando as teclas W, A, S e D.
  * 
  * @version Versão 1.0 10/05/2024
  * @author Luís Rosa, José Lima, Pedro Ferreira e Pedro Ferreira
@@ -24,21 +25,33 @@ public class ManualMovementStrategy implements MovementStrategy {
     }
 
     /**
-     * Método para receber a entrada do usuário e ajustar a direção da cobra de acordo com a entrada.
+     * Método para receber a entrada do usuário e ajustar a direção da cobra de
+     * acordo com a entrada.
      */
     @Override
     public void input() {
+
+        if (Character.toLowerCase(arena.getInterfaceMode()) == 't') {
+            input_textual();
+
+        } 
+
+    }
+
+
+
+    void input_textual() {
 
         System.out.println("Dir H: " + arena.getS().getDirection());
         System.out.println("Pontos: " + arena.points);
 
         System.out.println("Digite uma direção (w, a, s ou d) ou pressione Enter para manter a direção");
         String input = scanner.nextLine().toLowerCase();
-    
+
         if (input.isEmpty()) {
             arena.Frame();
         }
-    
+
         // Obtém a direção atual da cobra
         int currentDirection = arena.getS().getDirection();
 
@@ -75,5 +88,18 @@ public class ManualMovementStrategy implements MovementStrategy {
             default:
                 break;
         }
+
+    }
+
+    
+    @Override
+    public void setDirectionG(int i) {
+        System.out.println("CLICOU TECLA");
+        arena.getS().setDirection(i);
+    }
+
+    @Override
+    public void move() {
+        arena.Frame();
     }
 }

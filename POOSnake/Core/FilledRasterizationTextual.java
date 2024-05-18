@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import Geometry.Circle;
 import Geometry.Poligono;
 import Geometry.Ponto;
 import Geometry.Square;
@@ -187,6 +186,7 @@ public class FilledRasterizationTextual implements RasterizationStrategy {
      * @param vertices Os vértices do polígono.
      * @return true se o ponto estiver dentro do polígono, caso contrário, false.
      */
+    @SuppressWarnings("unused")
     private boolean isInsidePolygon(int x, int y, List<Ponto> vertices) {
         int intersectCount = 0;
         int numVertices = vertices.size();
