@@ -17,12 +17,12 @@ public class GraphicalUi implements UI {
     private RasterizationStrategy rasterizationStrategy;
     private MovementStrategy movementStrategy;
     private Timer timer;
+    private boolean timerStarted = false;
 
     public GraphicalUi(RasterizationStrategy rasterizationStrategy, MovementStrategy movementStrategy) {
         this.rasterizationStrategy = rasterizationStrategy;
         this.movementStrategy = movementStrategy;
         initializeUI();
-        startPeriodicTask();
     }
 
     private void initializeUI() {
@@ -54,16 +54,35 @@ public class GraphicalUi implements UI {
     private void handleKeyPress(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
+            if (!timerStarted) {
+                startPeriodicTask();
+                timerStarted = true;
+            }
                 movementStrategy.setDirectionG(180);
                 break;
             case KeyEvent.VK_A:
+            if (!timerStarted) {
+                startPeriodicTask();
+                timerStarted = true;
+            }
                 movementStrategy.setDirectionG(270);
                 break;
             case KeyEvent.VK_S:
+            if (!timerStarted) {
+                startPeriodicTask();
+                timerStarted = true;
+            }
                 movementStrategy.setDirectionG(0);
                 break;
             case KeyEvent.VK_D:
+            if (!timerStarted) {
+                startPeriodicTask();
+                timerStarted = true;
+            }
                 movementStrategy.setDirectionG(90);
+                break;
+            case KeyEvent.VK_E:
+                
                 break;
             default:
                 movementStrategy.setDirectionG(1);
@@ -76,14 +95,13 @@ public class GraphicalUi implements UI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 performPeriodicTask();
-                
             }
         });
         timer.start();
     }
 
     private void performPeriodicTask() {
-       movementStrategy.move();
+        movementStrategy.move();
     }
 
     private void renderGraphics(Graphics g) {

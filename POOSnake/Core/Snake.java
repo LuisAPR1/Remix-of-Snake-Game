@@ -248,7 +248,6 @@ public class Snake {
                 yMove = -headDimensions; // cima
                 break;
             default:
-                yMove = -headDimensions;
                 break;
         }
 
