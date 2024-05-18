@@ -2,6 +2,8 @@ package UI;
 
 import java.util.Scanner;
 
+import javax.swing.SwingUtilities;
+
 import Core.Arena;
 import Core.FoodType;
 import Core.Obstacle.ObstacleType;
@@ -9,15 +11,32 @@ import Core.RasterizationType;
 import Geometry.Ponto;
 
 public class GameClient {
-    public static void main(String[] args) {
+     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.flush();
         int angle = 0;
         int points = 1;
         int nleader = 0;
-        System.out.println(
-                "\033[0;31mBem-vindo ao jogo POOSNAKE - Desenvolvido por Pedro Ferreira, Luís Rosa e José Lima \033[0m\n\n");
+        System.out.println("\033[0;31mBem-vindo ao jogo POOSNAKE - Desenvolvido por Pedro Ferreira, Luís Rosa e José Lima \033[0m\n\n");
 
+        // Solicita ao usuário que escolha o modo de interface (gráfico ou textual) primeiro
+        char interfaceMode;
+        do {
+            System.out.println("Escolha o modo de interface (G para gráfico, T para textual):");
+            interfaceMode = scanner.next().charAt(0);
+            if (interfaceMode != 'G' && interfaceMode != 'T') {
+                System.out.println("Modo de interface inválido. Por favor, insira 'G' para gráfico ou 'T' para textual.");
+            }
+        } while (interfaceMode != 'G' && interfaceMode != 'T');
+
+        if (interfaceMode == 'G') {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new GraphicalClient();
+                }
+            });
+        } else {
         // Solicita ao usuário que escolha o modo de jogo
         char movement;
         do {
@@ -132,15 +151,14 @@ public class GameClient {
         String namePlayer = scanner.next();
 
         // Solicita ao usuário que escolha o modo de interface (gráfico ou textual)
-        char interfaceMode;
-        do {
-            System.out.println("Escolha o modo de interface (G para gráfico, T para textual):");
-            interfaceMode = scanner.next().charAt(0);
-            if (interfaceMode != 'G' && interfaceMode != 'T') {
-                System.out
-                        .println("Modo de interface inválido. Por favor, insira 'G' para gráfico ou 'T' para textual.");
-            }
-        } while (interfaceMode != 'G' && interfaceMode != 'T');
+        // do {
+        //     System.out.println("Escolha o modo de interface (G para gráfico, T para textual):");
+        //     interfaceMode = scanner.next().charAt(0);
+        //     if (interfaceMode != 'G' && interfaceMode != 'T') {
+        //         System.out
+        //                 .println("Modo de interface inválido. Por favor, insira 'G' para gráfico ou 'T' para textual.");
+        //     }
+        // } while (interfaceMode != 'G' && interfaceMode != 'T');
 
         System.out.println("Quantos jogadores da LeaderBoard deseja imprimir no fim do jogo?:");
         nleader = scanner.nextInt();
@@ -148,7 +166,6 @@ public class GameClient {
        
 
         // Criação do objeto Arena com os valores inseridos
-        @SuppressWarnings("unused")
         Arena game = new Arena(arenaDimensionsX, arenaDimensionsY, headDimensions, rasterizationType, foodDimensions,
                 foodType, numObstacles, obstacleType, rotation, interfaceMode, namePlayer, scanner, movement, angle,
                 points, nleader);
@@ -156,4 +173,5 @@ public class GameClient {
 
         // Agora você tem um objeto Arena pronto para uso!
     }
+}
 }
