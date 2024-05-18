@@ -61,7 +61,7 @@ public class FilledRasterizationTextual implements RasterizationStrategy {
         // Desenha a fruta
         if (arena.getFruit() != null) {
             Poligono a = new Poligono(arena.getFruit().getShape().getAllCoordinates());
-            foodPoints = drawObject(a, "FOOD");
+            foodPoints = drawObjectFood(a, "FOOD");
         }else{foodPoints=null;}
 
         cardinalPoints=findCommonPoints(headPoints, foodPoints);
@@ -102,7 +102,7 @@ public class FilledRasterizationTextual implements RasterizationStrategy {
      * @param object   O objeto a ser desenhado.
      * @param cellType O tipo de célula associado ao objeto.
      */
-    private List<Ponto> drawObject(Poligono object, String cellType) {
+    private List<Ponto> drawObjectFood(Poligono object, String cellType) {
         List<Ponto> filledCells = new ArrayList<>();
         List<Ponto> vertices = object.getPontos();
     
@@ -159,7 +159,39 @@ public class FilledRasterizationTextual implements RasterizationStrategy {
         return filledCells;
     }
     
-    
+    private List<Ponto> drawObject(Poligono object, String cellType) {
+        List<Ponto> filledCells = new ArrayList<>();
+        List<Ponto> vertices = object.getPontos();
+
+        // Verifica se todos os pontos do objeto estão dentro dos limites do grid
+        if (checkIfWithinBounds(vertices)) {
+            // Encontra os limites do objeto
+            int minX = Integer.MAX_VALUE;
+            int minY = Integer.MAX_VALUE;
+            int maxX = Integer.MIN_VALUE;
+            int maxY = Integer.MIN_VALUE;
+            for (Ponto p : vertices) {
+                minX = (int) Math.min(minX, p.getX());
+                minY = (int) Math.min(minY, p.getY());
+                maxX = (int) Math.max(maxX, p.getX());
+                maxY = (int) Math.max(maxY, p.getY());
+            }
+
+            // Preenche as células dentro do polígono definido pelos vértices
+            for (int x = minX; x < maxX; x++) {
+                for (int y = minY; y < maxY; y++) {
+                    if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length &&
+                            isInsidePolygon(x, y, vertices)) {
+                        // Ajusta as coordenadas para o índice da matriz
+                        grid[x][y] = Cell.valueOf(cellType);
+                        filledCells.add(new Ponto(x, y));
+                    }
+                }
+            }
+        }
+        return filledCells;
+    }
+
     
 
     /**
@@ -186,7 +218,6 @@ public class FilledRasterizationTextual implements RasterizationStrategy {
      * @param vertices Os vértices do polígono.
      * @return true se o ponto estiver dentro do polígono, caso contrário, false.
      */
-    @SuppressWarnings("unused")
     private boolean isInsidePolygon(int x, int y, List<Ponto> vertices) {
         int intersectCount = 0;
         int numVertices = vertices.size();

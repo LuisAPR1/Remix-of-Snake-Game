@@ -148,7 +148,6 @@ public class AutomaticMovementStrategy implements MovementStrategy {
 
     @Override
     public void setDirectionG(int i) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setDirection'");
     }
 
