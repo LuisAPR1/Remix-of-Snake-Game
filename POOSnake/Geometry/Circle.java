@@ -51,35 +51,17 @@ public class Circle implements Shape {
      * @return Uma lista de pontos representando todas as coordenadas do círculo.
      */
     public List<Ponto> getAllCoordinates() {
-        // Inicializa a lista para armazenar as coordenadas
-        List<Ponto> coordenadas = new ArrayList<>();
-    
-        // Obtém as coordenadas do centro do círculo
-        double centroX = this.centro.getX();
-        double centroY = this.centro.getY();
-    
-        // Encontra os limites do quadrado que circunscreve o círculo
-        int minX = (int) Math.floor(centroX - raio);
-        int maxX = (int) Math.ceil(centroX + raio);
-        int minY = (int) Math.floor(centroY - raio);
-        int maxY = (int) Math.ceil(centroY + raio);
+        int numLados = Math.max(10, (int) (2 * Math.PI * raio / 10)); // Aumenta o número de lados com o aumento do raio
+        List<Ponto> pontos = new ArrayList<>();
 
-        System.out.println("Limites do círculo:");
-        System.out.println("minX: " + minX + ", maxX: " + maxX);
-        System.out.println("minY: " + minY + ", maxY: " + maxY);
-    
-        // Itera sobre todas as coordenadas inteiras dentro do quadrado circunscrito
-        for (int x = minX; x <= maxX; x++) {
-            for (int y = minY; y <= maxY; y++) {
-                // Verifica se a coordenada está dentro do círculo usando a equação do círculo
-                if (Math.pow(x - centroX, 2) + Math.pow(y - centroY, 2) <= Math.pow(raio, 2)) {
-                    coordenadas.add(new Ponto(x, y));
-                }
-            }
+        for (int i = 0; i < numLados; i++) {
+            double angle = 2 * Math.PI * i / numLados;
+            double x = centro.getX() + raio * Math.cos(angle);
+            double y = centro.getY() + raio * Math.sin(angle);
+            pontos.add(new Ponto(x, y));
         }
-    
-        // Retorna a lista de coordenadas
-        return coordenadas;
+
+        return pontos;
     }
     
     

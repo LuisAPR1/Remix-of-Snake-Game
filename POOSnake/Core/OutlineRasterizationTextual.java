@@ -60,8 +60,8 @@ public class OutlineRasterizationTextual implements RasterizationStrategy {
 
         // Desenha o contorno da fruta
         if (arena.getFruit() != null) {
-            Square a = new Square(arena.getFruit().SquareVertices());
-            drawObject(a, "FOOD");
+            Poligono fruitPolygon = new Poligono(arena.getFruit().getShape().getAllCoordinates());
+            drawObject(fruitPolygon, "FOOD");
         }
     }
 
@@ -74,41 +74,54 @@ public class OutlineRasterizationTextual implements RasterizationStrategy {
      */
     private void drawObject(Poligono object, String cellType) {
         List<Ponto> vertices = object.getPontos();
-
-        // Encontra os limites do objeto
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
-        int maxX = Integer.MIN_VALUE;
-        int maxY = Integer.MIN_VALUE;
-        for (Ponto p : vertices) {
-            minX = (int) Math.min(minX, p.getX());
-            minY = (int) Math.min(minY, p.getY());
-            maxX = (int) Math.max(maxX, p.getX());
-            maxY = (int) Math.max(maxY, p.getY());
+        int numVertices = vertices.size();
+        if (numVertices < 2) {
+            return; // Não pode desenhar um polígono com menos de dois pontos
         }
+    
+        for (int i = 0; i < numVertices; i++) {
+            Ponto v1 = vertices.get(i);
+            Ponto v2 = vertices.get((i + 1) % numVertices); // Conecta o último ponto ao primeiro
+            drawLine((int) v1.getX(), (int) v1.getY(), (int) v2.getX(), (int) v2.getY(), cellType);
+        }
+    }
+    
 
-        // Desenha o contorno do objeto
-        for (int x = minX; x < maxX; x++) {
-            if (x >= 0 && x < grid.length) {
-                if (minY >= 0 && minY < grid[0].length) {
-                    grid[x][minY] = Cell.valueOf(cellType);
-                }
-                if (maxY - 1 >= 0 && maxY - 1 < grid[0].length) {
-                    grid[x][maxY - 1] = Cell.valueOf(cellType);
-                }
+    /**
+     * Desenha uma linha usando o algoritmo de Bresenham.
+     * 
+     * @param x1       A coordenada x do primeiro ponto.
+     * @param y1       A coordenada y do primeiro ponto.
+     * @param x2       A coordenada x do segundo ponto.
+     * @param y2       A coordenada y do segundo ponto.
+     * @param cellType O tipo de célula que será desenhada para representar a linha.
+     */
+    private void drawLine(int x1, int y1, int x2, int y2, String cellType) {
+        int dx = Math.abs(x2 - x1);
+        int dy = Math.abs(y2 - y1);
+        int sx = x1 < x2 ? 1 : -1;
+        int sy = y1 < y2 ? 1 : -1;
+        int err = (dx > dy ? dx : -dy) / 2, e2;
+    
+        while (true) {
+            if (x1 >= 0 && x1 < grid.length && y1 >= 0 && y1 < grid[0].length) {
+                grid[x1][y1] = Cell.valueOf(cellType);
             }
-        }
-        for (int y = minY; y < maxY; y++) {
-            if (y >= 0 && y < grid[0].length) {
-                if (minX >= 0 && minX < grid.length) {
-                    grid[minX][y] = Cell.valueOf(cellType);
-                }
-                if (maxX - 1 >= 0 && maxX - 1 < grid.length) {
-                    grid[maxX - 1][y] = Cell.valueOf(cellType);
-                }
+            if (x1 == x2 && y1 == y2) {
+                break;
+            }
+            e2 = err;
+            if (e2 > -dx) {
+                err -= dy;
+                x1 += sx;
+            }
+            if (e2 < dy) {
+                err += dx;
+                y1 += sy;
             }
         }
     }
+    
 
     /**
      * Inicializa a arena, preenchendo o grid com células vazias.
