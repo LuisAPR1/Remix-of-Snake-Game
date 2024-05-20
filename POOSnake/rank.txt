@@ -4,6 +4,7 @@ luis, 800
 A, 82
 FEER, 30
 JOCA, 9
+fjjf, 9
 ccc, 8
 Olll, 7
 T, 7
@@ -15,6 +16,7 @@ FSDFD, 5
 VFSFE, 5
 Ola, 4
 X, 4
+dkjff, 4
 sdadsa, 3
 Peter, 2
 Adeus, 2

@@ -1,4 +1,3 @@
-
 package UI;
 
 import javax.swing.*;
@@ -212,7 +211,7 @@ public class GraphicalClient extends JFrame {
                     String gameMode = autoModeButton.isSelected() ? "A" : "M";
                     String rasterizationTypeStr = filledRasterButton.isSelected() ? "F" : "O";
                     String foodTypeStr = circleFoodButton.isSelected() ? "C" : "S";
-
+        
                     int arenaWidth = Integer.parseInt(arenaWidthField.getText());
                     int arenaHeight = Integer.parseInt(arenaHeightField.getText());
                     int headSize = Integer.parseInt(headSizeField.getText());
@@ -220,25 +219,26 @@ public class GraphicalClient extends JFrame {
                     int numObstacles = Integer.parseInt(numObstaclesField.getText());
                     boolean dynamicObstacles = dynamicObstaclesCheckBox.isSelected();
                     boolean includeRotation = rotationCheckBox.isSelected();
-                    int rotationX = rotationCheckBox.isSelected() ? Integer.parseInt(rotationXField.getText()) : 0;
-                    int rotationY = rotationCheckBox.isSelected() ? Integer.parseInt(rotationYField.getText()) : 0;
+                    int rotationX = includeRotation ? Integer.parseInt(rotationXField.getText()) : 0;
+                    int rotationY = includeRotation ? Integer.parseInt(rotationYField.getText()) : 0;
                     String playerName = playerNameField.getText();
                     int leaderboardSize = Integer.parseInt(leaderboardSizeField.getText());
-
+        
                     RasterizationType rasterizationType = RasterizationType.valueOf(rasterizationTypeStr);
                     FoodType foodType = FoodType.valueOf(foodTypeStr);
-
-                    // Create Ponto object for rotation if rotation is included
+        
                     Ponto rotation = includeRotation ? new Ponto(rotationX, rotationY) : null;
-
-                    // Create Arena object with the values entered
-                    Arena game = new Arena(arenaWidth, arenaHeight, headSize, rasterizationType, foodSize,
+        
+                    // Fechar a janela inicial
+                    dispose();
+        
+                    // Criar e iniciar a arena
+                    new Arena(arenaWidth, arenaHeight, headSize, rasterizationType, foodSize,
                             foodType, numObstacles, dynamicObstacles ? ObstacleType.D : ObstacleType.S, rotation,
                             'G', playerName, new Scanner(System.in), gameMode.charAt(0), 0, 1, leaderboardSize);
-
-                    // Print or use the Arena object
+        
                     System.out.println("Arena created successfully with the given parameters.");
-
+        
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(GraphicalClient.this, "Please enter valid numbers.", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -248,6 +248,7 @@ public class GraphicalClient extends JFrame {
                 }
             }
         });
+        
         mainPanel.add(submitButton, gbc);
 
         add(mainPanel);

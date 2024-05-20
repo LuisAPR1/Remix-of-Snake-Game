@@ -125,11 +125,15 @@ public class Arena {
 
         // Configura a estratégia de movimento manual
 
+        // No final do método Arena constructor
+
+        // Configura a estratégia de movimento manual
         System.out.print("\033[H\033[2J");
         System.out.flush();
         ui.render();
 
         startGame();
+
     }
 
     /**
