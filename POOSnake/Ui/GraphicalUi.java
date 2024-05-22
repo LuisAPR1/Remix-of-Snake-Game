@@ -29,8 +29,8 @@ public class GraphicalUi implements UI {
         frame = new JFrame("POOSNAKE");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        frame.setSize(rasterizationStrategy.getArena().getArenaDimensions()[0] + 50,
-                rasterizationStrategy.getArena().getArenaDimensions()[1] + 50);
+        frame.setSize(rasterizationStrategy.getArena().getArenaDimensions()[0] +100,
+                rasterizationStrategy.getArena().getArenaDimensions()[1] +100);
 
         panel = new JPanel() {
             @Override
@@ -54,34 +54,35 @@ public class GraphicalUi implements UI {
     private void handleKeyPress(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
-                if (!timerStarted) {
-                    startPeriodicTask();
-                    timerStarted = true;
-                }
-                movementStrategy.setDirectionG(180);
-                break;
-            case KeyEvent.VK_A:
-                if (!timerStarted) {
-                    startPeriodicTask();
-                    timerStarted = true;
-                }
+            if (!timerStarted) {
+                startPeriodicTask();
+                timerStarted = true;
+            }
                 movementStrategy.setDirectionG(270);
                 break;
-            case KeyEvent.VK_S:
-                if (!timerStarted) {
-                    startPeriodicTask();
-                    timerStarted = true;
-                }
-                movementStrategy.setDirectionG(0);
+            case KeyEvent.VK_A:
+            if (!timerStarted) {
+                startPeriodicTask();
+                timerStarted = true;
+            }
+                movementStrategy.setDirectionG(180);
                 break;
-            case KeyEvent.VK_D:
-                if (!timerStarted) {
-                    startPeriodicTask();
-                    timerStarted = true;
-                }
+            case KeyEvent.VK_S:
+            if (!timerStarted) {
+                startPeriodicTask();
+                timerStarted = true;
+            }
                 movementStrategy.setDirectionG(90);
                 break;
+            case KeyEvent.VK_D:
+            if (!timerStarted) {
+                startPeriodicTask();
+                timerStarted = true;
+            }
+                movementStrategy.setDirectionG(0);
+                break;
             case KeyEvent.VK_E:
+                
                 break;
             default:
                 movementStrategy.setDirectionG(1);
@@ -90,7 +91,7 @@ public class GraphicalUi implements UI {
     }
 
     private void startPeriodicTask() {
-        timer = new Timer(500, new ActionListener() {
+        timer = new Timer(300, new ActionListener() { // 500 milliseconds = 0.5 seconds
             @Override
             public void actionPerformed(ActionEvent e) {
                 performPeriodicTask();
@@ -107,14 +108,14 @@ public class GraphicalUi implements UI {
         Cell[][] grid = rasterizationStrategy.getGrid();
         int numRows = grid.length;
         int numCols = grid[0].length;
-        int squareSize = Math.min(panel.getWidth() / numCols, panel.getHeight() / numRows);
+        int squareSize = Math.min(panel.getWidth() / numRows, panel.getHeight() / numCols);
 
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
                 Cell cell = grid[i][j];
                 Color color = getColorForCell(cell);
                 g.setColor(color);
-                g.fillRect(j * squareSize, i * squareSize, squareSize, squareSize);
+                g.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
             }
         }
     }

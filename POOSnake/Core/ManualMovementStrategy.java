@@ -95,6 +95,10 @@ public class ManualMovementStrategy implements MovementStrategy {
     @Override
     public void setDirectionG(int i) {
         System.out.println("CLICOU TECLA");
+        int oldDirection = arena.getS().getDirection();
+        if ((oldDirection % 360 == (i + 180) % 360) || (i % 360 == (oldDirection + 180) % 360)) {
+            return;
+        }
         arena.getS().setDirection(i);
     }
 
